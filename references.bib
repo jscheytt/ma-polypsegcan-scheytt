@@ -1,0 +1,629 @@
+﻿% This file was created with Citavi 6.0.0.2
+
+@article{Badrinarayanan.2017,
+ author = {Badrinarayanan, Vijay and Kendall, Alex and Cipolla, Roberto},
+ year = {2017},
+ title = {{SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation}},
+ pages = {2481--2495},
+ pagination = {page},
+ volume = {39},
+ issn = {0162-8828},
+ journaltitle = {{IEEE transactions on pattern analysis and machine intelligence}},
+ language = {eng},
+ doi = {10.1109/TPAMI.2016.2644615},
+ issue = {12},
+ abstract = {We present a novel and practical deep fully convolutional neural network architecture for semantic pixel-wise segmentation termed SegNet. This core trainable segmentation engine consists of an encoder network, a corresponding decoder network followed by a pixel-wise classification layer. The architecture of the encoder network is topologically identical to the 13 convolutional layers in the VGG16 network [1] . The role of the decoder network is to map the low resolution encoder feature maps to full input resolution feature maps for pixel-wise classification. The novelty of SegNet lies is in the manner in which the decoder upsamples its lower resolution input feature map(s). Specifically, the decoder uses pooling indices computed in the max-pooling step of the corresponding encoder to perform non-linear upsampling. This eliminates the need for learning to upsample. The upsampled maps are sparse and are then convolved with trainable filters to produce dense feature maps. We compare our proposed architecture with the widely adopted FCN [2] and also with the well known DeepLab-LargeFOV [3] , DeconvNet [4] architectures. This comparison reveals the memory versus accuracy trade-off involved in achieving good segmentation performance. SegNet was primarily motivated by scene understanding applications. Hence, it is designed to be efficient both in terms of memory and computational time during inference. It is also significantly smaller in the number of trainable parameters than other competing architectures and can be trained end-to-end using stochastic gradient descent. We also performed a controlled benchmark of SegNet and other architectures on both road scenes and SUN RGB-D indoor scene segmentation tasks. These quantitative assessments show that SegNet provides good performance with competitive inference time and most efficient inference memory-wise as compared to other architectures. We also provide a Caffe implementation of SegNet and a web demo at http://mi.eng.cam.ac.uk/projects/segnet.},
+ file = {07803544:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\07803544.pdf:pdf},
+ note = {Journal Article},
+ eprint = {28060704}
+}
+
+
+@article{Bernal.2012,
+ author = {Bernal, J. and Sánchez, J. and Vilariño, F.},
+ year = {2012},
+ title = {{Towards automatic polyp detection with a polyp appearance model}},
+ keywords = {Colonoscopy;Polyp detection;Region segmentation;SA-DOVA descriptor},
+ pages = {3166--3182},
+ pagination = {page},
+ volume = {45},
+ issn = {0031-3203},
+ journaltitle = {{Pattern Recognition}},
+ doi = {10.1016/j.patcog.2012.03.002},
+ issue = {9},
+ abstract = {This work aims at automatic polyp detection by using a model of polyp appearance in the context of the analysis of colonoscopy videos. Our method consists of three stages: region segmentation, region description and region classification. The performance of our region segmentation method guarantees that if a polyp is present in the image, it will be exclusively and totally contained in a single region. The output of the algorithm also defines which regions can be considered as non-informative. We define as our region descriptor the novel Sector Accumulation-Depth of Valleys Accumulation (SA-DOVA), which provides a necessary but not sufficient condition for the polyp presence. Finally, we classify our segmented regions according to the maximal values of the SA-DOVA descriptor. Our preliminary classification results are promising, especially when classifying those parts of the image that do not contain a polyp inside.},
+ file = {259f16ac76089c39e84063296f697a76460f:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\259f16ac76089c39e84063296f697a76460f.pdf:pdf}
+}
+
+
+@article{Bernal.2015,
+ author = {Bernal, Jorge and Sánchez, F. Javier and Fernández-Esparrach, Gloria and Gil, Debora and Rodríguez, Cristina and Vilariño, Fernando},
+ year = {2015},
+ title = {{WM-DOVA maps for accurate polyp highlighting in colonoscopy: Validation vs. saliency maps from physicians}},
+ keywords = {Colonoscopy;Energy maps;Polyp localization;Saliency;Valley detection},
+ pages = {99--111},
+ pagination = {page},
+ volume = {43},
+ issn = {0895-6111},
+ journaltitle = {{Computerized Medical Imaging and Graphics}},
+ doi = {10.1016/j.compmedimag.2015.02.007},
+ abstract = {We introduce in this paper a novel polyp localization method for colonoscopy videos. Our method is based on a model of appearance for polyps which defines polyp boundaries in terms of valley information. We propose the integration of valley information in a robust way fostering complete, concave and continuous boundaries typically associated to polyps. This integration is done by using a window of radial sectors which accumulate valley information to create WM-DOVA (Window Median Depth of Valleys Accumulation) energy maps related with the likelihood of polyp presence. We perform a double validation of our maps, which include the introduction of two new databases, including the first, up to our knowledge, fully annotated database with clinical metadata associated. First we assess that the highest value corresponds with the location of the polyp in the image. Second, we show that WM-DOVA energy maps can be comparable with saliency maps obtained from physicians’ fixations obtained via an eye-tracker. Finally, we prove that our method outperforms state-of-the-art computational saliency results. Our method shows good performance, particularly for small polyps which are reported to be the main sources of polyp miss-rate, which indicates the potential applicability of our method in clinical practice.},
+ file = {1-s2.0-S0895611115000567-main:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\1-s2.0-S0895611115000567-main.pdf:pdf}
+}
+
+
+@article{Billah.2017,
+ author = {Billah, Mustain and Waheed, Sajjad and Rahman, Mohammad Motiur},
+ year = {2017},
+ title = {{An Automatic Gastrointestinal Polyp Detection System in Video Endoscopy Using Fusion of Color Wavelet and Convolutional Neural Network Features}},
+ pages = {9545920},
+ pagination = {page},
+ volume = {2017},
+ issn = {1687-4188},
+ journaltitle = {{International journal of biomedical imaging}},
+ language = {eng},
+ doi = {10.1155/2017/9545920},
+ abstract = {Gastrointestinal polyps are considered to be the precursors of cancer development in most of the cases. Therefore, early detection and removal of polyps can reduce the possibility of cancer. Video endoscopy is the most used diagnostic modality for gastrointestinal polyps. But, because it is an operator dependent procedure, several human factors can lead to misdetection of polyps. Computer aided polyp detection can reduce polyp miss detection rate and assists doctors in finding the most important regions to pay attention to. In this paper, an automatic system has been proposed as a support to gastrointestinal polyp detection. This system captures the video streams from endoscopic video and, in the output, it shows the identified polyps. Color wavelet (CW) features and convolutional neural network (CNN) features of video frames are extracted and combined together which are used to train a linear support vector machine (SVM). Evaluations on standard public databases show that the proposed system outperforms the state-of-the-art methods, gaining accuracy of 98.65{\%}, sensitivity of 98.79{\%}, and specificity of 98.52{\%}.},
+ file = {Billah, Waheed et al. 2017 - An Automatic Gastrointestinal Polyp Detection:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\Billah, Waheed et al. 2017 - An Automatic Gastrointestinal Polyp Detection.pdf:pdf},
+ note = {PMC5574296
+Journal Article},
+ eprint = {28894460}
+}
+
+
+@article{Constantinescu.2016,
+ author = {Constantinescu, Adriana Florentina and Ionescu, Mihaela and Iovănescu, Vlad Florin and Ciurea, Marius Eugen and Ionescu, Alin Gabriel and Streba, Costin Teodor and Bunescu, Marius Gabriel and Rogoveanu, Ion and Vere, Cristin Constantin},
+ year = {2016},
+ title = {{A computer-aided diagnostic system for intestinal polyps identified by wireless capsule endoscopy}},
+ keywords = {Capsule Endoscopy/methods;Humans;Intestinal Polyps/diagnostic imaging;Prospective Studies},
+ pages = {979--984},
+ pagination = {page},
+ volume = {57},
+ journaltitle = {{Romanian journal of morphology and embryology}},
+ language = {eng},
+ issue = {3},
+ abstract = {Small bowel polyps present in images acquired by wireless capsule endoscopy are more difficult to detect using computer-aided diagnostic (CAD) systems. We aimed to identify the optimum morphological characteristics that best describe a polyp and convert them into feature vectors used for automatic detection of polyps present in images acquired by wireless capsule endoscopy (WCE). We prospectively included 54 patients with clinical indications for WCE. Initially, physicians analyzed all images acquired, identifying the frames that contained small bowel polyps. Subsequently, all images were analyzed using an automated computer-aided diagnostic system designed and implemented to convert physical characteristics into vectors of numeric values. The data set was completed with texture and color information, and then analyzed by a feed forward back propagation artificial neural network (ANN) trained to identify the presence of polyps in WCE frames. Overall, the neural network had 93.75{\%} sensitivity, 91.38{\%} specificity, 85.71{\%} positive predictive value (PPV) and 96.36{\%} negative predictive value (NPV). In comparison, physicians' diagnosis indicated 94.79{\%} sensitivity, 93.68{\%} specificity, 89.22{\%} PPV and 97.02{\%} NPV, thus showing that ANN diagnosis was similar to that of human interpretation. Computer-aided diagnostic of small bowel polyps, based on morphological features detection methods, emulation and neural networks classification, seems efficient, fast and reliable for physicians.},
+ file = {Constantinescu, Ionescu et al. 2016 - A computer-aided diagnostic system:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\Constantinescu, Ionescu et al. 2016 - A computer-aided diagnostic system.pdf:pdf},
+ note = {Journal Article},
+ eprint = {28002513}
+}
+
+
+@inproceedings{Denton.2015,
+ author = {Denton, Emily L. and Chintala, Soumith and szlam, arthur and Fergus, Rob},
+ title = {{Deep Generative Image Models using a Laplacian Pyramid of Adversarial Networks}},
+ url = {http://papers.nips.cc/paper/5773-deep-generative-image-models-using-a-laplacian-pyramid-of-adversarial-networks.pdf},
+ pages = {1486--1494},
+ bookpagination = {page},
+ year = {2015},
+ abstract = {In this paper we introduce a generative parametric model capable of producing high quality samples of natural images. Our approach uses a cascade of convolutional networks within a Laplacian pyramid framework to generate images in a coarse-to-fine fashion. At each level of the pyramid, a separate generative convnet model is trained using the Generative Adversarial Nets (GAN) approach [11]. Samples drawn from our model are of significantly higher quality than alternate approaches. In a quantitative assessment by human evaluators, our CIFAR10 samples were mistaken for real images around 40{\%} of the time, compared to 10{\%} for samples drawn from a GAN baseline model. We also show samples from models trained on the higher resolution images of the LSUN scene dataset.},
+ file = {Denton, Chintala et al 2015 - Deep Generative Image Models using:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\Denton, Chintala et al 2015 - Deep Generative Image Models using.pdf:pdf},
+ eventtitle = {Advances in Neural Information Processing Systems}
+}
+
+
+@inproceedings{Eskandari.2012,
+ author = {Eskandari, Hoda and Talebpour, Alireza and Alizadeh, Mahdi and Soltanian-Zadeh, Hamid},
+ title = {{Polyp detection in Wireless Capsule Endoscopy images by using region-based active contour model}},
+ pages = {305--308},
+ bookpagination = {page},
+ publisher = {IEEE},
+ isbn = {978-1-4673-3130-2},
+ booktitle = {{19th Iranian Conference on Biomedical Engineering (ICBME), 2012}},
+ year = {2012},
+ abstract = {},
+ doi = {10.1109/ICBME.2012.6519699},
+ file = {http://ieeexplore.ieee.org/document/6519699},
+ booksubtitle = {20 - 21 Dec. 2012, Tehran, Iran},
+ location = {Piscataway, NJ},
+ eventtitle = {2012 19th Iranian Conference of Biomedical Engineering (ICBME)},
+ venue = {Tehran, Iran},
+ eventdate = {12/20/2012 - 12/21/2012},
+ organization = {{Iranian Conference of Biomedical Engineering} and ICBME}
+}
+
+
+@article{Ferlay.2012,
+ author = {Ferlay, J. and Shin, H. R. and Bray, F. and Forman, D. and Mathers, C. and Parkin, D. M.},
+ year = {2012},
+ title = {{GLOBOCAN, Cancer incidence and mortality worldwide: IARC CancerBase No. 10 [Internet]. Lyon, France: International Agency for Research on Cancer; 2010}},
+ journaltitle = {globocan. iarc. fr},
+ abstract = {}
+}
+
+
+@article{Figueiredo.2011,
+ author = {Figueiredo, Pedro N. and Figueiredo, Isabel N. and Prasath, Surya and Tsai, Richard},
+ year = {2011},
+ title = {{Automatic polyp detection in pillcam colon 2 capsule images and videos: preliminary feasibility report}},
+ pages = {182435},
+ pagination = {page},
+ volume = {2011},
+ journaltitle = {{Diagnostic and therapeutic endoscopy}},
+ language = {eng},
+ doi = {10.1155/2011/182435},
+ abstract = {Background. The aim of this work is to present an automatic colorectal polyp detection scheme for capsule endoscopy. Methods. PillCam COLON2 capsule-based images and videos were used in our study. The database consists of full exam videos from five patients. The algorithm is based on the assumption that the polyps show up as a protrusion in the captured images and is expressed by means of a P-value, defined by geometrical features. Results. Seventeen PillCam COLON2 capsule videos are included, containing frames with polyps, flat lesions, diverticula, bubbles, and trash liquids. Polyps larger than 1 cm express a P-value higher than 2000, and 80{\%} of the polyps show a P-value higher than 500. Diverticula, bubbles, trash liquids, and flat lesions were correctly interpreted by the algorithm as nonprotruding images. Conclusions. These preliminary results suggest that the proposed geometry-based polyp detection scheme works well, not only by allowing the detection of polyps but also by differentiating them from nonprotruding images found in the films.},
+ file = {182435:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\182435.pdf:pdf},
+ note = {Journal Article},
+ eprint = {21747647}
+}
+
+
+@article{Ganz.2012,
+ author = {Ganz, M. and Xiaoyun, Yang and Slabaugh, G.},
+ year = {2012},
+ title = {{Automatic segmentation of polyps in colonoscopic narrow-band imaging data}},
+ keywords = {Adenomatous Polyps/pathology;Algorithms;Colonic Neoplasms/diagnosis/pathology;Colonic Polyps/diagnosis/pathology;Colonoscopy/methods;Databases, Factual;Humans;Hyperplasia/pathology;Image Enhancement/methods;Image Interpretation, Computer-Assisted/methods;Sensitivity and Specificity},
+ pages = {2144--2151},
+ pagination = {page},
+ volume = {59},
+ issn = {1558-2531},
+ journaltitle = {{IEEE transactions on bio-medical engineering}},
+ language = {eng},
+ doi = {10.1109/TBME.2012.2195314},
+ issue = {8},
+ abstract = {Colorectal cancer is the third most common type of cancer worldwide. However, this disease can be prevented by detection and removal of precursor adenomatous polyps during optical colonoscopy (OC). During OC, the endoscopist looks for colon polyps. While hyperplastic polyps are benign lesions, adenomatous polyps are likely to become cancerous. Hence, it is a common practice to remove all identified polyps and send them to subsequent histological analysis. But removal of hyperplastic polyps poses unnecessary risk to patients and incurs unnecessary costs for histological analysis. In this paper, we develop the first part of a novel optical biopsy application based on narrow-band imaging (NBI). A barrier to an automatic system is that polyp classification algorithms require manual segmentations of the polyps, so we automatically segment polyps in colonoscopic NBI data. We propose an algorithm, Shape-UCM, which is an extension of the gPb-OWT-UCM algorithm, a state-of-the-art algorithm for boundary detection and segmentation. Shape-UCM solves the intrinsic scale selection problem of gPb-OWT-UCM by including prior knowledge about the shape of the polyps. Shape-UCM outperforms previous methods with a specificity of 92{\%}, a sensitivity of 71{\%}, and an accuracy of 88{\%} for automatic segmentation of a test set of 87 images.},
+ file = {06187710:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\06187710.pdf:pdf},
+ note = {Journal Article},
+ eprint = {22542647}
+}
+
+
+@inproceedings{Goodfellow.2014,
+ author = {Goodfellow, Ian and Pouget-Abadie, Jean and Mirza, Mehdi and Xu, Bing and Warde-Farley, David and Ozair, Sherjil and Courville, Aaron and Bengio, Yoshua},
+ title = {{Generative Adversarial Nets}},
+ url = {http://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf},
+ pages = {2672--2680},
+ bookpagination = {page},
+ year = {2014},
+ abstract = {We propose a new framework for estimating generative models via an adversarial process, in which we simultaneously train two models: a generative model G that captures the data distribution, and a discriminative model D that estimates the probability that a sample came from the training data rather than G. The training procedure for G is to maximize the probability of D making a mistake. This framework corresponds to a minimax two-player game. In the space of arbitrary functions G and D, a unique solution exists, with G recovering the training data distribution and D equal to 1 2 everywhere. In the case where G and D are defined by multilayer perceptrons, the entire system can be trained with backpropagation. There is no need for any Markov chains or unrolled approximate inference networks during either training or generation of samples. Experiments demonstrate the potential of the framework through qualitative and quantitative evaluation of the generated samples.},
+ file = {Goodfellow, Pouget-Abadie et al. - Generative Adversarial Nets:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\Goodfellow, Pouget-Abadie et al. - Generative Adversarial Nets.pdf:pdf},
+ eventtitle = {Advances in Neural Information Processing Systems}
+}
+
+
+@book{Goodfellow.2016,
+ author = {Goodfellow, Ian and Bengio, Yoshua and Courville, Aaron},
+ year = {2016},
+ title = {{Deep learning}},
+ keywords = {Maschinelles Lernen},
+ publisher = {{The MIT Press}},
+ isbn = {978-0-262-03561-3},
+ location = {Cambridge, Massachusetts and London, England},
+ series = {{Adaptive computation and machine learning}},
+ abstract = {},
+ pagetotal = {XXII, 775 Seiten}
+}
+
+
+@inproceedings{Isola.2017,
+ author = {Isola, Phillip and Zhu, Jun-Yan and Zhou, Tinghui and Efros, Alexei A.},
+ title = {{Image-to-Image Translation with Conditional Adversarial Networks}},
+ pages = {5967--5976},
+ bookpagination = {page},
+ publisher = {IEEE},
+ isbn = {978-1-5386-0457-1},
+ booktitle = {{30th IEEE Conference on Computer Vision and Pattern Recognition}},
+ year = {2017},
+ abstract = {We investigate conditional adversarial networks as a general-purpose solution to image-to-image translation problems. These networks not only learn the mapping from input image to output image, but also learn a loss function to train this mapping. This makes it possible to apply the same generic approach to problems that traditionally would require very different loss formulations. We demonstrate that this approach is effective at synthesizing photos from label maps, reconstructing objects from edge maps, and colorizing images, among other tasks. Moreover, since the release of the pix2pix software associated with this paper, hundreds oftwitter users have posted their own artistic experiments using our system. As a community, we no longer hand-engineer our mapping functions, and this work suggests we can achieve reasonable results without handengineering our loss functions either.},
+ doi = {10.1109/CVPR.2017.632},
+ file = {08100115:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\08100115.pdf:pdf},
+ editora = {Chellappa, Rama and Zhang, Zhengyou and Hoogs, Anthony},
+ booksubtitle = {CVPR 2017 : 21-26 July 2016, Honolulu, Hawaii : proceedings},
+ location = {Piscataway, NJ},
+ eventtitle = {2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+ venue = {Honolulu, HI},
+ organization = {{IEEE Conference on Computer Vision and Pattern Recognition} and {IEEE/CVF Conference on Computer Vision and Pattern Recognition} and CVPR}
+}
+
+
+@collection{Kumar.2005,
+ year = {2005},
+ title = {{Robbins and Cotran pathologic basis of disease}},
+ edition = {7. ed.},
+ publisher = {{Elsevier Saunders}},
+ isbn = {0721601871},
+ editor = {Kumar, Vinay and Abbas, Abul K. and Fausto, Nelson and Robbins, Stanley Leonard and Cotran, Ramzi S.},
+ abstract = {},
+ pagetotal = {1525},
+ language = {eng},
+ location = {Philadelphia, Pa.}
+}
+
+
+@article{Lequan.2017,
+ author = {Lequan, Yu and Hao, Chen and Qi, Dou and Jing, Qin and Pheng, Ann Heng},
+ year = {2017},
+ title = {{Integrating Online and Offline Three-Dimensional Deep Learning for Automated Polyp Detection in Colonoscopy Videos}},
+ keywords = {Colonic Polyps/diagnostic imaging;Colonoscopy/methods;Humans;Image Interpretation, Computer-Assisted/methods;Imaging, Three-Dimensional/methods;Neural Networks (Computer);Video Recording},
+ pages = {65--75},
+ pagination = {page},
+ volume = {21},
+ issn = {2168-2208},
+ journaltitle = {{IEEE journal of biomedical and health informatics}},
+ language = {eng},
+ doi = {10.1109/JBHI.2016.2637004},
+ issue = {1},
+ abstract = {Automated polyp detection in colonoscopy videos has been demonstrated to be a promising way for colorectal cancer prevention and diagnosis. Traditional manual screening is time consuming, operator dependent, and error prone; hence, automated detection approach is highly demanded in clinical practice. However, automated polyp detection is very challenging due to high intraclass variations in polyp size, color, shape, and texture, and low interclass variations between polyps and hard mimics. In this paper, we propose a novel offline and online three-dimensional (3-D) deep learning integration framework by leveraging the 3-D fully convolutional network (3D-FCN) to tackle this challenging problem. Compared with the previous methods employing hand-crafted features or 2-D convolutional neural network, the 3D-FCN is capable of learning more representative spatio-temporal features from colonoscopy videos, and hence has more powerful discrimination capability. More importantly, we propose a novel online learning scheme to deal with the problem of limited training data by harnessing the specific information of an input video in the learning process. We integrate offline and online learning to effectively reduce the number of false positives generated by the offline network and further improve the detection performance. Extensive experiments on the dataset of MICCAI 2015 Challenge on Polyp Detection demonstrated the better performance of our method when compared with other competitors.},
+ file = {07776845:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\07776845.pdf:pdf},
+ note = {Journal Article
+Research Support, Non-U.S. Gov't},
+ eprint = {28114049}
+}
+
+
+@inproceedings{Long.2015,
+ author = {Long, Jonathan and Shelhamer, Evan and Darrell, Trevor},
+ title = {{Fully convolutional networks for semantic segmentation}},
+ pages = {3431--3440},
+ bookpagination = {page},
+ publisher = {IEEE},
+ isbn = {978-1-4673-6964-0},
+ booktitle = {{2015 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}},
+ year = {2015},
+ abstract = {Convolutional networks are powerful visual models that yield hierarchies of features. We show that convolutional networks by themselves, trained end-to-end, pixelsto-pixels, exceed the state-of-the-art in semantic segmentation. Our key insight is to build “fully convolutional” networks that take input of arbitrary size and produce correspondingly-sized output with efficient inference and learning. We define and detail the space of fully convolutional networks, explain their application to spatially dense prediction tasks, and draw connections to prior models. We adapt contemporary classification networks (AlexNet [20], the VGG net [31], and GoogLeNet [32]) into fully convolutional networks and transfer their learned representations by fine-tuning [3] to the segmentation task. We then define a skip architecture that combines semantic information from a deep, coarse layer with appearance information from a shallow, fine layer to produce accurate and detailed segmentations. Our fully convolutional network achieves stateof-the-art segmentation ofPASCAL VOC (20{\%} relative improvement to 62.2{\%} mean IU on 2012), NYUDv2, and SIFT Flow, while inference takes less than one fifth of a second for a typical image.},
+ doi = {10.1109/CVPR.2015.7298965},
+ file = {07298965:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\07298965.pdf:pdf},
+ booksubtitle = {- 12 June 2015, Boston, MA},
+ location = {Piscataway, NJ},
+ eventtitle = {2015 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+ venue = {Boston, MA, USA},
+ eventdate = {6/7/2015 - 6/12/2015},
+ organization = {{Institute of Electrical and Electronics Engineers} and {IEEE Conference on Computer Vision and Pattern Recognition} and CVPR}
+}
+
+
+@article{Lozano.2012,
+ author = {Lozano, Rafael and Naghavi, Mohsen and Foreman, Kyle and Lim, Stephen and Shibuya, Kenji and Aboyans, Victor and Abraham, Jerry and Adair, Timothy and Aggarwal, Rakesh and Ahn, Stephanie Y. and AlMazroa, Mohammad A. and Alvarado, Miriam and Anderson, H. Ross and Anderson, Laurie M. and Andrews, Kathryn G. and Atkinson, Charles and Baddour, Larry M. and Barker-Collo, Suzanne and Bartels, David H. and Bell, Michelle L. and Benjamin, Emelia J. and Bennett, Derrick and Bhalla, Kavi and Bikbov, Boris and Abdulhak, Aref Bin and Birbeck, Gretchen and Blyth, Fiona and Bolliger, Ian and Boufous, Soufiane and Bucello, Chiara and Burch, Michael and Burney, Peter and Carapetis, Jonathan and Chen, Honglei and Chou, David and Chugh, Sumeet S. and Coffeng, Luc E. and Colan, Steven D. and Colquhoun, Samantha and Colson, K. Ellicott and Condon, John and Connor, Myles D. and Cooper, Leslie T. and Corriere, Matthew and Cortinovis, Monica and de Vaccaro, Karen Courville and Couser, William and Cowie, Benjamin C. and Criqui, Michael H. and Cross, Marita and Dabhadkar, Kaustubh C. and Dahodwala, Nabila and de Leo, Diego and Degenhardt, Louisa and Delossantos, Allyne and Denenberg, Julie and {Des Jarlais}, Don C. and Dharmaratne, Samath D. and Dorsey, E. Ray and Driscoll, Tim and Duber, Herbert and Ebel, Beth and Erwin, Patricia J. and Espindola, Patricia and Ezzati, Majid and Feigin, Valery and Flaxman, Abraham D. and Forouzanfar, Mohammad H. and Fowkes, Francis Gerry R. and Franklin, Richard and Fransen, Marlene and Freeman, Michael K. and Gabriel, Sherine E. and Gakidou, Emmanuela and Gaspari, Flavio and Gillum, Richard F. and Gonzalez-Medina, Diego and Halasa, Yara A. and Haring, Diana and Harrison, James E. and Havmoeller, Rasmus and Hay, Roderick J. and Hoen, Bruno and Hotez, Peter J. and Hoy, Damian and Jacobsen, Kathryn H. and James, Spencer L. and Jasrasaria, Rashmi and Jayaraman, Sudha and Johns, Nicole and Karthikeyan, Ganesan and Kassebaum, Nicholas and Keren, Andre and Khoo, Jon-Paul and Knowlton, Lisa Marie and Kobusingye, Olive and Koranteng, Adofo and Krishnamurthi, Rita and Lipnick, Michael and Lipshultz, Steven E. and Ohno, Summer Lockett and Mabweijano, Jacqueline and MacIntyre, Michael F. and Mallinger, Leslie and March, Lyn and Marks, Guy B. and Marks, Robin and Matsumori, Akira and Matzopoulos, Richard and Mayosi, Bongani M. and McAnulty, John H. and McDermott, Mary M. and McGrath, John and Memish, Ziad A. and Mensah, George A. and Merriman, Tony R. and Michaud, Catherine and Miller, Matthew and Miller, Ted R. and Mock, Charles and Mocumbi, Ana Olga and Mokdad, Ali A. and Moran, Andrew and Mulholland, Kim and Nair, M. Nathan and Naldi, Luigi and Narayan, K. M. Venkat and Nasseri, Kiumarss and Norman, Paul and O'Donnell, Martin and Omer, Saad B. and Ortblad, Katrina and Osborne, Richard and Ozgediz, Doruk and Pahari, Bishnu and Pandian, Jeyaraj Durai and Rivero, Andrea Panozo and Padilla, Rogelio Perez and Perez-Ruiz, Fernando and Perico, Norberto and Phillips, David and Pierce, Kelsey and Pope, C. Arden and Porrini, Esteban and Pourmalek, Farshad and Raju, Murugesan and Ranganathan, Dharani and Rehm, Jürgen T. and Rein, David B. and Remuzzi, Guiseppe and Rivara, Frederick P. and Roberts, Thomas and de León, Felipe Rodriguez and Rosenfeld, Lisa C. and Rushton, Lesley and Sacco, Ralph L. and Salomon, Joshua A. and Sampson, Uchechukwu and Sanman, Ella and Schwebel, David C. and Segui-Gomez, Maria and Shepard, Donald S. and Singh, David and Singleton, Jessica and Sliwa, Karen and Smith, Emma and Steer, Andrew and Taylor, Jennifer A. and Thomas, Bernadette and Tleyjeh, Imad M. and Towbin, Jeffrey A. and Truelsen, Thomas and Undurraga, Eduardo A. and Venketasubramanian, N. and Vijayakumar, Lakshmi and Vos, Theo and Wagner, Gregory R. and Wang, Mengru and Wang, Wenzhi and Watt, Kerrianne and Weinstock, Martin A. and Weintraub, Robert and Wilkinson, James D. and Woolf, Anthony D. and Wulf, Sarah and Yeh, Pon-Hsiu and Yip, Paul and Zabetian, Azadeh and Zheng, Zhi-Jie and Lopez, Alan D. and Murray, Christopher J. L.},
+ year = {2012},
+ title = {{Global and regional mortality from 235 causes of death for 20 age groups in 1990 and 2010: a systematic analysis for the Global Burden of Disease Study 2010}},
+ pages = {2095--2128},
+ pagination = {page},
+ volume = {380},
+ issn = {0140-6736},
+ journaltitle = {{The Lancet}},
+ doi = {10.1016/S0140-6736(12)61728-0},
+ issue = {9859},
+ abstract = {Summary
+
+Background
+
+Reliable and timely information on the leading causes of death in populations, and how these are changing, is a crucial input into health policy debates. In the Global Burden of Diseases, Injuries, and Risk Factors Study 2010 (GBD 2010), we aimed to estimate annual deaths for the world and 21 regions between 1980 and 2010 for 235 causes, with uncertainty intervals (UIs), separately by age and sex.
+
+Methods
+
+We attempted to identify all available data on causes of death for 187 countries from 1980 to 2010 from vital registration, verbal autopsy, mortality surveillance, censuses, surveys, hospitals, police records, and mortuaries. We assessed data quality for completeness, diagnostic accuracy, missing data, stochastic variations, and probable causes of death. We applied six different modelling strategies to estimate cause-specific mortality trends depending on the strength of the data. For 133 causes and three special aggregates we used the Cause of Death Ensemble model (CODEm) approach, which uses four families of statistical models testing a large set of different models using different permutations of covariates. Model ensembles were developed from these component models. We assessed model performance with rigorous out-of-sample testing of prediction error and the validity of 95{\%} UIs. For 13 causes with low observed numbers of deaths, we developed negative binomial models with plausible covariates. For 27 causes for which death is rare, we modelled the higher level cause in the cause hierarchy of the GBD 2010 and then allocated deaths across component causes proportionately, estimated from all available data in the database. For selected causes (African trypanosomiasis, congenital syphilis, whooping cough, measles, typhoid and parathyroid, leishmaniasis, acute hepatitis E, and HIV/AIDS), we used natural history models based on information on incidence, prevalence, and case-fatality. We separately estimated cause fractions by aetiology for diarrhoea, lower respiratory infections, and meningitis, as well as disaggregations by subcause for chronic kidney disease, maternal disorders, cirrhosis, and liver cancer. For deaths due to collective violence and natural disasters, we used mortality shock regressions. For every cause, we estimated 95{\%} UIs that captured both parameter estimation uncertainty and uncertainty due to model specification where CODEm was used. We constrained cause-specific fractions within every age-sex group to sum to total mortality based on draws from the uncertainty distributions.
+
+Findings
+
+In 2010, there were 52·8 million deaths globally. At the most aggregate level, communicable, maternal, neonatal, and nutritional causes were 24·9{\%} of deaths worldwide in 2010, down from 15·9 million (34·1{\%}) of 46·5 million in 1990. This decrease was largely due to decreases in mortality from diarrhoeal disease (from 2·5 to 1·4 million), lower respiratory infections (from 3·4 to 2·8 million), neonatal disorders (from 3·1 to 2·2 million), measles (from 0·63 to 0·13 million), and tetanus (from 0·27 to 0·06 million). Deaths from HIV/AIDS increased from 0·30 million in 1990 to 1·5 million in 2010, reaching a peak of 1·7 million in 2006. Malaria mortality also rose by an estimated 19·9{\%} since 1990 to 1·17 million deaths in 2010. Tuberculosis killed 1·2 million people in 2010. Deaths from non-communicable diseases rose by just under 8 million between 1990 and 2010, accounting for two of every three deaths (34·5 million) worldwide by 2010. 8 million people died from cancer in 2010, 38{\%} more than two decades ago; of these, 1·5 million (19{\%}) were from trachea, bronchus, and lung cancer. Ischaemic heart disease and stroke collectively killed 12·9 million people in 2010, or one in four deaths worldwide, compared with one in five in 1990; 1·3 million deaths were due to diabetes, twice as many as in 1990. The fraction of global deaths due to injuries (5·1 million deaths) was marginally higher in 2010 (9·6{\%}) compared with two decades earlier (8·8{\%}). This was driven by a 46{\%} rise in deaths worldwide due to road traffic accidents (1·3 million in 2010) and a rise in deaths from falls. Ischaemic heart disease, stroke, chronic obstructive pulmonary disease (COPD), lower respiratory infections, lung cancer, and HIV/AIDS were the leading causes of death in 2010. Ischaemic heart disease, lower respiratory infections, stroke, diarrhoeal disease, malaria, and HIV/AIDS were the leading causes of years of life lost due to premature mortality (YLLs) in 2010, similar to what was estimated for 1990, except for HIV/AIDS and preterm birth complications. YLLs from lower respiratory infections and diarrhoea decreased by 45–54{\%} since 1990; ischaemic heart disease and stroke YLLs increased by 17–28{\%}. Regional variations in leading causes of death were substantial. Communicable, maternal, neonatal, and nutritional causes still accounted for 76{\%} of premature mortality in sub-Saharan Africa in 2010. Age standardised death rates from some key disorders rose (HIV/AIDS, Alzheimer's disease, diabetes mellitus, and chronic kidney disease in particular), but for most diseases, death rates fell in the past two decades; including major vascular diseases, COPD, most forms of cancer, liver cirrhosis, and maternal disorders. For other conditions, notably malaria, prostate cancer, and injuries, little change was noted.
+
+Interpretation
+
+Population growth, increased average age of the world's population, and largely decreasing age-specific, sex-specific, and cause-specific death rates combine to drive a broad shift from communicable, maternal, neonatal, and nutritional causes towards non-communicable diseases. Nevertheless, communicable, maternal, neonatal, and nutritional causes remain the dominant causes of YLLs in sub-Saharan Africa. Overlaid on this general pattern of the epidemiological transition, marked regional variation exists in many causes, such as interpersonal violence, suicide, liver cancer, diabetes, cirrhosis, Chagas disease, African trypanosomiasis, melanoma, and others. Regional heterogeneity highlights the importance of sound epidemiological assessments of the causes of death on a regular basis.
+
+Funding
+
+Bill {\&} Melinda Gates Foundation.},
+ file = {1-s2.0-S0140673612617280-main:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\1-s2.0-S0140673612617280-main.pdf:pdf}
+}
+
+
+@misc{Mahmood.20171127,
+ author = {Mahmood, Faisal and Durr, Nicholas J.},
+ year = {2017},
+ title = {{Deep Learning and Conditional Random Fields-based Depth Estimation and Topographical Reconstruction from Conventional Endoscopy}},
+ url = {http://arxiv.org/pdf/1710.11216},
+ abstract = {},
+ date = {2017-11-27},
+ file = {Mahmood, Durr 2017 11 27 - Deep Learning and Conditional Random:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\Mahmood, Durr 2017 11 27 - Deep Learning and Conditional Random.pdf:pdf}
+}
+
+
+@misc{Mahmood.20171129,
+ author = {Mahmood, Faisal and Chen, Richard and Durr, Nicholas J.},
+ year = {2017},
+ title = {{Unsupervised Reverse Domain Adaptation for Synthetic Medical Images via Adversarial Training}},
+ url = {http://arxiv.org/pdf/1711.06606},
+ abstract = {},
+ date = {2017-11-29},
+ file = {Mahmood, Chen et al 2017 11 29 - Unsupervised Reverse Domain Adaptation:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\Mahmood, Chen et al 2017 11 29 - Unsupervised Reverse Domain Adaptation.pdf:pdf}
+}
+
+
+@misc{Mathieu.2016,
+ author = {Mathieu, Michael and Couprie, Camille and LeCun, Yann},
+ year = {2016},
+ title = {{Deep multi-scale video prediction beyond mean square error}},
+ url = {http://arxiv.org/pdf/1511.05440v6},
+ keywords = {Computer Science - Computer Vision and Pattern Recognition;Computer Science - Learning;Statistics - Machine Learning},
+ abstract = {Learning to predict future images from a video sequence involves the construction of an internal representation that models the image evolution accurately, and therefore, to some degree, its content and dynamics. This is why pixel-space video prediction may be viewed as a promising avenue for unsupervised feature learning. In addition, while optical flow has been a very studied problem in computer vision for a long time, future frame prediction is rarely approached. Still, many vision applications could benefit from the knowledge of the next frames of videos, that does not require the complexity of tracking every pixel trajectories. In this work, we train a convolutional network to generate future frames given an input sequence. To deal with the inherently blurry predictions obtained from the standard Mean Squared Error (MSE) loss function, we propose three different and complementary feature learning strategies: a multi-scale architecture, an adversarial training method, and an image gradient difference loss function. We compare our predictions to different published results based on recurrent neural networks on the UCF101 dataset},
+ file = {Mathieu, Couprie et al. - Deep multi-scale video prediction:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\Mathieu, Couprie et al. - Deep multi-scale video prediction.pdf:pdf}
+}
+
+
+@misc{Mogren.2016,
+ author = {Mogren, Olof},
+ year = {2016},
+ title = {{C-RNN-GAN: Continuous recurrent neural networks with adversarial training}},
+ url = {http://arxiv.org/pdf/1611.09904v1},
+ keywords = {Computer Science - Artificial Intelligence;Computer Science - Learning},
+ abstract = {Generative adversarial networks have been proposed as a way of efficiently training deep generative neural networks. We propose a generative adversarial model that works on continuous sequential data, and apply it by training it on a collection of classical music. We conclude that it generates music that sounds better and better as the model is trained, report statistics on generated music, and let the reader judge the quality by downloading the generated songs.},
+ file = {Mogren - C-RNN-GAN Continuous recurrent neural networks:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\Mogren - C-RNN-GAN Continuous recurrent neural networks.pdf:pdf},
+ note = {Accepted to Constructive Machine Learning Workshop (CML) at NIPS 2016  in Barcelona, Spain, December 10}
+}
+
+
+@article{Prasath.2016,
+ author = {Prasath, V. B. Surya},
+ year = {2016},
+ title = {{Polyp Detection and Segmentation from Video Capsule Endoscopy: A Review}},
+ url = {http://www.mdpi.com/2313-433X/3/1/1/pdf},
+ pages = {1},
+ pagination = {page},
+ volume = {3},
+ journaltitle = {{Journal of Imaging}},
+ doi = {10.3390/jimaging3010001},
+ issue = {1},
+ abstract = {},
+ file = {Prasath 2016 - Polyp Detection and Segmentation:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\Prasath 2016 - Polyp Detection and Segmentation.pdf:pdf}
+}
+
+
+@misc{Radford.2016,
+ author = {Radford, Alec and Metz, Luke and Chintala, Soumith},
+ year = {2016},
+ title = {{Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks}},
+ url = {http://arxiv.org/pdf/1511.06434v2},
+ keywords = {Computer Science - Computer Vision and Pattern Recognition;Computer Science - Learning},
+ abstract = {In recent years, supervised learning with convolutional networks (CNNs) has seen huge adoption in computer vision applications. Comparatively, unsupervised learning with CNNs has received less attention. In this work we hope to help bridge the gap between the success of CNNs for supervised learning and unsupervised learning. We introduce a class of CNNs called deep convolutional generative adversarial networks (DCGANs), that have certain architectural constraints, and demonstrate that they are a strong candidate for unsupervised learning. Training on various image datasets, we show convincing evidence that our deep convolutional adversarial pair learns a hierarchy of representations from object parts to scenes in both the generator and discriminator. Additionally, we use the learned features for novel tasks - demonstrating their applicability as general image representations.},
+ file = {Radford, Metz et al. 2016 - Unsupervised Representation Learning with Deep:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\Radford, Metz et al. 2016 - Unsupervised Representation Learning with Deep.pdf:pdf},
+ note = {Under review as a conference paper at ICLR 2016}
+}
+
+
+@article{Rex.2009,
+ author = {Rex, Douglas K.},
+ year = {2009},
+ title = {{Reducing costs of colon polyp management}},
+ pages = {1135--1136},
+ pagination = {page},
+ volume = {10},
+ issn = {1470-2045},
+ journaltitle = {{The lancet oncology}},
+ issue = {12},
+ abstract = {}
+}
+
+
+@incollection{Ronneberger.2015,
+ author = {Ronneberger, Olaf and Fischer, Philipp and Brox, Thomas},
+ title = {{U-Net: Convolutional Networks for Biomedical Image Segmentation}},
+ pages = {234--241},
+ bookpagination = {page},
+ volume = {9351},
+ publisher = {Springer},
+ isbn = {978-3-319-24573-7},
+ series = {Lecture notes in computer science Image processing, computer vision, pattern recognition, and graphics},
+ editor = {Navab, Nassir and Hornegger, Joachim and Wells, William M. and Frangi, Alejandro F.},
+ booktitle = {{Medical image computing and computer-assisted intervention - MICCAI 2015}},
+ year = {2015},
+ abstract = {There is large consent that successful training of deep networks requires many thousand annotated training samples. In this paper, we present a network and training strategy that relies on the strong use of data augmentation to use the available annotated samples more efficiently. The architecture consists of a contracting path to capture context and a symmetric expanding path that enables precise localization. We show that such a network can be trained end-to-end from very few images and outperforms the prior best method (a sliding-window convolutional network) on the ISBI challenge for segmentation of neuronal structures in electron microscopic stacks. Using the same network trained on transmitted light microscopy images (phase contrast and DIC) we won the ISBI cell tracking challenge 2015 in these categories by a large margin. Moreover, the network is fast. Segmentation of a 512x512 image takes less than a second on a recent GPU. The full implementation (based on Caffe) and the trained networks are available at http://lmb.informatik.uni-freiburg.de/people/ronneber/u-net.},
+ doi = {10.1007/978-3-319-24574-4_28},
+ location = {Cham},
+ booksubtitle = {18th international conference, Munich, Germany, October 5-9, 2015; proceedings},
+ number = {9351},
+ file = {10.1007%2F978-3-319-24574-4_28:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\10.1007%2F978-3-319-24574-4_28.pdf:pdf}
+}
+
+
+@book{Schachschal.2010,
+ author = {Schachschal, G.},
+ year = {2010},
+ title = {{Praktische Koloskopie: Methodik, Leitlinien, Tipps und Tricks ; 16 Tabellen}},
+ url = {https://books.google.de/books?id=PrgYHH44BnkC},
+ publisher = {Thieme},
+ isbn = {9783131477415},
+ abstract = {}
+}
+
+
+@article{Silva.2014,
+ author = {Silva, Juan and Histace, Aymeric and Romain, Olivier and Dray, Xavier and Granado, Bertrand},
+ year = {2014},
+ title = {{Toward embedded detection of polyps in WCE images for early diagnosis of colorectal cancer}},
+ keywords = {Capsule Endoscopy/methods;Colonic Polyps/diagnosis;Colonoscopy/methods;Colorectal Neoplasms/diagnosis;Computer Simulation;Early Diagnosis;Humans;Reproducibility of Results},
+ pages = {283--293},
+ pagination = {page},
+ volume = {9},
+ issn = {1861-6410},
+ journaltitle = {{International journal of computer assisted radiology and surgery}},
+ language = {eng},
+ doi = {10.1007/s11548-013-0926-3},
+ issue = {2},
+ abstract = {PURPOSE
+
+Wireless capsule endoscopy (WCE) is commonly used for noninvasive gastrointestinal tract evaluation, including the detection of mucosal polyps. A new embeddable method for polyp detection in wireless capsule endoscopic images was developed and tested.
+
+METHODS
+
+First, possible polyps within the image were extracted using geometric shape features. Next, the candidate regions of interest were evaluated with a boosting based method using textural features. Each step was carefully chosen to accommodate hardware implementation constraints. The method's performance was evaluated on WCE datasets including 300 images with polyps and 1,200 images without polyps. Hardware implementation of the proposed approach was evaluated to quantitatively demonstrate the feasibility of such integration into the WCE itself.
+
+RESULTS
+
+The boosting based polyp classification demonstrated a sensitivity of 91.0 {\%}, a specificity of 95.2 {\%} and a false detection rate of 4.8 {\%}. This performance is close to that reported recently in systems developed for an online analysis of video colonoscopy images.
+
+CONCLUSION
+
+A new method for polyp detection in videoendoscopic WCE examinations was developed using boosting based approach. This method achieved good classification performance and can be implemented in situ with embedded hardware.},
+ file = {10.1007%2Fs11548-013-0926-3:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\10.1007%2Fs11548-013-0926-3.pdf:pdf},
+ note = {Journal Article},
+ eprint = {24037504}
+}
+
+
+@article{Tajbakhsh.2016,
+ author = {Tajbakhsh, Nima and Shin, Jae Y. and Gurudu, Suryakanth R. and Hurst, R. Todd and Kendall, Christopher B. and Gotway, Michael B. and Jianming, Liang},
+ year = {2016},
+ title = {{Convolutional Neural Networks for Medical Image Analysis - Full Training or Fine Tuning?}},
+ keywords = {Colonic Polyps/diagnostic imaging;Colonoscopy;Computed Tomography Angiography;Diagnostic imaging;Humans;Image Interpretation, Computer-Assisted;Machine Learning;Neural Networks (Computer);Pulmonary Embolism/diagnostic imaging;ROC Curve},
+ pages = {1299--1312},
+ pagination = {page},
+ volume = {35},
+ journaltitle = {{IEEE transactions on medical imaging}},
+ language = {eng},
+ doi = {10.1109/TMI.2016.2535302},
+ issue = {5},
+ abstract = {Training a deep convolutional neural network (CNN) from scratch is difficult because it requires a large amount of labeled training data and a great deal of expertise to ensure proper convergence. A promising alternative is to fine-tune a CNN that has been pre-trained using, for instance, a large set of labeled natural images. However, the substantial differences between natural and medical images may advise against such knowledge transfer. In this paper, we seek to answer the following central question in the context of medical image analysis: Can the use of pre-trained deep CNNs with sufficient fine-tuning eliminate the need for training a deep CNN from scratch? To address this question, we considered four distinct medical imaging applications in three specialties (radiology, cardiology, and gastroenterology) involving classification, detection, and segmentation from three different imaging modalities, and investigated how the performance of deep CNNs trained from scratch compared with the pre-trained CNNs fine-tuned in a layer-wise manner. Our experiments consistently demonstrated that 1) the use of a pre-trained CNN with adequate fine-tuning outperformed or, in the worst case, performed as well as a CNN trained from scratch; 2) fine-tuned CNNs were more robust to the size of training sets than CNNs trained from scratch; 3) neither shallow tuning nor deep tuning was the optimal choice for a particular application; and 4) our layer-wise fine-tuning scheme could offer a practical way to reach the best performance for the application at hand based on the amount of available data.},
+ file = {https://doi.org/10.1109/TMI.2016.2535302},
+ file = {https://dx.doi.org/10.1109/TMI.2016.2535302},
+ note = {Journal Article},
+ eprint = {26978662}
+}
+
+
+@article{Tajbakhsh.2016b,
+ author = {Tajbakhsh, Nima and Gurudu, Suryakanth R. and Liang, Jianming},
+ year = {2016},
+ title = {{Automated Polyp Detection in Colonoscopy Videos Using Shape and Context Information}},
+ keywords = {Algorithms;Colonic Polyps/diagnostic imaging;Colonoscopy/methods;Humans;Image Interpretation, Computer-Assisted/methods;Machine Learning;Pattern Recognition, Automated/methods;Video Recording/methods},
+ pages = {630--644},
+ pagination = {page},
+ volume = {35},
+ journaltitle = {{IEEE transactions on medical imaging}},
+ language = {eng},
+ doi = {10.1109/TMI.2015.2487997},
+ issue = {2},
+ abstract = {This paper presents the culmination of our research in designing a system for computer-aided detection (CAD) of polyps in colonoscopy videos. Our system is based on a hybrid context-shape approach, which utilizes context information to remove non-polyp structures and shape information to reliably localize polyps. Specifically, given a colonoscopy image, we first obtain a crude edge map. Second, we remove non-polyp edges from the edge map using our unique feature extraction and edge classification scheme. Third, we localize polyp candidates with probabilistic confidence scores in the refined edge maps using our novel voting scheme. The suggested CAD system has been tested using two public polyp databases, CVC-ColonDB, containing 300 colonoscopy images with a total of 300 polyp instances from 15 unique polyps, and ASU-Mayo database, which is our collection of colonoscopy videos containing 19,400 frames and a total of 5,200 polyp instances from 10 unique polyps. We have evaluated our system using free-response receiver operating characteristic (FROC) analysis. At 0.1 false positives per frame, our system achieves a sensitivity of 88.0{\%} for CVC-ColonDB and a sensitivity of 48{\%} for the ASU-Mayo database. In addition, we have evaluated our system using a new detection latency analysis where latency is defined as the time from the first appearance of a polyp in the colonoscopy video to the time of its first detection by our system. At 0.05 false positives per frame, our system yields a polyp detection latency of 0.3 seconds.},
+ file = {07294676:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\07294676.pdf:pdf},
+ note = {Journal Article
+Research Support, Non-U.S. Gov't},
+ eprint = {26462083}
+}
+
+
+@article{Vazquez.2017,
+ author = {Vázquez, David and Bernal, Jorge and Sánchez, F. Javier and Fernández-Esparrach, Gloria and López, Antonio M. and Romero, Adriana and Drozdzal, Michal and Courville, Aaron},
+ year = {2017},
+ title = {{A Benchmark for Endoluminal Scene Segmentation of Colonoscopy Images}},
+ pages = {4037190},
+ pagination = {page},
+ volume = {2017},
+ issn = {2040-2295},
+ journaltitle = {{Journal of healthcare engineering}},
+ language = {eng},
+ doi = {10.1155/2017/4037190},
+ abstract = {Colorectal cancer (CRC) is the third cause of cancer death worldwide. Currently, the standard approach to reduce CRC-related mortality is to perform regular screening in search for polyps and colonoscopy is the screening tool of choice. The main limitations of this screening procedure are polyp miss rate and the inability to perform visual assessment of polyp malignancy. These drawbacks can be reduced by designing decision support systems (DSS) aiming to help clinicians in the different stages of the procedure by providing endoluminal scene segmentation. Thus, in this paper, we introduce an extended benchmark of colonoscopy image segmentation, with the hope of establishing a new strong benchmark for colonoscopy image analysis research. The proposed dataset consists of 4 relevant classes to inspect the endoluminal scene, targeting different clinical needs. Together with the dataset and taking advantage of advances in semantic segmentation literature, we provide new baselines by training standard fully convolutional networks (FCNs). We perform a comparative study to show that FCNs significantly outperform, without any further postprocessing, prior results in endoluminal scene segmentation, especially with respect to polyp segmentation and localization.},
+ file = {4037190:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\4037190.pdf:pdf},
+ note = {Journal Article},
+ eprint = {29065595}
+}
+
+
+@incollection{Wichakam.2018,
+ author = {Wichakam, Itsara and Panboonyuen, Teerapong and Udomcharoenchaikit, Can and Vateekul, Peerapon},
+ title = {{Real-Time Polyps Segmentation for Colonoscopy Video Frames Using Compressed Fully Convolutional Network}},
+ pages = {393--404},
+ bookpagination = {page},
+ volume = {10704},
+ publisher = {Springer},
+ isbn = {978-3-319-73602-0},
+ series = {Lecture notes in computer science Information systems and applications, incl. internet/web, and HCI},
+ editor = {Schoeffmann, Klaus and Chalidabhongse, Thanarat H. and Ngo, Chong Wah and Aramvith, Supavadee and O'Connor, Noel E. and Ho, Yo-Sung},
+ booktitle = {{MultiMedia modeling}},
+ year = {2018},
+ abstract = {},
+ doi = {10.1007/978-3-319-73603-7_32},
+ location = {Cham},
+ booksubtitle = {24th International Conference, MMM 2018 : Bangkok, Thailand, February 5-7, 2018 : proceedings},
+ number = {10704},
+ file = {PDFsam_10.1007%2F978-3-319-73603-7:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\PDFsam_10.1007%2F978-3-319-73603-7.pdf:pdf}
+}
+
+
+@online{WorldHealthOrganization.27.02.2018,
+ year = {2017},
+ title = {{The top 10 causes of death}},
+ url = {http://www.who.int/mediacentre/factsheets/fs310/en/},
+ keywords = {aids;burden of disease;cardiovascular disease;cardiovascular disease [subject];chronic conditions;chronic disease;chronic disease [subject];chronic disease prevention;cvd;data;diabetes [subject];diabetes mellitus;Fact sheet [doctype];gbd;global burden of disease [subject];glucose intolerance;health statistics;health systems [subject];heart attack;heart attacks;heart disease;heart diseases;high blood pressure;hiv;hiv infections;hiv/aids [subject];hyperglycaemia;hypertension;injuries [subject];noncommunicable disease;noncommunicable diseases;statistics [subject];trauma care},
+ urldate = {2018-02-27},
+ abstract = {In 2012, an estimated 56 million people died worldwide. Discover what have remained the top major killers during the past decade.},
+ organization = {{World Health Organization}}
+}
+
+
+@article{Zauber.2012,
+ author = {Zauber, Ann G. and Winawer, Sidney J. and O'Brien, Michael J. and Lansdorp-Vogelaar, Iris and {van Ballegooijen}, Marjolein and Hankey, Benjamin F. and Shi, Weiji and Bond, John H. and Schapiro, Melvin and Panish, Joel F. and Stewart, Edward T. and Waye, Jerome D.},
+ year = {2012},
+ title = {{Colonoscopic polypectomy and long-term prevention of colorectal-cancer deaths}},
+ keywords = {Adenoma/mortality/prevention {\&} control;Adenomatous Polyps/surgery;Aged;Colonic Polyps/surgery;Colonoscopy;Colorectal Neoplasms/mortality/prevention {\&} control/surgery;Female;Follow-Up Studies;Humans;Male;Middle Aged},
+ pages = {687--696},
+ pagination = {page},
+ volume = {366},
+ journaltitle = {{The New England journal of medicine}},
+ language = {eng},
+ doi = {10.1056/NEJMoa1100370},
+ issue = {8},
+ abstract = {BACKGROUND
+
+In the National Polyp Study (NPS), colorectal cancer was prevented by colonoscopic removal of adenomatous polyps. We evaluated the long-term effect of colonoscopic polypectomy in a study on mortality from colorectal cancer.
+
+METHODS
+
+We included in this analysis all patients prospectively referred for initial colonoscopy (between 1980 and 1990) at NPS clinical centers who had polyps (adenomas and nonadenomas). The National Death Index was used to identify deaths and to determine the cause of death; follow-up time was as long as 23 years. Mortality from colorectal cancer among patients with adenomas removed was compared with the expected incidence-based mortality from colorectal cancer in the general population, as estimated from the Surveillance Epidemiology and End Results (SEER) Program, and with the observed mortality from colorectal cancer among patients with nonadenomatous polyps (internal control group).
+
+RESULTS
+
+Among 2602 patients who had adenomas removed during participation in the study, after a median of 15.8 years, 1246 patients had died from any cause and 12 had died from colorectal cancer. Given an estimated 25.4 expected deaths from colorectal cancer in the general population, the standardized incidence-based mortality ratio was 0.47 (95{\%} confidence interval [CI], 0.26 to 0.80) with colonoscopic polypectomy, suggesting a 53{\%} reduction in mortality. Mortality from colorectal cancer was similar among patients with adenomas and those with nonadenomatous polyps during the first 10 years after polypectomy (relative risk, 1.2; 95{\%} CI, 0.1 to 10.6).
+
+CONCLUSIONS
+
+These findings support the hypothesis that colonoscopic removal of adenomatous polyps prevents death from colorectal cancer. (Funded by the National Cancer Institute and others.).},
+ file = {https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3322371},
+ note = {Journal Article
+Research Support, N.I.H., Extramural
+Research Support, Non-U.S. Gov't},
+ eprint = {22356322}
+}
+
+
+@article{Zhang.2017,
+ author = {Zhang, Ruikai and Zheng, Yali and Mak, Tony Wing Chung and Yu, Ruoxi and Wong, Sunny H. and Lau, James Y. W. and Poon, Carmen C. Y.},
+ year = {2017},
+ title = {{Automatic Detection and Classification of Colorectal Polyps by Transferring Low-Level CNN Features From Nonmedical Domain}},
+ keywords = {Colonic Polyps/classification/diagnostic imaging;Colonoscopy;Humans;Image Interpretation, Computer-Assisted/methods;Machine Learning;Neural Networks (Computer);ROC Curve},
+ pages = {41--47},
+ pagination = {page},
+ volume = {21},
+ issn = {2168-2208},
+ journaltitle = {{IEEE journal of biomedical and health informatics}},
+ language = {eng},
+ doi = {10.1109/JBHI.2016.2635662},
+ issue = {1},
+ abstract = {Colorectal cancer (CRC) is a leading cause of cancer deaths worldwide. Although polypectomy at early stage reduces CRC incidence, 90{\%} of the polyps are small and diminutive, where removal of them poses risks to patients that may outweigh the benefits. Correctly detecting and predicting polyp type during colonoscopy allows endoscopists to resect and discard the tissue without submitting it for histology, saving time, and costs. Nevertheless, human visual observation of early stage polyps varies. Therefore, this paper aims at developing a fully automatic algorithm to detect and classify hyperplastic and adenomatous colorectal polyps. Adenomatous polyps should be removed, whereas distal diminutive hyperplastic polyps are considered clinically insignificant and may be left in situ . A novel transfer learning application is proposed utilizing features learned from big nonmedical datasets with 1.4-2.5 million images using deep convolutional neural network. The endoscopic images we collected for experiment were taken under random lighting conditions, zooming and optical magnification, including 1104 endoscopic nonpolyp images taken under both white-light and narrowband imaging (NBI) endoscopy and 826 NBI endoscopic polyp images, of which 263 images were hyperplasia and 563 were adenoma as confirmed by histology. The proposed method identified polyp images from nonpolyp images in the beginning followed by predicting the polyp histology. When compared with visual inspection by endoscopists, the results of this study show that the proposed method has similar precision (87.3{\%} versus 86.4{\%}) but a higher recall rate (87.6{\%} versus 77.0{\%}) and a higher accuracy (85.9{\%} versus 74.3{\%}). In conclusion, automatic algorithms can assist endoscopists in identifying polyps that are adenomatous but have been incorrectly judged as hyperplasia and, therefore, enable timely resection of these polyps at an early stage before they develop into invasive cancer.},
+ file = {07769237:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\07769237.pdf:pdf},
+ note = {Journal Article},
+ eprint = {28114040}
+}
+
+
+@article{Zisimopoulos.2017,
+ author = {Zisimopoulos, Odysseas and Flouty, Evangello and Stacey, Mark and Muscroft, Sam and Giataganas, Petros and Nehme, Jean and Chow, Andre and Stoyanov, Danail},
+ year = {2017},
+ title = {{Can surgical simulation be used to train detection and classification of neural networks?}},
+ pages = {216--222},
+ pagination = {page},
+ volume = {4},
+ issn = {2053-3713},
+ journaltitle = {{Healthcare technology letters}},
+ language = {eng},
+ doi = {10.1049/htl.2017.0064},
+ issue = {5},
+ abstract = {Computer-assisted interventions (CAI) aim to increase the effectiveness, precision and repeatability of procedures to improve surgical outcomes. The presence and motion of surgical tools is a key information input for CAI surgical phase recognition algorithms. Vision-based tool detection and recognition approaches are an attractive solution and can be designed to take advantage of the powerful deep learning paradigm that is rapidly advancing image recognition and classification. The challenge for such algorithms is the availability and quality of labelled data used for training. In this Letter, surgical simulation is used to train tool detection and segmentation based on deep convolutional neural networks and generative adversarial networks. The authors experiment with two network architectures for image segmentation in tool classes commonly encountered during cataract surgery. A commercially-available simulator is used to create a simulated cataract dataset for training models prior to performing transfer learning on real surgical data. To the best of authors' knowledge, this is the first attempt to train deep learning models for surgical instrument detection on simulated data while demonstrating promising results to generalise on real data. Results indicate that simulated data does have some potential for training advanced classification methods for CAI systems.},
+ file = {Zisimopoulos, Flouty et al. 2017 - Can surgical simulation be used:C\:\\Users\\Josia\\Documents\\Citavi 6\\Projects\\Wiss Vertiefung\\Citavi Attachments\\Zisimopoulos, Flouty et al. 2017 - Can surgical simulation be used.pdf:pdf},
+ note = {PMC5683210
+Journal Article},
+ eprint = {29184668}
+}
+
+
