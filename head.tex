@@ -1,0 +1,68 @@
+\documentclass[
+	12pt,
+	a4paper,
+	draft
+]{report}
+
+\usepackage[english,ngerman]{babel}
+\addto{\captionsngerman}{\renewcommand{\abstractname}{Abstract}}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, left=3.5cm, right=2.5cm, top=2.5cm, bottom=2cm]{geometry}
+\usepackage[nottoc]{tocbibind}
+
+\usepackage[
+	colorlinks=true,
+	citecolor=blue,
+	linkcolor=black,
+	filecolor=black,
+	urlcolor=blue,
+	linktoc=all
+]{hyperref}
+
+\usepackage{graphicx}
+\graphicspath{ {img/} }
+
+\usepackage{csquotes}
+\MakeOuterQuote{"}
+
+\usepackage[
+	backend=biber,
+	style=trad-abbrv,
+	minbibnames=10,
+	maxbibnames=10,
+	giveninits=true,
+	eprint=false,
+]{biblatex}
+\AtEveryBibitem{
+	\clearlist{language}
+	\clearfield{note}
+	\clearfield{eventtitle}
+	\clearfield{booksubtitle}
+	\ifentrytype{misc}{
+	}{
+	\clearfield{url}
+	}
+}
+\addbibresource{references.bib}
+
+% Erklärung
+\usepackage{multicol}
+
+% Acronyms
+\usepackage[acronym]{glossaries}
+\glstoctrue
+\makeglossaries
+
+\newacronym{cnn}{CNN}{Convolutional Neural Network}
+\newacronym{rnn}{RNN}{Recurrent Neural Network}
+\newacronym{wce}{WCE}{Wireless Capsule Endoscopy}
+\newacronym{nbi}{NBI}{Narrow-Band Imaging}
+\newacronym[plural=NN,firstplural=Neuronale Netze (NN)]{nn}{NN}{Neuronales Netz}
+\newacronym{svm}{SVM}{Support Vector Machine}
+\newacronym{fc}{FC}{Fully Connected}
+\newacronym{fcn}{FCN}{Fully Convolutional Network}
+\newacronym{gan}{GAN}{Generative Adversarial Network}
+\newacronym{dcgan}{DCGAN}{Deep Convolutional GAN}
+\newacronym{can}{CAN}{Conditional Adversarial Networks}
+
+\makeindex

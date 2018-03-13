@@ -1,3 +1,5 @@
+\chapter{Wissenschaftliche Vertiefung}
+
 \section{Einführung}
 
 Unter den 20 häufigsten Todesursachen weltweit kommen auch 4 Krebsarten vor~\cite{Lozano.2012}.
@@ -115,8 +117,6 @@ Sie sind bei weitem nicht die einzige Möglichkeit, Features durch maschinelles 
 Der Siegeszug von Deep Learning hat verschiedene Ursachen; Goodfellow et al.~\cite{Goodfellow.2016} identifizieren darunter u.~a. folgende Faktoren:
 
 \begin{itemize}
-\setlength{\itemsep}{0pt}
-\setlength{\parsep}{0pt}
 	\item die sehr generelle, aber mächtige A-Priori-Annahme, dass abstraktere Konzepte hierarchisch aus immer simpleren Konzepten gelernt werden,
 	\item die Inspiration durch (offensichtlich sehr erfolgreiche) neuronale Strukturen im tierischen und menschlichen Gehirn und
 	\item die Verfügbarkeit von leistungsfähigerer Hardware für ein effizientes Trainieren von tiefen \glspl{nn}.
@@ -131,7 +131,7 @@ Es wird eine teilweise sehr große Anzahl an Neuronen-Schichten hintereinander g
 Diese Schichten können auch vergleichsweise "schmal" sein mit wenigen Neuronen in einer Schicht.
 Die Tiefe der Netze ermöglicht es ihnen, zuerst sehr simple Konzepte zu lernen, in der nächsten Schicht abstraktere Konzepte aus diesen simplen Konzepten zu lernen und diesen Abstraktionsprozess hierarchisch immer weiter fortzuführen.
 
-\subsection{\glspl{cnn}}
+\subsection{Convolutional Neural Networks}
 
 \glspl{cnn} sind eine Variante von tiefen \glspl{nn}, bei denen in mindestens einer Schicht die Faltungs-Operation angewendet wird~\cite{Goodfellow.2016}.
 Die Kernelmatrix, mit der gefaltet wird, ist in jedem Bildfenster einer Neuronenschicht dieselbe und ihre Werte werden vom Netz gelernt.
@@ -149,11 +149,6 @@ Solches Transfer Learning wird durchgeführt, indem Teile der Architektur des vo
 Dieses Transfer Learning wird besonders häufig in Domänen angewandt, in denen wenig Trainingsdaten zur Verfügung stehen.
 Es wurde gezeigt, dass der Transfer solcher sehr allgemein vortrainierten Netze auf die spezifische medizinische Domäne und ihre Bildwelt mindestens so gute Ergebnisse erzielt wie ein \gls{cnn}, das von Grund auf mit zufällig initialisierten Gewichten trainiert wird~\cite{Tajbakhsh.2016}.
 In allen nachfolgend vorgestellten Ansätzen wird ein solches Transfer Learning angewendet.
-
-%Ein Beispiel für Polypen-\emph{Detektion} mithilfe von gelernten Features zeigen \cite{Zhang.2017} auf:
-%Sie nutzen ein vortrainiertes \gls{cnn} und kombinieren es mit einer \gls{svm}, um Koloskopie-Bilder zu detektieren, die Polypen enthalten.
-%In einem zweiten Schritt wird dann die Art der detektierten Polypen mithilfe einer weiteren Kombination von vortrainiertem \gls{cnn} mit \gls{svm} klassifiert.
-%Im Folgenden werden hingegen Ansätze zur \emph{Lokalisierung} und \emph{Segmentierung} von Polypen in Koloskopie-Bildern aufgezeigt, die Deep Learning verwenden.
 
 \subsection{Lokalisierung}
 
@@ -276,8 +271,6 @@ Eine Weiterentwicklung und Fusion der bestehenden Ansätze bietet ein sehr groß
 Denkbare Beispiele aus Sicht des Autors sind
 
 \begin{itemize}
-	\setlength{\itemsep}{0pt}
-	\setlength{\parsep}{0pt}
 	\item eine aggressive Regularisierung der \glspl{can} von Isola et al.,
 	\item eine Fortführung der Tiefenschätzung von Mahmood et al. (von den Autoren bereits angekündigt),
 	\item alle bereits erwähnten Ansätze (außer 3D-FCN), erweitert um Sequenzbetrachtung -- entweder durch Erweiterung des 3D-CNN wie bei Lequan et al. oder durch zusätzliche Features wie den optischen Fluss vom vorherigen Frame.

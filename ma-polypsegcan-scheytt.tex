@@ -1,41 +1,38 @@
-\input{config_acm}
+\input{head}
 
-\title{Segmentierung von Polypen in Koloskopie-Bilddaten --\\ eine Potentialanalyse von Deep-Learning-Methoden\titlenote{ \scriptsize \flushleft
-		Betreuer: \ \ Prof. Dr.-Ing. Burgert\\ 
-		\qquad \qquad \ \ Hochschule Reutlingen\\ 
-		\qquad \qquad \ \ Burgert@Reutlingen-University.DE\\
-		Informatics Inside 2018 \\
-		Wissenschaftliche Vertiefungskonferenz \\
-		09. Mai 2018, Hochschule Reutlingen\\
-		Copyright 2018 Josia Scheytt}
-}
-
-\numberofauthors{1}
-\author{
-	\aufnt{Josia Scheytt}\\
-	\affaddr{Reutlingen University}\\
-	\textbf{\textsf{Josia.Scheytt@Student.Reutlingen-University.DE}}
-}
+\title{Segmentierung von Polypen in Koloskopie-Bilddaten mit Conditional Adversarial Networks}
+\author{Josia Scheytt}
 
 \begin{document}
-\maketitle
-\sloppypar{
+
+\input{pages/title}
+
+\pagenumbering{roman}
+
+\tableofcontents
+
+\clearpage
+\addcontentsline{toc}{chapter}{\abstractname~(Deutsch)}
 \begin{abstract}
-\input{chapters/abstract}
+	\input{chapters/abstract}
 \end{abstract}
 
-\keywords{Segmentierung, Bildverarbeitung, Kolorektalkarzinom, Deep Learning}
+\clearpage
+\addcontentsline{toc}{chapter}{\abstractname~(Englisch)}
+\begin{otherlanguage}{english}
+\begin{abstract}
+	\input{chapters/abstract_en}
+\end{abstract}
+\end{otherlanguage}
 
-\category{I.2.6}{Artificial Intelligence}{Learning}
-\category{I.2.1}{Artificial Intelligence}{Applications and Expert Systems}
-\category{I.4.6}{Image Processing and Computer Vision}{Segmentation}
-%\category{I.4.10}{Image Processing and Computer Vision}{Image Representation}
+\pagenumbering{arabic}
 
-\input{chapters/body}
+\input{chapters/wv}
 
-\balance
-%\bibliographystyle{abbrv} % abbrv, alpha, plain, unsrt, apalike
-%\bibliography{references}
-\printbibliography
+\listoffigures
+\listoftables
+\printglossary[type=\acronymtype,title={Abkürzungsverzeichnis}]
+\printbibliography[heading=bibintoc]
+\input{pages/erklaerung}
 
 \end{document}
