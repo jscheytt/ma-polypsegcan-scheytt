@@ -64,8 +64,6 @@ In dieser Arbeit wird deshalb ausschließlich die Segmentierung von \emph{Kolore
 
 \section{Problemstellung}
 
-% Segmentierung, Lokalisierung ja - aber keine Klassifizierung gut/böse
-
 Um eine Hervorhebung von Polypen im koloskopischen Bild während einer Darmspiegelung zu ermöglichen, ist ein automatisiertes Auffinden von Polypen notwendig.
 Diese Lokalisierung kann unterschiedlich genau sein, vom einzelnen Bildpunkt über Bounding Boxes bis hin zu ellipsenförmigen Bereichen.
 Wenn ein Algorithmus in der Lage ist, die Fläche des Polypen \emph{pixelgenau} im Bild zu finden, wird in dieser Arbeit von einer \emph{Segmentierung} gesprochen als der genauesten Form der Lokalisierung.
@@ -86,7 +84,16 @@ Ebenso ist die Beurteilung der Bösartigkeit des Gewebes anhand der Bildinformat
 
 \section{Feature Selection}
 
+Algorithmen, die Bilder verarbeiten, haben es in aller Regel mit sehr hochdimensionalen Daten zu tun.
+Aus diesen Eingabedaten wird versucht, gehaltvolle Ausgaben zu erzeugen wie bspw. Aussagen über die Präsenz gewisser Objekte, menschliche Emotionen oder die Position bestimmter Objekte.
+Um aus diesen hochdimensionalen Inputs Ausgaben mit deutlich geringerer Dimensionalität zu erzeugen, ist es notwendig, die Dimensionalität des Inputs zu reduzieren, indem man Merkmale verwirft, die für die Ausgabe nicht relevant sind.
 
+Woher weiß der Algorithmus, welche Merkmale relevant sind?
+Entweder man instruiert ihn explizit, indem man Expertenwissen fest in den Algorithmus einkodiert, oder man lässt es ihn selbstständig herausfinden.
+Die erste Variante produziert zumeist Algorithmen, die sehr auf Problem und Domäne zugeschnitten und nur schwer übertragbar sind; allerdings kann man die Kriterien, anhand derer sie eine Ausgabe erzeugen, von außen nachvollziehen.
+Die zweite Variante hingegen erzeugt Algorithmen, die große Mengen an Trainingsdaten benötigen, dafür aber tendentiell viel flexibler und einfacher auf andere Domänen übertragbar sind.
+
+In diesem Abschnitt werden Ansätze zur Lokalisierung und Segmentierung von Polypen vorgestellt, die zur ersten Kategorie gehören; im darauffolgenden Abschnitt folgen Ansätze der zweiten Kategorie.
 
 
 
