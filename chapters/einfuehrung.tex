@@ -62,19 +62,37 @@ In dieser Arbeit wird deshalb ausschließlich die Segmentierung von \emph{Kolore
 
 
 
-\section{Problemstellung und Motivation}
+\section{Problemstellung}
 
 % Segmentierung, Lokalisierung ja - aber keine Klassifizierung gut/böse
 
+Um eine Hervorhebung von Polypen im koloskopischen Bild während einer Darmspiegelung zu ermöglichen, ist ein automatisiertes Auffinden von Polypen notwendig.
+Diese Lokalisierung kann unterschiedlich genau sein, vom einzelnen Bildpunkt über Bounding Boxes bis hin zu ellipsenförmigen Bereichen.
+Wenn ein Algorithmus in der Lage ist, die Fläche des Polypen \emph{pixelgenau} im Bild zu finden, wird in dieser Arbeit von einer \emph{Segmentierung} gesprochen als der genauesten Form der Lokalisierung.
+In allen anderen Fällen wird nur von einer \emph{Lokalisierung} gesprochen.
+
+Diese Arbeit befasst sich mit dem Einsatz einer bestimmten Deep-Learning-Architektur, um Polypen in koloskopischen Bildern zu segmentieren.
+Dabei soll sowohl die Qualität der Segmentierung als auch Verbesserungen zur Stabilisierung des Trainings evaluiert werden.
+In den folgenden Abschnitten werden alternative, bereits bestehende Ansätze zur Polypen-Lokalisierung und -Segmentierung vorgestellt und erläutert.
+Diese werden hier aufgeteilt in solche Ansätze, bei denen die relevanten Bildmerkmale vom menschlichen Experten festgelegt werden, und solche, bei denen Features vollständig gelernt werden.
+
+In Echtzeitszenarien kann es durchaus sinnvoll sein, zuerst einen leichtgewichtigeren Algorithmus binär detektieren zu lassen, ob ein Polyp im Bild vorhanden ist, und anschließend diese \emph{Präsenz-Detektion} durch eine Lokalisierung zu erweitern.
+Im Rahmen dieser Arbeit werden Methoden zur reinen Detektion der Präsenz von Polypen allerdings nicht genauer betrachtet.
+
+Ebenso ist die Beurteilung der Bösartigkeit des Gewebes anhand der Bildinformation, eine sogenannte "optische Biopsie", zwar ein interessantes Forschungsproblem~\cite{Roy.2011}, aber diese Arbeit hat keine derartige Klassifikation zum Ziel.
+%TODO optical biopsy als Ausblick am Schluss
 
 
 
+\section{Feature Selection}
 
-\section{Manuelle Feature Selection}\label{sec:manuelle-feature-selection}
+
 
 
 
 \subsection{Lokalisierung}
+
+
 
 
 
@@ -84,7 +102,9 @@ In dieser Arbeit wird deshalb ausschließlich die Segmentierung von \emph{Kolore
 
 
 
-\section{Deep Learning}\label{sec:deep-learning}
+\section{Feature Learning}
+
+
 
 
 
@@ -92,11 +112,17 @@ In dieser Arbeit wird deshalb ausschließlich die Segmentierung von \emph{Kolore
 
 
 
+
+
 \subsection{Lokalisierung}
 
 
 
+
+
 \subsection{Segmentierung}
+
+
 
 
 
