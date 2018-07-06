@@ -124,6 +124,12 @@ Features in den einzelnen Patches werden generiert durch eine Diskretisierung de
 
 \subsection{Segmentierung}
 
+Bei \cite{Prasath.2016} werden auch verschiedene Segmentierungsalgorithmen für Kolorektalpolypen verglichen.
+Diese basieren alle auf Varianten von \emph{Active Contours}~\cite{Kass.1988}, bei denen ein verformbares, a priori festgelegtes Linienmodell durch Energieminimierung auf ein Bild eingepasst wird.
+\citeauthor{Sasmal.2018} nutzen ebenfalls Active Contours und initialisieren die Segmentierung mit kreisförmigen Löchern auf die gesamte Bildfläche~\cite{Sasmal.2018}.
+
+\citeauthor{Ionescu.2013} halten die gekrümmte Form der Polypen für am meisten aussagekräftig und entwickeln eine eigene Methode zur Verstärkung der Polypenkanten im Bild~\cite{Ionescu.2013}.
+\citeauthor{Vieira.2012} segmentieren abnormales Gewebe von normalem und nutzen dafür ein Gaussian Mixture Model basierend auf den Vektoren im HSV- und RGB-Farbraum~\cite{Vieira.2012}.
 
 
 
@@ -131,9 +137,10 @@ Features in den einzelnen Patches werden generiert durch eine Diskretisierung de
 \section{Feature Learning}
 
 Kolorektalpolypen zu lokalisieren ist komplex, denn Form, Textur und Farbe unterscheiden sich teilweise drastisch zwischen Polypen, oftmals sogar beim selben Patienten~\cite{Prasath.2016}.
-Deshalb reicht es nicht aus, sich nur auf eines dieser Merkmale zu verlassen.
+Viele der vorgestellten Lokalisierungsverfahren nutzen Kombinationen dieser Features, aber die Segmentierungsverfahren verlassen sich alle ausschließlich auf die Form als entscheidendes Merkmal (bis auf einen rein farbbasierten Ansatz).
+Aufgrund der hohen Varianz an Polypenaussehen kann es nicht ausreichen, sich nur auf eines dieser Merkmale zu verlassen~\cite{Prasath.2016}.
 
-% kein/kaum Preprocessing nötig
+% kein/kaum Preprocessing nötig, v. a. Glanzlichter
 
 
 
