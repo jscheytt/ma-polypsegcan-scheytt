@@ -31,6 +31,7 @@
 	style=trad-abbrv,
 	minbibnames=10,
 	maxbibnames=10,
+	maxcitenames=2,
 	giveninits=true,
 	eprint=false,
 ]{biblatex}
@@ -45,6 +46,10 @@
 	}
 }
 \addbibresource{references.bib}
+\DefineBibliographyStrings{german}{
+	andothers = {et\addabbrvspace al\adddot},
+	andmore = {et\addabbrvspace al\adddot},
+}
 
 % Erklärung
 \usepackage{multicol}
