@@ -61,6 +61,7 @@ Im Dünndarm hingegen treten sowohl benigne als auch maligne Polypen sehr selten
 In dieser Arbeit wird deshalb ausschließlich die Segmentierung von \emph{Kolorektalpolypen} betrachtet.
 
 Zur Untersuchung des Kolorektalbereichs wird üblicherweise eine Koloskopie durchgeführt, bei der mittels eines rektal eingeführten Endoskops die gesamte Region inspiziert werden kann.
+Analog dazu werden bei einer Spiegelung des Dünndarms meist oral eingeführte Endoskopkapseln eingesetzt, was als \gls{wce} bezeichnet wird.
 Im Kontext dieser Arbeit wird nur auf Bildmaterial eingegangen, das durch Endoskopie im Bereich des sichtbaren Lichts produziert wurde.
 Andere Modalitäten wie bspw. Narrow Band Imaging, bei dem zur besseren Hervorhebung bestimmter Gewebsarten nur bestimmte schmale Frequenzbänder des sichtbaren Lichts zum Einsatz kommen, werden hier nicht betrachtet.
 
@@ -103,7 +104,21 @@ In diesem Abschnitt werden Ansätze zur Lokalisierung und Segmentierung von Poly
 
 \subsection{Lokalisierung}
 
+In \cite{Prasath.2016} reviewt \citeauthor{Prasath.2016} verschiedene Ansätze zur Detektion, Lokalisierung und Segmentierung von Polypen in \gls{wce}-Videos.
+Auch wenn die Gegebenheiten der Bildgebung bei der Kapselendoskopie sich von denen der Koloskopie unterscheiden, arbeiten doch beide im Spektrum des sichtbaren Lichts, weshalb ein Vergleich von Algorithmen beider Modalitäten möglich sein sollte.
 
+Auch wenn Ansätze zur reinen Detektion von Polypen hier nicht genauer betrachtet werden, bauen doch die Mehrheit solcher Ansätze einen Lokalisierungsschritt ein, um dann zu entscheiden, ob ein Polyp im Bild vorhanden ist~\cite{Prasath.2016}.
+Bei solchen Lokalisierungen kommen meist elliptische Features, Textur, Farbe und Positionseigenschaften als Merkmale zum Einsatz.
+
+Von den bei \cite{Prasath.2016} vorgestellten Ansätzen verlassen sich die meisten Lokalisierungen auf die Filterung von Kanten und eigens gefertige Maße für Krümmungen und Vorwölbungen im Bild.
+Mithilfe dieser Features werden Lokalisierungen erzielt, die als Ausgabe einen Bildpunkt, eine Bounding Box, eine Ellipse oder eine grobe Segmentierung erzielen.
+Oftmals kommen im Ablauf einzelner Algorithmen gelernte Elemente hinzu wie bspw. ein Clustering-Algorithmus zur Filterung von Lokalisierungskandidaten, aber dennoch werden die Merkmale, auf denen gelernt wird, vom Menschen ausgewählt.
+
+Abgesehen von den in \cite{Prasath.2016} verglichenen Ansätzen geht folgende Arbeit ebenfalls dem Lokalisierungsbroblem nach:
+In \cite{Li.2004} ist das Ziel eine Lokalisierung von abnormalen Regionen im koloskopischen Bild, wozu auch Regionen mit Polypen zählen.
+Ausgabe ist eine binäre Segmentierung mit rechtwinkligen Grenzen, da mit Patches des Bildes gearbeitet wird, von denen jeder einzeln mittels eines Ensemble-Lerners klassifiziert wird.
+Diese Patches werden auf mehreren Skalierungen erstellt, um verschiedene Abnormalitätengrößen erfassen zu können.
+Features in den einzelnen Patches werden generiert durch eine Diskretisierung der Farbwerte im CIELab-Farbraum und anschließende Berechnung von Farb-Features und -Statistiken, die u.~a. von einer diskreten Wavelet-Transformation stammen.
 
 
 
@@ -115,7 +130,10 @@ In diesem Abschnitt werden Ansätze zur Lokalisierung und Segmentierung von Poly
 
 \section{Feature Learning}
 
+Kolorektalpolypen zu lokalisieren ist komplex, denn Form, Textur und Farbe unterscheiden sich teilweise drastisch zwischen Polypen, oftmals sogar beim selben Patienten~\cite{Prasath.2016}.
+Deshalb reicht es nicht aus, sich nur auf eines dieser Merkmale zu verlassen.
 
+% kein/kaum Preprocessing nötig
 
 
 
