@@ -159,7 +159,19 @@ Aufwendiges Entfernen von Glanzlichtern oder das Limitieren des Gesamtbildes auf
 
 \subsection{Convolutional Neural Networks}
 
+Eine Deep-Learning-Architektur, die besonders im Bereich der Bildverarbeitung sehr verbreitet ist, ist das \gls{cnn}.
+In dieser Variante von tiefen \glspl{nn} wird in mindestens einer Schicht die Faltungsoperation angewandt.
+Die Werte einer Kernelmatrix, die für eine Neuronenschicht in jedem Bildfenster gleich bleibt, werden vom Netz gelernt.
+Da die Neuronen in \glspl{cnn} mehr Parameter untereinander teilen als Netze mit vollständig verbundenen Schichten, die einer Matrixmultiplikation entspricht, ist ihre Speicherkomplexität geringer.
 
+Durch den Einsatz von Pooling-Schichten oder Faltungsschichten mit größeren Strides sind \glspl{cnn} außerdem in der Lage, Repräsentationen zu lernen, die gegenüber kleinen Verschiebungen im Input invariant sind.
+Dies wiederum drückt eine A-Priori-Annahme in \glspl{cnn} aus, die sich für Bilder sehr gut eignet:
+Geringe Translationen sollten die Semantik eines Bildes nicht verändern.
+
+Damit \glspl{cnn} gut generalisieren, benötigen sie in der Regel sehr viele Trainingsdaten.
+In vielen Fällen lässt sich ein Netz, das schon für ein bestimmtes Problem trainiert wurde, als Ausgangspunkt für ein neues Netz nehmen, welches das bereits trainierte Netz nur noch leicht anpassend nachtrainiert auf das neue Zielproblem.
+Dieses \emph{Transfer Learning} kann den Bedarf an Trainingsdaten deutlich verringern.
+Gerade im Bereich der Objekterkennung haben sich viele Deep-Learning-Architekturen etabliert, die auf großen, gelabelten Bilddatenbanken wie ImageNet~\cite{Deng.2009} trainiert wurden und deren erste Schichten gerne als Startpunkt für neue Objekterkennungsnetze in speziellen Domänen genutzt werden (s. z.~B.~\cite{Simonyan.2014}).
 
 
 
