@@ -140,7 +140,20 @@ Kolorektalpolypen zu lokalisieren ist komplex, denn Form, Textur und Farbe unter
 Viele der vorgestellten Lokalisierungsverfahren nutzen Kombinationen dieser Features, aber die Segmentierungsverfahren verlassen sich alle ausschließlich auf die Form als entscheidendes Merkmal (bis auf einen rein farbbasierten Ansatz).
 Aufgrund der hohen Varianz an Polypenaussehen kann es nicht ausreichen, sich nur auf eines dieser Merkmale zu verlassen~\cite{Prasath.2016}.
 
-% kein/kaum Preprocessing nötig, v. a. Glanzlichter
+Algorithmen, die selbst explorativ herausfinden, welche Features relevant sind, lernen auf den originalen Rohdaten und können somit jegliche Kombination aus Merkmalen zur Lösung des Problems nutzen.
+Die Ansätze in diesem Abschnitt basieren alle auf Feature Learning.
+\emph{Deep Learning} ist hierbei das Konzept, das Feature Learning bisher am erfolgreichsten ganzheitlich inkorporiert.
+Anders als bestimmte Clusteringverfahren oder die \gls{pca}~\cite{Hotelling.1933}, die sich darauf beschränken aussagekräftige Merkmale zu finden, ermöglicht Deep Learning nicht nur das Erlernen von Features, sondern auch das Lernen von Mappings von Merkmalswerten zu gewünschten Ausgaben.
+
+Deep Learning bezeichnet eine Klasse von Algorithmen, bei denen künstliche \glspl{nn} zum Einsatz kommen, die mehr als eine verborgene Schicht besitzen~\cite{Goodfellow.2016}.
+Viele lernende Algorithmen kommen nur mit Problemen in niedrigdimensionalen Räumen zurecht, weil sie theoretisch für jeden möglichen Punkt im Merkmalsraum Trainingsbeispiele benötigen.
+Abgesehen von diesem "Fluch der Dimensionalität"~\cite{Bellman.2010} stützen sich viele Lernalgorithmen auf die Annahme, dass die zu lernende Funktion in kleinen, lokalen Bereichen ungefähr konstant verläuft, was aber nicht immer der Fall sein muss.
+Beiden Problemen kann Deep Learning entgegentreten durch das Lernen von niedrigdimensionalen, nicht-lokalen Mannigfaltigkeiten im Merkmalsraum~\cite{Bengio.2005} und durch die Annahme, dass die Trainingsdaten durch mehrere zugrundeliegende Faktoren, möglicherweise auf mehreren Abstraktionsebenen, verursacht wurden~\cite{Goodfellow.2016}.
+Gerade letztere Hypothese bietet sich sehr gut für das hier vorliegende Segmentierungsproblem an, da das Zusammenwirken verschiedener Faktoren eine Grundannahme ist.
+
+Generell bieten Features lernende Algorithmen einen weiteren Vorteil gegenüber solchen mit selektierten Features:
+Es ist kaum Vorverarbeitung notwendig, da der Algorithmus selbstständig lernt, welche Informationen des Originalinputs nicht relevant sind.
+Aufwendiges Entfernen von Glanzlichtern oder das Limitieren des Gesamtbildes auf eine Interessenregion entfällt, was gerade bei den Ansätzen im vorherigen Abschnitt sehr häufig eingebaut wird.
 
 
 
