@@ -231,10 +231,28 @@ Insgesamt schneidet das modifizierte ResNet am besten ab, aber die Ergebnisse si
 
 \subsection{Generative Netze}
 
+\glspl{cnn} sind mittlerweile ein Standardwerkzeug in der Klassifizierung und Objekterkennung geworden und werden sehr erfolgreich eingesetzt.
+Aber aktuelle Entwicklungen im Deep Learning öffnen neue Wege durch Generative Netze:
+Solche Architekturen sind in der Lage, Wahrscheinlichkeitsverteilungen über die Trainingsdaten zu lernen und dann neue Trainingssamples zu erzeugen, die den Originaldaten ähnlich sind, ohne sie zu blind zu kopieren~\cite{Goodfellow.2016}.
+Dies kann zum einen dabei helfen besser zu verstehen, was das Netz von den Trainingsdaten gelernt hat, zum anderen kann es auch Möglichkeiten eröffnen, mit geringeren Mengen an gelabelten Trainingsdaten zurechtzukommen\cite{Kingma.2014}.
 
+Im Gegensatz zu konventionellen \glspl{nn} sind generative Netze in der Regel nur als ungerichtete Graphen modellierbar~\cite{Goodfellow.2016}.
+Dies führt dazu, dass Training und teilweise sogar Inferenz in solchen Modellen approximiert werden müssen.
+Zusätzlich verläuft das Training solcher Netze meist zu instabil für einen praktikablen Einsatz, da andere und komplexere Optimierungsverfahren eingesetzt werden müssen als bei gerichteten Modellen von \glspl{nn}.
 
+Die \glspl{gan} von \citeauthor{Goodfellow.2014}~\cite{Goodfellow.2014} sind allerdings als gerichtete Graphen darstellbar und können deshalb die vorher genannten Schwierigkeiten umgehen; sie sind mit im Deep Learning üblichen Optimierungsverfahren trainierbar.
+Das Grundkonzept der \glspl{gan} besteht aus zwei Netzen:
+Der \emph{Diskriminator} lernt, zwischen "realen" Samples aus den Trainingsdaten und "gefälschten" Samples zu lernen, welche der \emph{Generator} erzeugt.
+Dieser wiederum lernt, realistisch aussehende Samples zu erzeugen.
+Diese beiden Netze werden von Grund auf solange trainiert, bis der Diskriminator nicht mehr unterscheiden kann zwischen realen und gefälschten Samples.
 
+In seiner Ursprungsform erzeugt der Generator ein neues Sample, indem er einen Vektor mit zufällig initialisierten Werten weiterverarbeitet.
+Übergibt man dem Generator einem solchen Rauschvektor einen strukturierten Input wie bspw. dasselbe Bild, das der Diskriminator bekommt, erhält man einen konditionierten Generator.
+Ein solcher konditionierter Generator kann u.~a. für eine Bild-zu-Bild-Übersetzung genutzt werden wie bei \citeauthor{Isola.2017}~\cite{Isola.2017}; sie nennen ihren Ansatz \emph{\glspl{can}}
+Eine solche Übersetzung kann ein Stil-Transfer, eine Schwarzweiß-Kolorierung oder auch eine semantische Segmentierung sein.
 
-\section{Fazit}
+Durch das zugrundeliegende GAN-Framework ist das Netz sogar soweit abstrahiert, dass für die Bild-zu-Bild-Übersetzung theoretisch keine manuelle Anpassung der Verlustfunktion mehr notwendig ist:
+Jegliche Art von Problemstellung in der Bildverarbeitung, die sich so ausdrücken lässt, dass ein Bild von einer Repräsentation zu einer anderen "übersetzt" wird, kann gelernt werden; man muss dem Netz nur noch die passenden Trainingsdaten zur Verfügung stellen.
 
-
+In der medizinischen Bildverarbeitung wurde diese Methodik bereits zur Segmentierung von OP-Instrumenten bei Laparoskopien verwendet~\cite{Zisimopoulos.2017}, aber noch nicht für eine Segmentierung von Kolorektalpolypen.
+In der vorliegenden Arbeit wird diese Lücke geschlossen und zusätzliches Verbesserungspotential für die Problemstellung der Polypensegmentierung ausgelotet.
