@@ -177,7 +177,27 @@ Gerade im Bereich der Objekterkennung haben sich viele Deep-Learning-Architektur
 
 \subsection{Lokalisierung}
 
+\citeauthor{Billah.2017} setzen bei ihrer Polypenlokalisierung auf eine Hybridlösung aus selbst gewählten und gelernten Merkmalen:
+Die Features werden sowohl aus Wavelet-Transformationen~\cite{Mallat.1989} als auch von einem \gls{cnn} generiert~\cite{Billah.2017}.
+Hierbei wird ein Sliding Window mit fester Größe über ein zu untersuchendes Bild gefahren und in jedem Fenster werden Features extrahiert.
+Diese gelernten Features werden mithilfe einer \gls{svm} beurteilt, um zu entscheiden, ob das aktuelle Bildfenster einen Polypen enthält oder nicht; im Grunde genommen betreibt dieser Ansatz also Polypendetektion mit einem Sliding Window.
+Wird ein Fenster gefunden, das einen Polypen enthält, wird die Lokalisierung noch etwas verfeinert und danach wird kein weiteres Bildfenster verarbeitet; es kann also maximal ein Polyp im Bild gefunden werden.
 
+Die Extrahierung der Features geschieht zum einen mithilfe einer Wavelet-Transformation, die eine Mischung aus Farb- und Texturinformationen über mehrere Skalen des Bildfensters generiert und von denen mehrere statistische Werte berechnet und als Features genutzt werden, zum anderen werden Features eines \gls{cnn} dazu genommen.
+Das \gls{cnn} wird so trainiert, dass es in der Lage ist, zwischen Polypen- und Nicht-Polypen-Frames zu unterscheiden; anschließend wird das gesamte \gls{cnn} bis auf seine allerletzte Klassifikationsschicht als Feature-Extraktor mitverwendet.
+
+Leider zeigen die Autoren nicht auf, welchen Vorteil die Kombination der beiden Feature-Extraktoren bietet.
+\glspl{cnn} arbeiten auf mehreren Skalen, entweder durch Pooling oder Strides größer als 1, und sie arbeiten auf dem originalen Rohmaterial und können deshalb ebenfalls sehr viele Zusammenhänge lernen.
+Die Faltungsoperation in \glspl{cnn} macht es natürlich schwierig, Beziehungen zwischen Bildpunkten zu modellieren, die sehr weit entfernt sind -- eventuell bieten hier die vorgeschlagenen Farb-Textur-Wavelets Vorteile, die aber nur im einzelnen Vergleich ersichtlich wären.
+
+\citeauthor{Lequan.2017}~\cite{Lequan.2017} sind die ersten, die ein \gls{fcn}~\cite{Long.2015} einsetzen zur Lokalisierung von Kolorektalpolypen.
+\glspl{fcn} sind eine Weiterentwicklung von \glspl{cnn}, in denen es nur noch Faltungsschichten gibt und keinerlei Pooling oder vollständig verbundene Schichten mehr.
+Außerdem wird zusätzlich zum Downsampling ein Upsampling gelernt, bei dem Informationen aus den vorherigen Skalierungsstufen des Netzes den Entfaltungs-Schichten durch Skip Connections zur Verfügung gestellt werden.
+Die FCN-Variante mit Skip Connections auf den meisten Skalierungen ist auch diejenige, die am weitesten verbreitet ist, und nennt sich \emph{FCN-8s}.
+
+Diese Architektur wurde ursprünglich entwickelt, um Segmentierungen zu lernen; in diesem Szenario wird allerdings nur eine Karte mit Wahrscheinlichkeiten generiert, wo im Bild sich wohl Polypen befinden.
+Die Maximalpunkte dieser Karte sind die Ausgabe.
+Interessanterweise verwenden \citeauthor{Lequan.2017} ein 3D-FCN, um auf Videosequenzen zu lernen und zu prädizieren, indem sie eine Videosequenz als ein 3D-Volumen auffassen und dann darauf 3D- statt 2D-Faltung betreiben, um neben räumlichen auch zeitliche Zusammenhänge zu erfassen.
 
 
 
