@@ -172,6 +172,7 @@ Damit \glspl{cnn} gut generalisieren, benötigen sie in der Regel sehr viele Tra
 In vielen Fällen lässt sich ein Netz, das schon für ein bestimmtes Problem trainiert wurde, als Ausgangspunkt für ein neues Netz nehmen, welches das bereits trainierte Netz nur noch leicht anpassend nachtrainiert auf das neue Zielproblem.
 Dieses \emph{Transfer Learning} kann den Bedarf an Trainingsdaten deutlich verringern.
 Gerade im Bereich der Objekterkennung haben sich viele Deep-Learning-Architekturen etabliert, die auf großen, gelabelten Bilddatenbanken wie ImageNet~\cite{Deng.2009} trainiert wurden und deren erste Schichten gerne als Startpunkt für neue Objekterkennungsnetze in speziellen Domänen genutzt werden (s. z.~B.~\cite{Simonyan.2014}).
+Im Kontext der medizinischen Bildverarbeitung wurde gezeigt, dass der Transfer bereits gelernter Netzwerte mit anschließendem Fine-Tuning mindestens so gute Ergebnisse liefert wie ein Netz, das von Grund auf trainiert wird~\cite{Tajbakhsh.2016}.
 
 
 
