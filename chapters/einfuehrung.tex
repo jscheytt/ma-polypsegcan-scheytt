@@ -204,7 +204,28 @@ Interessanterweise verwenden \citeauthor{Lequan.2017} ein 3D-FCN, um auf Videose
 
 \subsection{Segmentierung}
 
+\glspl{fcn} und Erweiterungen davon sind auch bereits für Polypensegmentierung ausgiebig eingesetzt worden.
+\citeauthor{Brandao.2017}~\cite{Brandao.2017} funktionieren drei populäre CNN-Architekturen zu \glspl{fcn} um, darunter AlexNet~\cite{Krizhevsky.2012}, GoogLeNet~\cite{Szegedy.2015} und VGGNet~\cite{Simonyan.2014}.
+Jede dieser Architekturen wird in ein \gls{fcn} konvertiert, indem vollständig verbundene Schichten durch Faltungsschichten mit einem 1$\times$1-Kernel ersetzt werden und eine Entfaltungsschicht am Schluss hinzugefügt wird, um die grobe Ausgabe der vorherigen Schichten zu verfeinern.
+In jeder zum \gls{fcn} konvertierten Architektur werden die vortrainierten Werte der jeweiligen Ursprungsarchitekturen verwendet und im Training auf einen Datensatz zur Polypensegmentierung genauer gelernt.
+Das \gls{fcn} auf Basis von VGGNet schneidet hierbei am besten ab.
 
+\citeauthor{Vazquez.2017}~\cite{Vazquez.2017} legen einen Benchmark zur Polypensegmentierung vor, indem sie zwei öffentliche Datasets kombinieren, sie durch eigene Annotationen erweitern und das FCN-8s~\cite{Long.2015} auf diesen Daten trainieren.
+Neben den schon gekennzeichneten Polypenregionen in den Bildern maskieren diese Annotationen explizit den Hintergrund, das Lumen des Darms und Glanzlichter.
+Ausgiebige Dataset Augmentation kommt zum Einsatz, darunter Zoom, Rotation, Scherung und Warping; am besten schneidet die Kombination aller vier Augmentierungstechniken ab.
+Als Vergleich ziehen die Autoren jeweils einen State-of-the-Art Algorithmus mit manuell gewählten Features heran, der in der Lage ist entweder Polypen, Lumen oder Glanzlichter zu segmentieren.
+Abgesehen von dem Algorithmus, der Glanzlichter segmentiert, liefert ein FCN-8s, das mit allen vier Klassen trainiert wird, bessere Ergebnisse als jeder der Algorithmen mit Feature Selection.
+Gleichzeitig ist das FCN-8s in der Lage alle Klassen gleichzeitig zu segmentieren und dies in 88 ms zu bewerkstelligen, was weniger als 2~\% der Zeit sind, die der schnellste der drei Algorithmen für seine einzelne Klasse alleine genommen benötigt.
+
+\citeauthor{Wichakam.2018}~\cite{Wichakam.2018} verbessern diese Vorlage hinsichtlich der Geschwindigkeit, indem sie das \gls{fcn} komprimieren.
+Dies geschieht durch Auslassen und Zusammenfassen einiger Schichten mit 1$\times$1-Faltung.
+Zusätzlich transferieren sie vortrainierte Werte von VGGNet und passen außerdem die Verlustfunktion an:
+Statt der verbreiteten Kreuzentropie nutzen sie eine differenzierbare Variante des Dice-Score~\cite{Srensen.1948}, der nur die Polypen-Klasse betrachtet und die Hintergrund-Klasse außer Acht lässt.
+Mit diesen Maßnahmen erreichen die Autoren Ergebnisse, die in allen verwendeten Metriken weniger als einen Prozentpunkt schlechter sind als die des FCNs von \citeauthor{Vazquez.2017} und gleichzeitig nur 8 ms zur Inferenz benötigen.
+
+\citeauthor{Wang.2018c} \cite{Wang.2018d,Wang.2018b,Wang.2018,Wang.2018c} setzen ebenfalls \glspl{fcn} und einige davon inspirierte Deep-Learning-Architekturen ein, darunter U-Net~\cite{Ronneberger.2015}, SegNet~\cite{Badrinarayanan.2017} und eine nicht näher erläuterte Variante von ResNet (Original s. \cite{He.2016}).
+Eines ihrer U-Net-Experimente beinhaltet eine ausführliche Vorverarbeitung des Bildinputs und Nachverarbeitung des Netz-Outputs, ein anderes benötigt keinerlei Bereinigung.
+Insgesamt schneidet das modifizierte ResNet am besten ab, aber die Ergebnisse sind schwer zu beurteilen, da bisher nur Abstracts veröffentlicht wurden.
 
 
 
