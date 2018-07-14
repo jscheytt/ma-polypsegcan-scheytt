@@ -9,7 +9,33 @@ Zum Schluss wird das Datenmaterial vorgestellt, das in dieser Arbeit zum Einsatz
 
 \section{Generative Adversarial Networks}
 
+Maschinelles Lernen hat eine Klasse Algorithmen hervorgebracht, die sehr viele gelabelte Daten benötigen.
+Um die Menge an benötigten Daten zu verringern, wird im Deep-Learning-Bereich an Ansätzen geforscht, die neue Trainingssamples generieren, fehlende Werte ausfüllen oder durch unüberwachtes Lernen oder Transfer Learning zu einer Verbesserung beitragen können~\cite{Goodfellow.2016}.
+Viele dieser Entwicklungen basieren auf Modellen, die Wahrscheinlichkeitsverteilungen über die Trainingsdaten abschätzen, und solche Abschätzungen sind nur durchführbar, wenn man Inferenz approximiert.
 
+Eine solche approximierte Inferenz bedingt eine Normalisierung über eine Konstante, deren Berechnung wiederum nur durch Approximation durchführbar wird.
+Viele dieser Approximationen werden wegen der Abhängigkeit von allen Modellparametern mit wachsender Dimensionalität exponentiell schwieriger zu berechnen.
+Häufig werden auf Markov-Ketten basierende Monte-Carlo-Methoden~\cite{Koller.2009} zur Berechnung der Normalisierungskonstante genutzt, aber diese funktionieren meist nur bei Konstellationen mit wenigen, nicht klar separierten Moden der Wahrscheinlichkeitsverteilung~\cite{Goodfellow.2016}.
+
+Die \glspl{gan} von \citeauthor{Goodfellow.2014}~\cite{Goodfellow.2014} umgehen diese Herausforderungen durch die Gestaltung ihrer Architektur.
+Ihr spieltheoretisch motivierter Ansatz, in dem zwei Netze gegeneinander arbeiten, ist mit Backpropagation trainierbar und benötigt somit weder approximierte Inferenz noch unkalkulierbare Normalisierungskonstanten.
+Das Ziel ist es, möglichst realistisch wirkende Samples zu generieren.
+\emph{Realistisch} bedeutet in diesem Kontext, dass ein erzeugtes Sample $ \mathbf{x} $ den Trainingsdaten sehr ähnlich, aber nicht identisch sein soll.
+
+Das erste Netz, der \emph{Generator} $ G $, lernt eine Wahrscheinlichkeitsverteilung $ p_{\textup{data}}(\mathbf{x}) $ über die Trainingsdaten.
+Aus einem zufällig initialisierten Vektor $ \mathbf{z} $ erzeugt er dann neue Samples.
+Parallel dazu lernt das andere Netz, der \emph{Diskriminator} $ D $, immer besser zu beurteilen, ob ein Sample $ \mathbf{x} $ realistisch ist oder \emph{gefälscht}, also ob es aus den Trainingsdaten stammt oder vom Generator erzeugt wurde.
+
+Der Generator versucht nun die Wahrscheinlichkeit zu maximieren, dass der Diskriminator einen Fehler macht und ein Sample falsch beurteilt~\cite{Goodfellow.2014}.
+Als gesamte Verlustfunktion ergibt sich
+
+\begin{equation}
+\min_G \max_D V(D, G) = \mathbb{E}_{\mathbf{x} \sim p_{\textup{data}}(\mathbf{x})} [\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}(\mathbf{z})} [\log(1 - D(G(\mathbf{z})))].
+\end{equation}
+
+Um Overfitting in $ D $ zu vermeiden, werden beide Netze von Grund auf trainiert, wobei bei jedem Trainingsschritt alterniert wird zwischen einem Update in $ D $ und einem Update in $ G $.
+Es lässt sich zeigen, dass $ G $ auf diese Weise implizit eine Wahrscheinlichkeitsverteilung lernt, die den Trainingsdaten entspricht~\cite{Goodfellow.2014}.
+Ist das Netz konvergiert und fertig trainiert, kann der Diskriminator verworfen und nur noch der Generator genutzt werden.
 
 
 
