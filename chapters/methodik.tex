@@ -35,7 +35,8 @@ Als gesamte Verlustfunktion ergibt sich
 
 Um Overfitting in $ D $ zu vermeiden, werden beide Netze von Grund auf trainiert, wobei bei jedem Trainingsschritt alterniert wird zwischen einem Update in $ D $ und einem Update in $ G $.
 Es lässt sich zeigen, dass $ G $ auf diese Weise implizit eine Wahrscheinlichkeitsverteilung lernt, die den Trainingsdaten entspricht~\cite{Goodfellow.2014}.
-Ist das Netz konvergiert und fertig trainiert, kann der Diskriminator verworfen und nur noch der Generator genutzt werden.
+Da $ D $ einen Skalar zwischen 0 und 1 ausgibt als Bewertung für die Realitätsnähe eines Samples, wird das Training als abgeschlossen betrachtet, wenn $ D $ für Samples aus den Trainingsdaten und generierte Samples den gleichen Wert ausgibt, nämlich $ \frac{1}{2} $.
+In diesem Zielzustand kann der Diskriminator nicht mehr zwischen realen und gefälschten Samples unterscheiden; er kann dann verworfen werden.
 
 
 
