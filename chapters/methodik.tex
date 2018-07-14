@@ -29,7 +29,7 @@ Parallel dazu lernt das andere Netz, der \emph{Diskriminator} $ D $, immer besse
 Der Generator versucht nun die Wahrscheinlichkeit zu maximieren, dass der Diskriminator einen Fehler macht und ein Sample falsch beurteilt~\cite{Goodfellow.2014}.
 Als gesamte Verlustfunktion ergibt sich
 
-\begin{equation}
+\begin{equation}\label{eq:gan}
 \min_G \max_D V(D, G) = \mathbb{E}_{\mathbf{x} \sim p_{\textup{data}}(\mathbf{x})} [\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}(\mathbf{z})} [\log(1 - D(G(\mathbf{z})))].
 \end{equation}
 
@@ -37,6 +37,40 @@ Um Overfitting in $ D $ zu vermeiden, werden beide Netze von Grund auf trainiert
 Es lässt sich zeigen, dass $ G $ auf diese Weise implizit eine Wahrscheinlichkeitsverteilung lernt, die den Trainingsdaten entspricht~\cite{Goodfellow.2014}.
 Da $ D $ einen Skalar zwischen 0 und 1 ausgibt als Bewertung für die Realitätsnähe eines Samples, wird das Training als abgeschlossen betrachtet, wenn $ D $ für Samples aus den Trainingsdaten und generierte Samples den gleichen Wert ausgibt, nämlich $ \frac{1}{2} $.
 In diesem Zielzustand kann der Diskriminator nicht mehr zwischen realen und gefälschten Samples unterscheiden; er kann dann verworfen werden.
+
+Die visuelle Qualität der Erzeugnisse der originalen \glspl{gan} wurde in darauffolgenden Arbeiten deutlich verbessert.
+Besonders die LAPGANs und \glspl{dcgan} haben sich hierbei hervorgetan.
+
+
+
+\subsection{LAPGANs}
+
+Die \emph{LAPGANs} von \citeauthor{Denton.2015}~\cite{Denton.2015} basieren auf einer Laplace'schen Pyramide, bei der auf jeder Ebene ein gesondertes \gls{gan} eine Bildschärfung lernt.
+Am Anfang erzeugt das erste \gls{gan} $ G_1 $ ein Sample mit sehr niedriger Auflösung, welches anschließend hochskaliert wird.
+Das \gls{gan} der zweiten Ebene $ G_2 $ nimmt dann dieses hochskalierte, unscharfe Bild, und generiert dazu ein Restbild.
+Dieses wird zum hochskalierten Bild addiert, das Ergebnis wird wieder hochskaliert und an die nächste Ebene weitergereicht, wo die nächste Schärfung stattfinden kann.
+Der Prozess ist in \autoref{fig:lapgansampling} dargestellt.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/lapgan_sampling}
+	\caption{Sampling-Prozedur in LAPGANs (von rechts nach links)~\cite{Denton.2015}.}
+	\label{fig:lapgansampling}
+\end{figure}
+
+Bis auf das erste \gls{gan} wird in diesem Fall auf jeder Ebene bereits eine konditionierte Variante der originalen \glspl{gan} verwendet.
+Diese Modellvariante wurde schon bei \citeauthor{Goodfellow.2014}~\cite{Goodfellow.2014} vorgeschlagen und auch vor den LAPGANs bereits umgesetzt~\cite{Gauthier.2014,Mirza.2014}.
+Im Kontext der konditionierten \glspl{gan} oder \glspl{can} kommt eine konditionierende Variable $ y $ hinzu, die sowohl $ G $ als auch $ D $ im Training und zur Inferenzzeit erhalten.
+Dies erweitert die Verlustfunktion von \autoref{eq:gan} zu
+
+\begin{equation}
+\begin{split}
+\min_G \max_D V_c(D, G) = & \mathbb{E}_{\mathbf{x}, \mathbf{y} \sim p_{\textup{data}}(\mathbf{x}, \mathbf{y})} [\log D(\mathbf{x}, \mathbf{y})] \\
++ & \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}(\mathbf{z}), \mathbf{y} \sim p_{\mathbf{y}}(\mathbf{y})} [\log(1 - D(G(\mathbf{z}, \mathbf{y}), \mathbf{y}))].
+\end{split}
+\end{equation}
+
+
 
 
 
