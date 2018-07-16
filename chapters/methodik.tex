@@ -96,44 +96,18 @@ All dies spricht dafür, dass diese Architektur nicht nur visuell ansprechende E
 
 \section{Conditional Adversarial Networks}
 
-\subsection{Generative Adversarial Networks}
+Die \glspl{can} von \citeauthor{Isola.2017}~\cite{Isola.2017} bestehen aus einem Generator und einem Diskriminator, die beide auf \glspl{dcgan} basieren.
+Ihr Ansatz ist mit dem Zweck gestaltet, eine generische Architektur für Probleme bereitzustellen, bei denen eine Repräsentation eines Bildes auf eine andere Repräsentation eines Bildes abgebildet wird; die Autoren sprechen in diesem Zusammenhang von "Bild-zu-Bild-Übersetzung".
+Im Gegensatz zu anderen Arbeiten, die konditionierte \glspl{gan} für spezielle Bild-zu-Bild-Probleme verwenden, ist in ihrer Architektur theoretisch \emph{nichts} anwendungsspezifisch angepasst.
+Stattdessen ermöglicht es das GAN-Framework, dass die konkrete Verlustfunktion vollständig aus den Trainingsdaten gelernt wird, ohne dass diese problemspezifisch von Hand definiert werden muss.
 
-Die Auflösung der originalen \glspl{gan} war noch nicht sehr hoch.
-LAPGANs verbessern diese, indem ein Generator pro Upsampling-Stufe zum Einsatz kommt, der eine Verfeinerung eines Gauss'schen Upsamplings lernt wie in einer Laplace'schen Pyramide.
-\glspl{dcgan} erzeugen eine noch bessere Qualität, indem statt gelegentlichen Pooling-Operationen nur noch Faltungsschichten zum Einsatz kommen.
-Zusätzlich wird auch noch Batch Normalization genutzt.
 
-Diese \glspl{dcgan} kommen bei den \glspl{can} im Generator-Netz zum Einsatz.
 
-\subsection{U-Net}
+\subsection{Generator}
 
-\glspl{fcn} sind die erste Variante von tiefen Netzen, die Segmentierungen produzieren kann.
-Sie sind in ihrem Aufbau den Autoencodern sehr ähnlich, allerdings haben sie Zwischenverbindungen, sogenannte "Skip Connections", zwischen gegenüberliegenden Schichten jeder Skalierungsstufe.
 
-Das U-Net ist eine Erweiterung, die sich folgendermaßen von den \glspl{fcn} abgrenzt:
-[]
 
-Diese Architektur wird ebenfalls im Generator des \gls{can} genutzt.
 
-\section{Regularisierung}
-
-Im Originalpaper der \glspl{can} wurde gezeigt, dass eine Image-to-Image-Translation mit dem Ziel der semantischen Segmentierung zwar möglich ist, aber teilweise zu stark zu Overfitting tendiert:
-Oftmals produzierte das Netz viele kleine Segmentierungs-Regionen und zeigte damit, dass es viele kleine Objekte in die Szene hinein "halluzinierte", die in Realität nicht vorhanden waren.
-
-In dieser Arbeit möchte ich u.~a. untersuchen, wie sich die \glspl{can} bei einer binären semantischen Segmentierung verhalten, wenn man verschiedene Strategien der Regularisierung anwendet.
-[Definition Regularisierung]
-
-Eine Regularisierungsstrategie, die sich vor allem bei Bildmaterial sehr gut eignet, ist ein künstliches Vergrößern des Datasets, die sogenannte "Dataset Augmentation".
-[Erklärung Dataset Augmentation]
-
-Im vorliegenden Szenario bieten sich folgende Techniken der Dataset Augmentation besonders an:
-[Augmentation Strategie Polypen-FCNs übernehmen, zitieren, erläutern warum das gut bei Polypen passt (und warum andere Techniken wahrscheinlich nicht so gut dafür sind)]
-
-Es existieren einige weitere Regularisierungsstrategien für tiefe Netze \cite{Goodfellow.2016}:
-[aufzählen, auf jede einzelne eingehen (z. B. Batchnormalisierung wird auch massiv in DCGANs eingesetzt)]
-
-Eine Anpassung der Verlustfunktion durch Bestrafungsterme erscheint als die einzige Möglichkeit, die Halluzination kleiner Objekte einzudämmen.
-Dies würde allerdings eine der Hauptentdeckungen der \glspl{can} zunichte machen, nämlich dass nicht einmal mehr die Verlustfunktion von Hand erstellt werden muss, sondern vom Netz gelernt werden kann.
 
 \section{Form aus Sequenzbetrachtung}
 
