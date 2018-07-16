@@ -98,6 +98,7 @@ All dies spricht dafür, dass diese Architektur nicht nur visuell ansprechende E
 
 Die \glspl{can} von \citeauthor{Isola.2017}~\cite{Isola.2017} bestehen aus einem Generator und einem Diskriminator, die beide auf \glspl{dcgan} basieren.
 Ihr Ansatz ist mit dem Zweck gestaltet, eine generische Architektur für Probleme bereitzustellen, bei denen eine Repräsentation eines Bildes auf eine andere Repräsentation eines Bildes abgebildet wird; die Autoren sprechen in diesem Zusammenhang von "Bild-zu-Bild-Übersetzung".
+
 Im Gegensatz zu anderen Arbeiten, die konditionierte \glspl{gan} für spezielle Bild-zu-Bild-Probleme verwenden, ist in ihrer Architektur theoretisch \emph{nichts} anwendungsspezifisch angepasst.
 Stattdessen ermöglicht es das GAN-Framework, dass die konkrete Verlustfunktion vollständig aus den Trainingsdaten gelernt wird, ohne dass diese problemspezifisch von Hand definiert werden muss.
 
@@ -105,7 +106,32 @@ Stattdessen ermöglicht es das GAN-Framework, dass die konkrete Verlustfunktion 
 
 \subsection{Generator}
 
+Der Generator der \glspl{can} basiert auf dem \gls{dcgan}, muss aber in der konditionierten Variante erweitert werden, sodass der Input $ \mathbf{y} $ bei der Eingabe in den Generator herunterskaliert und dadurch enkodiert wird.
+Man könnte dafür den Aufbau eines Encoder-Decoders wählen; tatsächlich orientiert sich der Generator an der Struktur des U-Net~\cite{Ronneberger.2015}:
+Diese Netzvariante ähnelt den \glspl{fcn}~\cite{Long.2015}, die Skip Connections einbauen, damit trotz der Herunterskalierung Information aus den ursprünglichen Skalenstufen in die späteren Schichten des Netzes fließen kann.
+Beim U-Net werden allerdings im Gegensatz zum FCN-8s nicht nur die niedrigsten drei Skalierungsstufen verbunden, sondern jede Schicht $ i $ wird mit der "gegenüberliegenden" Schicht $ n-i $ verbunden (s.~\autoref{fig:unetarchitecture}).
+Zusätzlich bestehen diese Skip Connections nicht aus einer elementweisen Summe, sondern aus einem Anhängen der früheren Kanäle an die Kanäle der späteren Schicht.
 
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/unet_architecture}
+	\caption{Architektur des U-Net~\cite{Ronneberger.2015}.}
+	\label{fig:unetarchitecture}
+\end{figure}
+
+
+
+
+
+\subsection{Diskriminator}
+
+
+
+\subsection{Verlustfunktion}
+
+
+
+\subsection{Segmentierung}
 
 
 
