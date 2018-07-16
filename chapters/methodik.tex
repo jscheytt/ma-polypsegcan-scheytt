@@ -45,7 +45,7 @@ Besonders die LAPGANs und \glspl{dcgan} haben sich hierbei hervorgetan.
 
 \subsection{LAPGANs}
 
-Die \emph{LAPGANs} von \citeauthor{Denton.2015}~\cite{Denton.2015} basieren auf einer Laplace'schen Pyramide, bei der auf jeder Ebene ein gesondertes \gls{gan} eine Bildschärfung lernt.
+Die LAPGANs von \citeauthor{Denton.2015}~\cite{Denton.2015} basieren auf einer Laplace'schen Pyramide, bei der auf jeder Ebene ein gesondertes \gls{gan} eine Bildschärfung lernt.
 Am Anfang erzeugt das erste \gls{gan} $ G_1 $ ein Sample mit sehr niedriger Auflösung, welches anschließend hochskaliert wird.
 Das \gls{gan} der zweiten Ebene $ G_2 $ nimmt dann dieses hochskalierte, unscharfe Bild, und generiert dazu ein Restbild.
 Dieses wird zum hochskalierten Bild addiert, das Ergebnis wird wieder hochskaliert und an die nächste Ebene weitergereicht, wo die nächste Schärfung stattfinden kann.
@@ -60,15 +60,19 @@ Der Prozess ist in \autoref{fig:lapgansampling} dargestellt.
 
 Bis auf das erste \gls{gan} wird in diesem Fall auf jeder Ebene bereits eine konditionierte Variante der originalen \glspl{gan} verwendet.
 Diese Modellvariante wurde schon bei \citeauthor{Goodfellow.2014}~\cite{Goodfellow.2014} vorgeschlagen und auch vor den LAPGANs bereits umgesetzt~\cite{Gauthier.2014,Mirza.2014}.
-Im Kontext der konditionierten \glspl{gan} oder \glspl{can} kommt eine konditionierende Variable $ y $ hinzu, die sowohl $ G $ als auch $ D $ im Training und zur Inferenzzeit erhalten.
+Im Kontext der konditionierten \glspl{gan} kommt eine konditionierende Variable $ \mathbf{y} $ hinzu, die sowohl an $ G $ als auch an $ D $ im Training und zur Inferenzzeit übergeben wird.
 Dies erweitert die Verlustfunktion von \autoref{eq:gan} zu
 
 \begin{equation}
 \begin{split}
-\min_G \max_D V_c(D, G) = & \mathbb{E}_{\mathbf{x}, \mathbf{y} \sim p_{\textup{data}}(\mathbf{x}, \mathbf{y})} [\log D(\mathbf{x}, \mathbf{y})] \\
-+ & \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}(\mathbf{z}), \mathbf{y} \sim p_{\mathbf{y}}(\mathbf{y})} [\log(1 - D(G(\mathbf{z}, \mathbf{y}), \mathbf{y}))].
+\min_G \max_D V_c(D, G) = & \ \mathbb{E}_{\mathbf{x}, \mathbf{y} \sim p_{\textup{data}}(\mathbf{x}, \mathbf{y})} [\log D(\mathbf{x}, \mathbf{y})] \\
++ & \ \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}(\mathbf{z}), \mathbf{y} \sim p_{\mathbf{y}}(\mathbf{y})} [\log(1 - D(G(\mathbf{z}, \mathbf{y}), \mathbf{y}))].
 \end{split}
 \end{equation}
+
+
+
+\subsection{Deep Convolutional GANs}
 
 
 
