@@ -74,7 +74,19 @@ Dies erweitert die Verlustfunktion von \autoref{eq:gan} zu
 
 \subsection{Deep Convolutional GANs}
 
+Die \glspl{dcgan} von \citeauthor{Radford.2016}~\cite{Radford.2016} sind eine Weiterentwicklung der \glspl{gan}, deren Samples im Vergleich zu den LAPGANs weniger verrauscht sind.
+Sie modifizieren die originalen \glspl{gan}, indem sie ähnlich den \glspl{fcn} nur noch Faltungsschichten statt Pooling- und vollständig verbundenen Schichten.
+Außerdem nutzen sie in allen Schichten Batch-Normalisierung, was Mittelwert und Standardabweichung jedes Units auf respektive 0 und $ \pm 1 $ normiert.
 
+Durch verschiedene Experimente können die Autoren zeigen, dass der latente Vektorraum, den das Modell lernt, tatsächlich glatte Übergänge hat, und dass die gelernten Filter zu häufig auftretenden Objekten korrespondieren.
+Ebenso beobachten sie, dass das Unterdrücken von bestimmten Filtern dem Auslassen oder Transformieren bestimmter Objekte im generierten Sample entspricht, und dass simple Vektorarithmetik im latenten Vektorraum plausible Ergebnisse erzielt (s.~\autoref{fig:dcganarithmetic}).
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/dcgan_arithmetic}
+	\caption{Beispiel für Vektorarithmetik in \glspl{dcgan}~\cite{Radford.2016}.}
+	\label{fig:dcganarithmetic}
+\end{figure}
 
 
 
