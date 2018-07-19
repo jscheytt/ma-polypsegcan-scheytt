@@ -176,14 +176,50 @@ Rauschen wird zur besseren Stabilisierung des Trainings dennoch in Form von Drop
 
 Die Autoren stellen zu Beginn ihres Ansatzes die Behauptung auf, dass die Verlustfunktion vollständig vom Netz gelernt wird und nicht für jedes Problem neu angepasst werden muss.
 Dies ist nur insofern richtig, als dass die Probleme als Bild-zu-Bild-Übersetzung formuliert werden können.
-Erstaunlich viele Aufgaben lassen sich als diese Klasse von Problemen betrachten, darunter Bildrekonstruktion aus Kantenbildern, Style-Transfer und Kolorierung von Graustufenbildern~\footnote{Weitere Beispiele s. \url{https://phillipi.github.io/pix2pix/}}.
+Erstaunlich viele Aufgaben lassen sich als diese Klasse von Problemen betrachten, darunter Bildrekonstruktion aus Kantenbildern, Style-Transfer und Kolorierung von Graustufenbildern\footnote{Weitere Beispiele s. \url{https://phillipi.github.io/pix2pix/}}.
 Auch semantische Segmentierung kann als ein solches Problem verstanden werden.
 
 
 
 \subsection{Segmentierung}
 
+Segmentierung wird in der Literatur klassischerweise definiert als
 
+\begin{quote}Aufteilung des Bildes in mehrere verschiedene Regionen, wobei jede dieser Regionen gewisse Informationen oder Eigenschaften besitzt.~\cite[S.~29]{Ens.2011}\end{quote}
+
+Im Fall der \emph{semantischen Segmentierung} sind diese Regionen \emph{Segmente} des Bildes, die Instanzen von bestimmten Objekten oder Gruppen solcher Objekte enthalten.
+Bei einer Segmentierung mehrerer Klassen wird meist jedes Segment mit einer eigenen Farbe pixelgenau repräsentiert (s.~\autoref{fig:segnet_multiclassseg}), bei \emph{binären} Segmentierung mit nur einer zu segmentierenden Objektklasse wird meist ein Binärbild ausgegeben, wobei die Segmente weiß und der Hintergrund schwarz ist (s.~\autoref{fig:unet_binaryseg}).
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{img/segnet_multiclassseg}
+		\caption{}
+		\label{fig:segnet_multiclassseg}
+	\end{subfigure}
+	\begin{subfigure}{.45\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{img/unet_binaryseg}
+		\caption{}
+		\label{fig:unet_binaryseg}
+	\end{subfigure}
+	\caption{Beispiel von (a) Multiklassen-Segmentierung~\cite{Badrinarayanan.2017} und (b) binärer Segmentierung~\cite{Ronneberger.2015}.}
+\end{figure}
+
+\citeauthor{Isola.2017} überprüfen auch den Anwendungsfall einer semantischen Segmentierung mit einem Dataset von segmentierten Straßenszenen, wobei mehrere Objektklassen auftreten.
+Die Kombination aus \gls{can} und L1-Distanz schneidet dabei schlechter ab als eine Verwendung von nur L1 als Verlustfunktion; letzteres liefert die besten Ergebnisse.
+Scheinbar tendiert das \gls{can} dazu, übereifrig viele kleine Objekte zu segmentieren, die im Originalbild gar nicht vorkommen (s.~\autoref{fig:canseg}).
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/can_seg}
+	\caption{Ergebnisse von semantischer Multi-Klassen-Segmentierung bei \glspl{can}~\cite{Isola.2017}.}
+	\label{fig:canseg}
+\end{figure}
+
+Zusätzlich produziert das \gls{can} keine vollständig diskreten Ergebnisse, bei denen die Segmentgrenzen klar sind, sondern tendenziell können auch Farbverläufe auftreten.
+Allerdings wurde das \gls{can} noch nicht für eine binäre Segmentierung verwendet, was eben in dieser Arbeit getan wird.
 
 
 
