@@ -123,7 +123,25 @@ Zusätzlich entsprechen diese Skip Connections nicht der elementweisen Aufsummie
 
 \subsection{Diskriminator}
 
+Die Formulierung des Diskriminators in einem \gls{gan} entscheidet darüber, wie erfolgreich der Generator lernen kann, weil der Diskriminator ihm aufzeigt, welche Outputs realistisch wirken.
+Damit der Diskriminator entscheiden kann, wie realistisch das Bild $ G(\mathbf{x}, \mathbf{y}) $ aussieht in Abhängigkeit vom Inputbild $ \mathbf{y} $, muss er ein Maß haben, um Bilder miteinander vergleichen zu können.
+\citeauthor{Isola.2017} gestalten hier sowohl die Verlustfunktion als auch den Diskriminator ausgehend von der Hypothese, dass die niedrigen Frequenzen im Bild von herkömmlichen Distanzfunktionen sehr gut modelliert werden, aber die hohen Bildfrequenzen durch gelernte Funktionen abgedeckt werden müssen.
 
+Verbreitete Maße zum Vergleich von Bildern sind die L1-Norm mit $ \sum_i | \mathbf{x}_i - \mathbf{y}_i | $ und die L2-Norm mit $ \sum_i (\mathbf{x}_i - \mathbf{y}_i)^2 $.
+Solche pixelweisen Differenzen nehmen den Eingaberaum als unstrukturiert wahr.
+Nutzt man ein solches Distanzmaß als Verlustfunktion in einem \gls{gan}, das Bilder generiert, kommen dabei meist nur unscharfe und graue Bilder heraus.
+Scheinbar produziert der Einsatz dieser Maße eine unscharfe Ausgabe, wenn sie eine Bildkante nicht genau lokalisieren können, bzw. eine gemittelte graue Farbe, wenn sie eine auffällige Farbe nicht genau lokalisieren können~\cite{Isola.2017}.
+Allerdings sind diese Maße in der Lage die groben Strukturen, also die tiefen Frequenzen im Bild, treffend abzubilden.
+Deshalb kommt zur Einhaltung der Korrektheit in den tiefen Frequenzen die L1-Norm in der Verlustfunktion zum Einsatz.
+
+Der Diskriminator hingegen wird als \emph{PatchGAN} aufgebaut, der die feinen Strukturen und damit die hohen Frequenzen im Bild auf Realitätsnähe überprüfen kann.
+(Der Name des Diskriminators ist irreführend gewählt, da es sich bei dem Diskriminator nicht um ein \gls{gan} handelt -- besser wäre vermutlich so etwas wie \emph{Patch-Diskriminator}.)
+Dieser Diskriminator ist als Netzstruktur aufgebaut, die einen Filter mit fester Größe faltend auf dem gesamten Bild einsetzt.
+Eine zu kleine Größe des Filters erzeugt Bilder, die kachelartige Artefakte aufweisen; ein Filter mit der vollen Bildgröße skaliert nicht gut für Bilder mit beliebiger Größe und liefert nicht so gute Ergebnisse wie ein Filter mit 70$\times$70 Pixeln.
+Die Ausgabe des Diskriminators sind die Aktivierungen seiner letzten Schicht, was einer 30$\times$30-Matrix entspricht, wobei jedes Element dieser Matrix der Glaubwürdigkeit eines 70$\times$70-Ausschnitt des Bildes entspricht.
+
+Diese Formulierung des Diskriminators drückt prinzipiell die gleiche Annahme wie die eines \gls{mrf} aus:
+Ein Pixel ist nur von den Pixeln unabhängig, die von ihm durch einen gewissen Abstand getrennt sind.
 
 
 
