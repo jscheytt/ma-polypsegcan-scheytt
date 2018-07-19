@@ -214,7 +214,7 @@ Scheinbar tendiert das \gls{can} dazu, übereifrig viele kleine Objekte zu segme
 \begin{figure}
 	\centering
 	\includegraphics[width=0.9\linewidth]{img/can_seg}
-	\caption{Ergebnisse von semantischer Multi-Klassen-Segmentierung bei \glspl{can}~\cite{Isola.2017}.}
+	\caption{Ergebnisse von Multi-Klassen-Segmentierung bei \glspl{can}~\cite{Isola.2017}.}
 	\label{fig:canseg}
 \end{figure}
 
@@ -223,46 +223,28 @@ Allerdings wurde das \gls{can} noch nicht für eine binäre Segmentierung verwen
 
 
 
-\section{Form aus Sequenzbetrachtung}
-
-Aus dem Stand der Technik und der Analyse von Koloskopie-Bildmaterial ergibt sich, dass neben sekundären Merkmalen wie Farbe und Textur die Form das aussagekräftigste Merkmal ist.
-Aussagen über die Form würden wir am direktesten über die Tiefeninformation bekommen, aber wir haben oftmals nur monokulare Aufnahmen und damit keine unmittelbaren Tiefendaten vorliegen.
-In der klassischen Bildverarbeitung ist es aber durch das Erfassen von Punktkorrespondenzen zwischen sequentiell aufgenommenen Bildern möglich, die Tiefeninformation einer Szene ungefähr zu rekonstruieren.
-Dieser Bereich der Bildverarbeitung nennt sich "Structure from Motion".
-
-Möglicherweise ist auch ein tiefes Netz dazu in der Lage, Tiefenstrukturen aus der Kamerabewegung abzuleiten.
-Dazu muss man ihm allerdings mehrere konsekutive Frames zur Verfügung stellen.
-Eine Architektur wie die 3D-FCNs liefert dafür eine gute Grundlage.
-
-\subsection{3D-Faltung}
-
-Den 3D-FCNs von \cite{Lequan.2017} liegen die 3D-CNNs zugrunde, welche zur Verarbeitung von dreidimensionalen Bilddaten genutzt werden können.
-\citeauthor{Lequan.2017} nutzen diese allerdings unter der Annahme, dass ein Video auch nur ein 3D-Volumen ist.
-Hierbei ist die zeitliche Komponente die dritte Dimension und die Zeitachse ihre Richtung -- es ergibt sich durch Aufeinanderstapeln der sequentiell angeordneten Frames ein 3D-Volumen.
-
-[3D-Faltung erklären]
-
-Bei den \glspl{can} ließe sich eine 3D-Faltung folgendermaßen umsetzen:
-[]
-
-\subsection{Optischer Fluss}
-
-Zusätzlich zum 3D-Ansatz wäre auch eine reduzierte Variante mit optischem Fluss denkbar:
-Man gibt dem Netz statt einem 3D-Volumen aus konsekutiven Frames einen einzelnen Frame inklusive der Information über den optischen Fluss vom vorherigen Frame zum jetzigen.
-Je nach Geschwindigkeit des Tracking des optischen Flusses könnte dies die Gesamtperformanz des Systems theoretisch erhöhen, da maximal zwei Bilder auf einmal verarbeitet werden müssen.
-
-Alle Teilansätze, die auf Seqenzbetrachtung beruhen, um Tiefeninformation zu generieren, sollten im Idealfall auch dann funktionieren, wenn nur ein einziger Input-Frame gegeben wird.
-
-\subsection{Weitere DL-Methoden zur Tiefenschätzung}
-
-\citeauthor{Mahmood.20171129} lassen mithilfe eines Transformer-GAN und Selbstregularisierung eine Transformation von realen zu synthetischen Bildern lernen, sodass dann auf dem synthetischen Bild die Tiefe geschätzt werden kann.
-[sieht vielversprechend aus, aber steht uns nicht zur Verfügung]
-
 \section{Dataset}
 
-Im Zuge der MICCAI-Konferenz 2017 wurde auch eine neue Auflage der Endoscopic Vision Challenge ausgerichtet, die schon 2015 viele neue Ansätze in der endoskopischen Bildverarbeitung hervorbrachte.
-Auch dieses Mal gab es wieder eine Sub-Challenge zur Polypen-Segmentierung, die Teil der GIANA ist.
+In dieser Arbeit wird eine binäre semantische Segmentierung von Kolorektalpolypen mittels eines \gls{can} durchgeführt.
+Für das Training des \gls{can} ist ein Dataset notwendig, das in diesem Fall im Rahmen der \gls{giana} Challenge 2018\footnote{\url{https://giana.grand-challenge.org/}} zur Verfügung gestellt wurde.
+Diese Challenge ist eine Sub-Challenge der Endoscopic Vision Challenge, die wiederum Teil der MICCAI-Konferenz ist.
+Die Endoscopic Vision Challenge findet seit 2015 statt\footnote{\url{https://endovis.grand-challenge.org/}} und hat es sich zum Ziel gesetzt, den aktuellen Stand der Technik im Bereich der medizinischen Bildverarbeitung mithilfe von öffentlich ausgerufenen Sub-Challenges und Datasets zu evaluieren.
 
-[Herkunft der einzelnen Bestandteile des Datasets]
+Das Dataset der \gls{giana} Sub-Challenge ist eine Kombination verschiedener Datasets, die auch schon in vorherigen Challenges öffentlich gemacht wurden~\cite{Bernal.2012,Bernal.2015,Vazquez.2017}.
+Eine Übersicht der Datasets ist in \autoref{tab:datasets} abgebildet.
 
-[Quantitative Beschreibung der Komponenten des Datasets]
+\begin{table}
+	\centering
+	\caption{Details zu den Datasets}
+	\label{tab:datasets}
+	\begin{tabular}{cccccc} 
+		\toprule
+		Database     & \begin{tabular}[c]{@{}c@{}}Anzahl\\Patienten \end{tabular} & \begin{tabular}[c]{@{}c@{}}Anzahl\\Sequenzen \end{tabular} & \begin{tabular}[c]{@{}c@{}}Anzahl\\Frames \end{tabular} & Auflösung         & \begin{tabular}[c]{@{}c@{}}Zugehörigkeit\\Split \end{tabular}  \\ 
+		\midrule
+		CVC-ColonDB  & 13                                                         & 13                                                             & 300                                                     & 500$\times$574    & Training                                                       \\
+		CVC-PolypHD  & (*)                                                          & (*)                                                              & 56                                                      & 1920$\times$1080  & Training                                                       \\
+		CVC-ClinicDB & 23                                                         & 31                                                             & 612                                                     & 384$\times$288    & Test                                                           \\
+		\bottomrule
+	\end{tabular}
+	Nicht offiziell bekannte Werte sind mit (*) gekennzeichnet.
+\end{table}
