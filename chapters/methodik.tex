@@ -106,11 +106,11 @@ Stattdessen ermöglicht es das GAN-Framework, dass die konkrete Verlustfunktion 
 
 \subsection{Generator}
 
-Der Generator der \glspl{can} basiert auf dem \gls{dcgan}, muss aber in der konditionierten Variante erweitert werden, sodass der Input $ \mathbf{y} $ bei der Eingabe in den Generator herunterskaliert und dadurch enkodiert wird.
-Man könnte dafür den Aufbau eines Encoder-Decoders wählen; tatsächlich orientiert sich der Generator an der Struktur des U-Net~\cite{Ronneberger.2015}:
-Diese Netzvariante ähnelt den \glspl{fcn}~\cite{Long.2015}, die Skip Connections einbauen, damit trotz der Herunterskalierung Information aus den ursprünglichen Skalenstufen in die späteren Schichten des Netzes fließen kann.
+Der Generator der \glspl{can} basiert auf dem \gls{dcgan}, muss aber in der konditionierten Variante erweitert werden, damit das Inputbild $ \mathbf{y} $ bei der Eingabe in den Generator herunterskaliert und dadurch enkodiert werden kann.
+Man könnte dafür den Aufbau eines Encoder-Decoders wählen; tatsächlich orientiert sich der Generator konkret an der Struktur des U-Net~\cite{Ronneberger.2015}:
+Diese Netzvariante ähnelt den \glspl{fcn}~\cite{Long.2015}, die bereits Skip Connections einbauen, damit trotz der Herunterskalierung Information aus den ursprünglichen Skalenstufen in die späteren Schichten des Netzes fließen kann.
 Beim U-Net werden allerdings im Gegensatz zum FCN-8s nicht nur die niedrigsten drei Skalierungsstufen verbunden, sondern jede Schicht $ i $ wird mit der "gegenüberliegenden" Schicht $ n-i $ verbunden (s.~\autoref{fig:unetarchitecture}).
-Zusätzlich bestehen diese Skip Connections nicht aus einer elementweisen Summe, sondern aus einem Anhängen der früheren Kanäle an die Kanäle der späteren Schicht.
+Zusätzlich entsprechen diese Skip Connections nicht der elementweisen Aufsummierung, sondern aus einem Anhängen der Kanäle von Schicht $ i $ an die Kanäle der späteren Schicht $ n-i $.
 
 \begin{figure}
 	\centering
@@ -121,9 +121,9 @@ Zusätzlich bestehen diese Skip Connections nicht aus einer elementweisen Summe,
 
 
 
-
-
 \subsection{Diskriminator}
+
+
 
 
 
