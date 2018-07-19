@@ -33,7 +33,11 @@ Als Zielfunktion ergibt sich
 \mathcal{L}(D, G) = \mathbb{E}_{\mathbf{x} \sim p_{\textup{data}}(\mathbf{x})} [\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}(\mathbf{z})} [\log(1 - D(G(\mathbf{z})))].
 \end{equation}
 
-Die eigentliche Verlustfunktion ist dann $ R = \argmin_G \max_D\mathcal{L}(D, G)  $.
+Die eigentliche Verlustfunktion ist dann
+
+\begin{equation}\label{eq:ganrisk}
+R = \textup{arg}\min_G \max_D \mathcal{L}(D, G).
+\end{equation}
 
 Um Overfitting in $ D $ zu vermeiden, werden beide Netze von Grund auf trainiert, wobei bei jedem Trainingsschritt alterniert wird zwischen einem Update in $ D $ und einem Update in $ G $.
 Es lässt sich zeigen, dass $ G $ auf diese Weise implizit eine Wahrscheinlichkeitsverteilung lernt, die den Trainingsdaten entspricht~\cite{Goodfellow.2014}.
@@ -65,10 +69,10 @@ Diese Modellvariante wurde schon bei \citeauthor{Goodfellow.2014}~\cite{Goodfell
 Im Kontext der konditionierten \glspl{gan} kommt eine konditionierende Variable $ \mathbf{y} $ hinzu, die sowohl an $ G $ als auch an $ D $ im Training und zur Inferenzzeit übergeben wird.
 Dies erweitert die Zielfunktion von \autoref{eq:gan} zu
 
-\begin{equation}
+\begin{equation}\label{eq:canloss}
 \begin{split}
 \mathcal{L}_c(D, G) = & \ \mathbb{E}_{\mathbf{x}, \mathbf{y} \sim p_{\textup{data}}(\mathbf{x}, \mathbf{y})} [\log D(\mathbf{x}, \mathbf{y})] \\
-+ & \ \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}(\mathbf{z}), \mathbf{y} \sim p_{\mathbf{y}}(\mathbf{y})} [\log(1 - D(G(\mathbf{z}, \mathbf{y}), \mathbf{y}))].
++ & \ \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}(\mathbf{z}), \mathbf{x} \sim p_{\textup{data}}(\mathbf{x})} [\log(1 - D(\mathbf{x}, G(\mathbf{x}, \mathbf{z})))].
 \end{split}
 \end{equation}
 
@@ -127,12 +131,12 @@ Die Formulierung des Diskriminators in einem \gls{gan} entscheidet darüber, wie
 Damit der Diskriminator entscheiden kann, wie realistisch das Bild $ G(\mathbf{x}, \mathbf{y}) $ aussieht in Abhängigkeit vom Inputbild $ \mathbf{y} $, muss er ein Maß haben, um Bilder miteinander vergleichen zu können.
 \citeauthor{Isola.2017} gestalten hier sowohl die Verlustfunktion als auch den Diskriminator ausgehend von der Hypothese, dass die niedrigen Frequenzen im Bild von herkömmlichen Distanzfunktionen sehr gut modelliert werden, aber die hohen Bildfrequenzen durch gelernte Funktionen abgedeckt werden müssen.
 
-Verbreitete Maße zum Vergleich von Bildern sind die L1-Norm mit $ \sum_i | \mathbf{x}_i - \mathbf{y}_i | $ und die L2-Norm mit $ \sum_i (\mathbf{x}_i - \mathbf{y}_i)^2 $.
+Verbreitete Maße zum Vergleich von Bildern sind die L1-Distanz mit $ \sum_i | \mathbf{x}_i - \mathbf{y}_i | $ und die L2-Distanz mit $ \sum_i (\mathbf{x}_i - \mathbf{y}_i)^2 $.
 Solche pixelweisen Differenzen nehmen den Eingaberaum als unstrukturiert wahr.
 Nutzt man ein solches Distanzmaß als Verlustfunktion in einem \gls{gan}, das Bilder generiert, kommen dabei meist nur unscharfe und graue Bilder heraus.
 Scheinbar produziert der Einsatz dieser Maße eine unscharfe Ausgabe, wenn sie eine Bildkante nicht genau lokalisieren können, bzw. eine gemittelte graue Farbe, wenn sie eine auffällige Farbe nicht genau lokalisieren können~\cite{Isola.2017}.
 Allerdings sind diese Maße in der Lage die groben Strukturen, also die tiefen Frequenzen im Bild, treffend abzubilden.
-Deshalb kommt zur Einhaltung der Korrektheit in den tiefen Frequenzen die L1-Norm in der Verlustfunktion zum Einsatz.
+Deshalb kommt zur Einhaltung der Korrektheit in den tiefen Frequenzen die L1-Distanz in der Verlustfunktion zum Einsatz.
 
 Der Diskriminator hingegen wird als \emph{PatchGAN} aufgebaut, der die feinen Strukturen und damit die hohen Frequenzen im Bild auf Realitätsnähe überprüfen kann.
 (Der Name des Diskriminators ist irreführend gewählt, da es sich bei dem Diskriminator nicht um ein \gls{gan} handelt -- besser wäre vermutlich so etwas wie \emph{Patch-Diskriminator}.)
@@ -147,9 +151,39 @@ Ein Pixel ist nur von den Pixeln unabhängig, die von ihm durch einen gewissen A
 
 \subsection{Verlustfunktion}
 
+Die Verlustfunktion für konditionierte \glspl{gan} (s.~\autoref{eq:ganrisk}) wird bei den \glspl{can} von \citeauthor{Isola.2017} in zwei Punkten modifiziert:
+Zum einen wird die im vorigen Abschnitt erwähnte L1-Distanz hinzugefügt, zum anderen wird der Rauschvektor ausgelassen.
+Um die niedrigen Bildfrequenzen korrekt im \gls{can} zu modellieren, wird ein gewichteter L1-Term in der Verlustfunktion hinzugefügt:
+
+\begin{equation}
+R^* = \textup{arg}\min_G \max_D \mathcal{L}_c(D, G) + \lambda \mathcal{L}_{L1}(G)
+\end{equation}
+
+Die hohen Bildfrequenzen können dann durch die beiden Terme des Diskriminators im ersten Summanden abgedeckt werden (s. \autoref{eq:canloss}), die niedrigen Frequenzen werden durch den zweiten Summanden modelliert.
+Die besten Ergebnisse über alle Bild-zu-Bild-Übersetzungsaufgaben wurde erzielt für $ \lambda = 100 $.
+
+In der Zielfunktion der \glspl{gan} spielt der Rausch-Vektor $ \mathbf{z} $ als Startpunkt für $ G $ eine wichtige Rolle, damit der Generator überhaupt eine Ausgabe erzeugen kann.
+Da der Generator allerdings bei den \glspl{can} bereits einen Input erhält, ist dieser nicht mehr notwendig und es ergibt sich folgende Formulierung der Zielfunktion:
+
+\begin{equation}\label{eq:canlosswonoise}
+\begin{split}
+\mathcal{L}_c(D, G) = & \ \mathbb{E}_{\mathbf{x}, \mathbf{y} \sim p_{\textup{data}}(\mathbf{x}, \mathbf{y})} [\log D(\mathbf{x}, \mathbf{y})] \\
++ & \ \mathbb{E}_{\mathbf{x} \sim p_{\textup{data}}(\mathbf{x})} [\log(1 - D(\mathbf{x}, G(\mathbf{x})))].
+\end{split}
+\end{equation}
+
+Rauschen wird zur besseren Stabilisierung des Trainings dennoch in Form von Dropout eingesetzt.
+
+Die Autoren stellen zu Beginn ihres Ansatzes die Behauptung auf, dass die Verlustfunktion vollständig vom Netz gelernt wird und nicht für jedes Problem neu angepasst werden muss.
+Dies ist nur insofern richtig, als dass die Probleme als Bild-zu-Bild-Übersetzung formuliert werden können.
+Erstaunlich viele Aufgaben lassen sich als diese Klasse von Problemen betrachten, darunter Bildrekonstruktion aus Kantenbildern, Style-Transfer und Kolorierung von Graustufenbildern~\footnote{Weitere Beispiele s. \url{https://phillipi.github.io/pix2pix/}}.
+Auch semantische Segmentierung kann als ein solches Problem verstanden werden.
+
 
 
 \subsection{Segmentierung}
+
+
 
 
 
