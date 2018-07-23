@@ -11,7 +11,7 @@ Zur Entwicklung des \gls{can} wurde das Deep-Learning-Framework \emph{TensorFlow
 Zugrunde liegt TensorFlow das Paradigma, dass das Modell zuerst als Graph mit Entitäten und Operationen definiert und dann schrittweise trainiert wird.
 Dies macht zwar die Programmierung etwas weniger intuitiv, sorgt aber dafür, dass viele Operationen im Voraus vereinfacht und teilweise auch parallelisiert werden können, sodass das Training insgesamt schneller abläuft.
 
-\citeauthor{Isola.2017} stellen den originalen Code ihrer Publikation, der in Torch geschrieben ist, online zur Verfügung\footnote{\url{https://phillipi.github.io/pix2pix/}}.
+\citeauthor{Isola.2017} stellen den originalen Code ihrer Publikation, der in Torch geschrieben ist, online zur Verfügung\footnote{\url{https://github.com/phillipi/pix2pix}}.
 Mehrere Portierungen auf andere Frameworks wurden bereits geschrieben, darunter auch mehrere für TensorFlow.
 Gewählt wurde in dieser Arbeit die TensorFlow-Portierung von Christopher Hesse\footnote{\url{https://github.com/affinelayer/pix2pix-tensorflow}}, da diese von allen am besten dokumentiert ist.
 
@@ -19,4 +19,39 @@ Gewählt wurde in dieser Arbeit die TensorFlow-Portierung von Christopher Hesse\
 
 \section{Vorverarbeitung}
 
+Intern nimmt der Code die Bilddaten als Kombination aus Input und Target an.
+Hierbei muss für jedes Input-Target-Paar ein Bild generiert werden, welches das Target rechts vom Input platziert, sodass ein zusammengesetztes Bild mit doppelter Breite entsteht.
+Ein Datensatz aus CVC-ColonDB (s.~\autoref{tab:datasets}) hat dann bspw. die Auflösung 1000$\times$574.
 
+Das \gls{can} kann, wie viele Deep-Learning-Architekturen, die auf Bilddaten arbeiten, nativ nur mit quadratischen Bildern umgehen, auch wenn theoretisch jede Auflösung verarbeitet werden kann, indem man eine zusätzliche Faltung beim Input und Output verwendet.
+Trotzdem werden der Einfachheit wegen beim Training nur quadratische Bilder erlaubt.
+Viele der Datensätze haben zwar schwarze Ränder, die keine Information enthalten, und nach deren Entfernen man ein ungefähr quadratisches Bild erhalten würde.
+Allerdings sind die relevanten Bildausschnitte je nach Bildsequenz anders im Gesamtbild positioniert.
+Um dieser Varianz gerecht zu werden und gleichzeitig möglichst keine Bildinformation zu verlieren, wurde die längere Bildseite als Seitenlänge des neuen quadratischen Bildes gewählt und der Rest des Bildes mit Nullen, also Schwarz, aufgefüllt.
+
+Im originalen Code sind außerdem nur die Dateiformate \gls{jpg} und \gls{png} erlaubt.
+Das Dataset enthält allerdings eine Mischung aus \gls{bmp} und \gls{tiff} (s.~\autoref{tab:dataformats}).
+TensorFlow bietet native Methoden, um mit dem BMP-Format umzugehen, also wurde der Code erweitert, sodass \gls{bmp} als Eingabeformat für Datensätze möglich wird.
+Für \gls{tiff} bietet TensorFlow allerdings keine Verarbeitungsmöglichkeiten.
+Da die Targets Binärbilder sind und deshalb nicht mit verlustbehafteten Kompressionsverfahren wie bei \gls{jpg} behandelt werden sollten, wurde folgendes Verfahren gewählt:
+Alle Input-Bilder wurden zu \gls{bmp} konvertiert und alle Target-Bilder wurden zu \gls{png} konvertiert, sofern sie jeweils noch nicht in diesem Format vorlagen.
+Die kombinierten Input-Target-Bilder wurden dann als \gls{png} produziert.
+
+\begin{table}
+	\centering
+	\caption{Dateiformate der Datasets}
+	\label{tab:dataformats}
+	\begin{tabular}{ccc} 
+		\toprule
+		Sub-Dataset  & Input                       & Target                       \\ 
+		\midrule
+		CVC-ColonDB  & \gls{bmp}  & \gls{bmp}   \\
+		CVC-PolypHD  & \gls{bmp}  & \gls{tiff}  \\
+		CVC-ClinicDB & \gls{tiff} & \gls{tiff}  \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+
+\section{Experimente}
