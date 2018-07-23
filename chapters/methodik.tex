@@ -248,3 +248,8 @@ Eine Übersicht der Datasets ist in \autoref{tab:datasets} abgebildet.
 	\end{tabular}
 	Nicht offiziell bekannte Werte sind mit (*) gekennzeichnet.
 \end{table}
+
+Jeder Datensatz besteht aus einem Koloskopiebild, das unter Weißlicht-Endoskopie aufgenommen wurde, und einem dazugehörigen Ground-Truth-Binärbild, in dem pixelgenau annotiert ist, welcher Teil des Bildes zu einem Polypen gehört.
+Ersteres wird im folgenden als \emph{Input}, letzteres als \emph{Target} bezeichnet.
+Weiß steht im Target für die Polypen-Klasse, Schwarz für den Hintergrund.
+In \autoref{fig:polyp} und \autoref{fig:segm} ist ein beispielhafter Datensatz abgebildet, bestehend aus Input und Target.
