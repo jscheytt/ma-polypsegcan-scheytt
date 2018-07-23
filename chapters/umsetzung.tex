@@ -1,4 +1,22 @@
-\chapter{Umsetzung -- 10~\%}
+\chapter{Umsetzung}
 
-Ich nutze TensorFlow.
-[erklären warum]
+Dieses Kapitel beschreibt die Umsetzung der gewählten Methodik mit den zur Verfügung stehenden Materialien.
+Dazu wird auf das gewählte Framework, die Vorverarbeitung des Datasets und die durchgeführten Experimente eingegangen.
+
+
+
+\section{TensorFlow}
+
+Zur Entwicklung des \gls{can} wurde das Deep-Learning-Framework \emph{TensorFlow}~\cite{Abadi.2016} gewählt.
+Zugrunde liegt TensorFlow das Paradigma, dass das Modell zuerst als Graph mit Entitäten und Operationen definiert und dann schrittweise trainiert wird.
+Dies macht zwar die Programmierung etwas weniger intuitiv, sorgt aber dafür, dass viele Operationen im Voraus vereinfacht und teilweise auch parallelisiert werden können, sodass das Training insgesamt schneller abläuft.
+
+\citeauthor{Isola.2017} stellen den originalen Code ihrer Publikation, der in Torch geschrieben ist, online zur Verfügung\footnote{\url{https://phillipi.github.io/pix2pix/}}.
+Mehrere Portierungen auf andere Frameworks wurden bereits geschrieben, darunter auch mehrere für TensorFlow.
+Gewählt wurde in dieser Arbeit die TensorFlow-Portierung von Christopher Hesse\footnote{\url{https://github.com/affinelayer/pix2pix-tensorflow}}, da diese von allen am besten dokumentiert ist.
+
+
+
+\section{Vorverarbeitung}
+
+
