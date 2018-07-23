@@ -232,6 +232,9 @@ Die Endoscopic Vision Challenge findet seit 2015 statt\footnote{\url{https://end
 
 Das Dataset der \gls{giana} Sub-Challenge ist eine Kombination verschiedener Datasets, die auch schon in vorherigen Challenges öffentlich gemacht wurden~\cite{Bernal.2012,Bernal.2015,Vazquez.2017}.
 Eine Übersicht der Datasets ist in \autoref{tab:datasets} abgebildet.
+Da viele der Sub-Datasets dadurch entstanden sind, dass Polypen während einer Koloskopie umkreist wurden, um möglichst verschiedene Ansichten zu generieren, sind bei einigen Datasets auch mehrere Gruppen konsekutiver Frames vorhanden; die Anzahl dieser Sequenzen ist ebenfalls in der Tabelle festgehalten, sofern sie bekannt ist.
+Ebenso wird in der Challenge festgelegt, welches Sub-Dataset zu welchem Split gehört, also ob es für das Training, die Validierung oder das Testen am Schluss verwendet werden soll.
+In diesem Fall sind nur Trainings- und Test-Split festgelegt; die konkrete Aufteilung des Trainings-Sets in Trainings- und Validierungssplit ist den Teilnehmern überlassen.
 
 \begin{table}
 	\centering
@@ -239,7 +242,7 @@ Eine Übersicht der Datasets ist in \autoref{tab:datasets} abgebildet.
 	\label{tab:datasets}
 	\begin{tabular}{cccccc} 
 		\toprule
-		Database     & \begin{tabular}[c]{@{}c@{}}Anzahl\\Patienten \end{tabular} & \begin{tabular}[c]{@{}c@{}}Anzahl\\Sequenzen \end{tabular} & \begin{tabular}[c]{@{}c@{}}Anzahl\\Frames \end{tabular} & Auflösung         & \begin{tabular}[c]{@{}c@{}}Zugehörigkeit\\Split \end{tabular}  \\ 
+		Sub-Dataset     & \begin{tabular}[c]{@{}c@{}}Anzahl\\Patienten \end{tabular} & \begin{tabular}[c]{@{}c@{}}Anzahl\\Sequenzen \end{tabular} & \begin{tabular}[c]{@{}c@{}}Anzahl\\Frames \end{tabular} & Auflösung         & \begin{tabular}[c]{@{}c@{}}Zugehörigkeit\\Split \end{tabular}  \\ 
 		\midrule
 		CVC-ColonDB  & 13                                                         & 13                                                             & 300                                                     & 500$\times$574    & Training                                                       \\
 		CVC-PolypHD  & (*)                                                          & (*)                                                              & 56                                                      & 1920$\times$1080  & Training                                                       \\
@@ -251,5 +254,7 @@ Eine Übersicht der Datasets ist in \autoref{tab:datasets} abgebildet.
 
 Jeder Datensatz besteht aus einem Koloskopiebild, das unter Weißlicht-Endoskopie aufgenommen wurde, und einem dazugehörigen Ground-Truth-Binärbild, in dem pixelgenau annotiert ist, welcher Teil des Bildes zu einem Polypen gehört.
 Ersteres wird im folgenden als \emph{Input}, letzteres als \emph{Target} bezeichnet.
+Ebenso wird ein einzelnes Paar von Input und Target als \emph{Datensatz} bezeichnet, während die Gesamtheit aller gleichartigen Datensätze ein \emph{Sub-Dataset} ist und die Gesamtheit aller Sub-Datasets bzw. aller Datensätze das \emph{Dataset}.
+
 Weiß steht im Target für die Polypen-Klasse, Schwarz für den Hintergrund.
-In \autoref{fig:polyp} und \autoref{fig:segm} ist ein beispielhafter Datensatz abgebildet, bestehend aus Input und Target.
+In \autoref{fig:polyp} und \autoref{fig:segm} ist ein beispielhafter Datensatz aus Input und Target abgebildet.
