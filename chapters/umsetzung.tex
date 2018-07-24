@@ -54,4 +54,28 @@ Die kombinierten Input-Target-Bilder wurden dann als \gls{png} produziert.
 
 
 
+\subsection{Aufteilung der Splits}
+
+Für ein Training von maschinellen Lernverfahren ist es üblich, das Dataset in mehrere Untergruppen aufzuteilen.
+Meistens werden die Daten aufgeteilt in Sets für das Training, die Validierung und das Testen~\cite{Guyon.1997}.
+Die Daten des Trainings-Split werden dem Netz direkt zur Verfügung gestellt, um Gradienten zu berechnen und daraus Parameter-Updates abzuleiten.
+In regelmäßigen Abständen wird das Netz auf den Daten des Validierungs-Splits ausgeführt, um sicherzustellen, dass das Netz auch auf nicht gesehenen Daten gut vorhersagt und kein Overfitting stattfindet.
+Am Ende des Trainings wird der Algorithmus auf dem Test-Split evaluiert, der in der Regel größer als der Validierungs-Split ist.
+
+Das Größenverhältnis dieser Splits zueinander lässt sich zwar rechnerisch bestimmen~\cite{Guyon.1998,Guyon.1997}, allerdings sind die Verfahren ziemlich komplex.
+Oftmals werden Größenverhältnisse zwischen Training- und Test-Set von 75:25 bis 90:10 vorgeschlagen.
+Im Rahmen der \gls{giana} Challenge ist die Einteilung in Training- und Test-Set bereits vorgegeben.
+Bezogen auf die Anzahl der \emph{Samples} macht der Test-Split 63~\% des Datasets aus, was ungewöhnlich groß ist.
+Allerdings enthält der Test-Split nur 25~\% aller \emph{Pixel} des Datasets, da das Training-Set mit CVC-Polyp-HD ein sehr hochauflösendes Sub-Dataset enthält.
+
+In dieser Arbeit wurde die Aufteilung des Training-Sets in die Splits für Training und Validierung folgendermaßen gewählt:
+Sowohl von CVC-ColonDB als auch von CVC-PolypHD wurden Sub-Splits im Verhältnis 75:25 durch zufälliges Sampling erstellt.
+Die beiden größeren Sub-Splits der Sub-Datasets wurden zum Trainings-Split kombiniert, die kleiner Sub-Splits zum Validierungs-Split.
+Dies sollte eine möglichst gleichmäßige Verteilung der beiden Sub-Datasets über die beiden Splits ermöglichen.
+Wünschenswert wäre eine Einteilung der beiden Splits nach \emph{Patienten} gewesen wie bei \citeauthor{Vazquez.2017}~\cite{Vazquez.2017}, aber die Zuordnung von Datensätzen zu Patienten ist weder öffentlich zugänglich noch direkt aus den Daten erkenntlich.
+
+
+
 \section{Experimente}
+
+
