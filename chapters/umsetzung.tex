@@ -78,4 +78,48 @@ Wünschenswert wäre eine Einteilung der beiden Splits nach \emph{Patienten} gew
 
 \section{Experimente}
 
+Viele Hyperparameter des \gls{can} sind im bereitgestellten Code bereits mit Standardwerten belegt (s~\autoref{tab:train_def_val}).
+Einige Datasets, die \citeauthor{Isola.2017} in ihrem Paper beschreiben, stellen sie öffentlich zur Verfügung.
+Trainiert man das Netz auf einigen dieser Datasets ohne die Hyperparameter zu verändern, konvergiert das Netz bereits nach einigen Epochen.
+Deshalb wird anfangs ein Trainingslauf auf dem \gls{giana} Dataset mit den vorgegebenen Standardwerten des Netzes durchgeführt.
 
+\begin{table}
+	\centering
+	\caption{Standardwerte der Trainingsparameter}
+	\label{tab:train_def_val}
+	\begin{tabular}{rl} 
+		\toprule
+		Parameter                                            & Standardwert  \\ 
+		\midrule
+		Batch-Größe                                          & 1             \\
+		Anzahl der Filter in der ersten Generator-Schicht    & 64            \\
+		Anzahl der Filter in der ersten Diskriminator-Schicht    & 64            \\
+		Lernrate des Optimierungsalgorithmus                 & $ 2 \times 10^{-4} $    \\
+		Momentum-Term des~Optimierungsalgorithmus            & 0.5           \\
+		$ \lambda $ (Gewichtung des L1-Terms der Verlustfunktion) & 100           \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Anschließend wird untersucht, wie sich die Veränderung bestimmter Parameter auf die Ergebnisse auswirkt.
+Dazu wird zum einen mit verschiedenen Batch-Größen und zum anderen mit \emph{Dataset Augmentation} experimentiert.
+Die Batch-Größe wird mit wachsenden Zweierpotenzen, nämlich von 1 bis 64, und mit mehreren Trainingsläufen pro Batch-Größe ausprobiert.
+
+Dataset Augmentation umfasst verschiedene Techniken, um die Größe und Varianz eines Datasets durch Transformationen zu vergrößern~\cite{Goodfellow.2016}.
+Dazu können geometrische Transformationen wie Translation, Rotation und Warping gehören, aber auch andere Transformationen wie das Hinzufügen von zufälligem Rauschen oder Salt-and-Pepper-Rauschen.
+Durch solche Transformationen kann man zum einen ein Dataset künstlich vergrößern, indem man einzelne Datensätze in transformierter Form kopiert und dem Dataset hinzufügt.
+Andererseits können Netze beim Training besonders von erhöhter Varianz profitieren, vorausgesetzt geometrische Transformationen werden am Target in exakt derselben Weise durchgeführt.
+
+\citeauthor{Vazquez.2017}~\cite{Vazquez.2017} nutzen ein FCN-8s für eine Polypensegmentierung und setzen dafür verschiedene Augmentierungen ein, die dazu gedacht sind, die Varianz angemessen zu erhöhen, ohne das Polypenaussehen zu drastisch zu verändern.
+Eine zu drastische Veränderung des Bildmaterials könnte zu unrealistischen Verformungen führen, sodass das zugehörige Target eines Inputs möglicherweise nicht mehr wahrheitsgemäß wäre.
+Die Transformationen von \citeauthor{Vazquez.2017} beinhalten die folgenden zufällig angewandten Operationen:
+
+\begin{itemize}
+	\item Zoom mit einem Faktor von 0,9 bis 1,1
+	\item Rotation bis zu 180~\textdegree
+	\item Scherung mit einem Faktor von 0 bis 0,4
+	\item Warping mit $ \sigma $ von 0 bis 10
+\end{itemize}
+
+Die Autoren stellen auf ihrem Dataset bei einer Kombination all dieser Transformationen eine Verbesserung der Polypensegmentierung um ca. 10 Prozentpunkte fest.
+Die dort angewandten Transformationen kommen auch in dieser Arbeit zum Einsatz.
