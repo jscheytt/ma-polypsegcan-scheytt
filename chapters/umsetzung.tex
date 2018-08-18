@@ -63,7 +63,10 @@ Im Rahmen der \gls{giana} Challenge ist die Einteilung in Training- und Test-Set
 Bezogen auf die Anzahl der \emph{Samples} macht der Test-Split beim SD-Dataset 67~\% und beim HD-Dataset 66~\% aus, was die üblichen Größenverhältnisse beinahe umkehrt.
 Betrachtet man allerdings die Anzahl der Pixel, kommt zumindest beim SD-Dataset der Test-Split auf nur 44~\% des Datasets, da dessen Auflösung geringer ist.
 
-In dieser Arbeit wurde die Aufteilung des Training-Sets in die Splits für Training und Validierung pro Dataset im Verhältnis 75:25 gewählt.
+In dieser Arbeit wurde die Aufteilung des Training-Sets in die Splits für Training und Validierung pro Dataset im Verhältnis 80:20 gewählt.
+Wie später beschrieben, wird in dieser Arbeit nur das SD-Dataset verwendet.
+Das gewählte Verhältnis ist ein Kompromiss zwischen den Zielen, so viel wie möglich der Trainingsdaten beim Lernen zu nutzen und gleichzeitig so viel Varianz wie möglich im Validierungsset abzubilden.
+Konkret entspricht der Anteil des Validierungssets beinahe der fünffachen Menge der Sequenzen, wodurch bei zufälligem Sampling des Validierungsset optimalerweise von jeder Sequenz mindestens ein Datensatz enthalten ist.
 Wünschenswert wäre eine Einteilung dieser beiden Splits nach \emph{Patienten} gewesen wie bei \citeauthor{Vazquez.2017}~\cite{Vazquez.2017}, aber die Zuordnung von Datensätzen zu Patienten ist weder öffentlich zugänglich noch direkt aus den Daten ersichtlich.
 
 
