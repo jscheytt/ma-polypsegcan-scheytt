@@ -83,7 +83,7 @@ Dies erweitert die Zielfunktion von \autoref{eq:gan} zu
 Die \glspl{dcgan} von \citeauthor{Radford.2016}~\cite{Radford.2016} sind eine Weiterentwicklung der \glspl{gan}, deren Samples im Vergleich zu den LAPGANs weniger verrauscht sind.
 Sie modifizieren die originalen \glspl{gan}, indem sie ähnlich den \glspl{fcn} nur noch Faltungsschichten statt Pooling- und vollständig verbundenen Schichten.
 Außerdem nutzen sie in allen Schichten Batch-Normalisierung, was Mittelwert und Standardabweichung jedes Units einer Schicht auf respektive 0 und $ \pm 1 $ normiert.
-Ebenso kommt als Aktivierungsfunktion im Generator nur noch das \gls{relu}~\cite{Nair.2010} und im Diskriminator das Leaky ReLU zum Einsatz; in der Ausgabeschicht des Generators erweist sich die Aktivierungsfunktion mit $ \tanh $ als erfolgreicher im Vergleich zu maxout bei den originalen \glspl{gan}.
+Ebenso kommt als Aktivierungsfunktion im Generator nur noch das \gls{relu}~\cite{Nair.2010} und im Diskriminator das Leaky ReLU zum Einsatz; in der Ausgabeschicht des Generators erweist sich die Aktivierungsfunktion mit \emph{tanh} als erfolgreicher im Vergleich zu \emph{maxout} bei den originalen \glspl{gan}.
 
 Durch verschiedene Experimente können die Autoren zeigen, dass der latente Vektorraum, den das Modell lernt, tatsächlich glatte Übergänge hat, und dass die gelernten Filter zu häufig auftretenden Objekten korrespondieren.
 Ebenso beobachten sie, dass das Unterdrücken von bestimmten Filtern dem Auslassen oder Transformieren bestimmter Objekte im generierten Sample entspricht, und dass simple Vektorarithmetik im latenten Vektorraum plausible Ergebnisse erzielt (s.~\autoref{fig:dcganarithmetic}).
@@ -103,7 +103,7 @@ All dies spricht dafür, dass diese Architektur nicht nur visuell ansprechende E
 Die \glspl{can} von \citeauthor{Isola.2017}~\cite{Isola.2017} bestehen aus einem Generator und einem Diskriminator, die beide auf \glspl{dcgan} basieren.
 Ihr Ansatz ist mit dem Zweck gestaltet, eine generische Architektur für Probleme bereitzustellen, bei denen eine Repräsentation eines Bildes auf eine andere Repräsentation eines Bildes abgebildet wird; die Autoren sprechen in diesem Zusammenhang von "Bild-zu-Bild-Übersetzung".
 
-Im Gegensatz zu anderen Arbeiten, die konditionierte \glspl{gan} für spezielle Bild-zu-Bild-Probleme verwenden, ist in ihrer Architektur theoretisch \emph{nichts} anwendungsspezifisch angepasst.
+Im Gegensatz zu anderen Arbeiten, die konditionierte \glspl{gan} für spezielle Bild-zu-Bild-Probleme verwenden, ist in ihrer Architektur theoretisch gar nichts anwendungsspezifisch angepasst.
 Stattdessen ermöglicht es das GAN-Framework, dass die konkrete Verlustfunktion vollständig aus den Trainingsdaten gelernt wird, ohne dass diese problemspezifisch von Hand definiert werden muss.
 
 
@@ -230,23 +230,27 @@ Für das Training des \gls{can} ist ein Dataset notwendig, das in diesem Fall im
 Diese Challenge ist eine Sub-Challenge der Endoscopic Vision Challenge, die wiederum Teil der MICCAI-Konferenz ist.
 Die Endoscopic Vision Challenge findet seit 2015 statt\footnote{\url{https://endovis.grand-challenge.org/}} und hat es sich zum Ziel gesetzt, den aktuellen Stand der Technik im Bereich der medizinischen Bildverarbeitung mithilfe von öffentlich ausgerufenen Sub-Challenges und Datasets zu evaluieren.
 
-Das Dataset der \gls{giana} Sub-Challenge ist eine Kombination verschiedener Datasets, die auch schon in vorherigen Challenges öffentlich gemacht wurden~\cite{Bernal.2012,Bernal.2015,Vazquez.2017}.
+Im Rahmen der \gls{giana} Sub-Challenge wurden mehrere Tasks definiert; die Segmentierung von Kolorektalpolypen ist eine davon.
+Die Aufgabe der Polypensegmentierung ist in zwei separaten Varianten gestellt, einmal steht ein Dataset in niedriger Auflösung (SD) und eines in hoher Auflösung (HD) zur Verfügung.
+Diese Datasets sind eine Kombination verschiedener Datasets, die auch schon in vorherigen Challenges öffentlich gemacht wurden~\cite{Bernal.2012,Bernal.2015,Vazquez.2017}.
 Eine Übersicht der Datasets ist in \autoref{tab:datasets} abgebildet.
+
 Da viele der Sub-Datasets dadurch entstanden sind, dass Polypen während einer Koloskopie umkreist wurden, um möglichst verschiedene Ansichten zu generieren, sind bei einigen Datasets auch mehrere Gruppen konsekutiver Frames vorhanden; die Anzahl dieser Sequenzen ist ebenfalls in der Tabelle festgehalten, sofern sie bekannt ist.
 Ebenso wird in der Challenge festgelegt, welches Sub-Dataset zu welchem Split gehört, also ob es für das Training, die Validierung oder das Testen am Schluss verwendet werden soll.
 In diesem Fall sind nur Trainings- und Test-Split festgelegt; die konkrete Aufteilung des Trainings-Sets in Trainings- und Validierungssplit ist den Teilnehmern überlassen.
 
 \begin{table}
 	\centering
-	\caption{Details zu den Datasets}
+	\caption{Details zu den Datasets (SD und HD)}
 	\label{tab:datasets}
-	\begin{tabular}{cccccc} 
+	\begin{tabular}{cccccc}
 		\toprule
-		Sub-Dataset     & \begin{tabular}[c]{@{}c@{}}Anzahl\\Patienten \end{tabular} & \begin{tabular}[c]{@{}c@{}}Anzahl\\Sequenzen \end{tabular} & \begin{tabular}[c]{@{}c@{}}Anzahl\\Frames \end{tabular} & Auflösung         & \begin{tabular}[c]{@{}c@{}}Zugehörigkeit\\Split \end{tabular}  \\ 
+		Sub-Dataset & \begin{tabular}[c]{@{}c@{}}Anzahl\\Patienten \end{tabular} & \begin{tabular}[c]{@{}c@{}}Anzahl\\Sequenzen \end{tabular} & \begin{tabular}[c]{@{}c@{}}Anzahl\\Frames \end{tabular} & Auflösung & \begin{tabular}[c]{@{}c@{}}Zugehörigkeit\\Split \end{tabular} \\ 
 		\midrule
-		CVC-ColonDB  & 13                                                         & 13                                                             & 300                                                     & 500$\times$574    & Training                                                       \\
-		CVC-PolypHD  & (*)                                                          & (*)                                                              & 56                                                      & 1920$\times$1080  & Training                                                       \\
-		CVC-ClinicDB & 23                                                         & 31                                                             & 612                                                     & 384$\times$288    & Test                                                           \\
+		CVC-300 & 13 & 13 & 300 & 500$\times$574 & Training \\
+		CVC-612 & 23 & 31 & 612 & 384$\times$288 & Test \\
+		CVC-HDTrain & (*) & (*) & 56 & 1920$\times$1080 & Training \\
+		CVC-HDTest & (*) & (*) & 108 & 1920$\times$1080 & Test \\
 		\bottomrule
 	\end{tabular}
 	Nicht offiziell bekannte Werte sind mit (*) gekennzeichnet.
@@ -254,7 +258,7 @@ In diesem Fall sind nur Trainings- und Test-Split festgelegt; die konkrete Aufte
 
 Jeder Datensatz besteht aus einem Koloskopiebild, das unter Weißlicht-Endoskopie aufgenommen wurde, und einem dazugehörigen Ground-Truth-Binärbild, in dem pixelgenau annotiert ist, welcher Teil des Bildes zu einem Polypen gehört.
 Ersteres wird im folgenden als \emph{Input}, letzteres als \emph{Target} bezeichnet.
-Ebenso wird ein einzelnes Paar von Input und Target als \emph{Datensatz} bezeichnet, während die Gesamtheit aller gleichartigen Datensätze ein \emph{Sub-Dataset} ist und die Gesamtheit aller Sub-Datasets bzw. aller Datensätze das \emph{Dataset}.
+Ebenso wird ein einzelnes Paar von Input und Target als \emph{Datensatz} bezeichnet, während die Gesamtheit aller gleichartigen Datensätze ein \emph{Sub-Dataset} ist und die Gesamtheit der Sub-Datasets einer Auflösungsstufe das \emph{Dataset}.
 
 Weiß steht im Target für die Polypen-Klasse, Schwarz für den Hintergrund.
 In \autoref{fig:polyp} und \autoref{fig:segm} ist ein beispielhafter Datensatz aus Input und Target abgebildet.

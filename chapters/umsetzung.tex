@@ -21,7 +21,7 @@ Gewählt wurde in dieser Arbeit die TensorFlow-Portierung von Christopher Hesse\
 
 Intern nimmt der Code die Bilddaten als Kombination aus Input und Target an.
 Hierbei muss für jedes Input-Target-Paar ein Bild generiert werden, welches das Target rechts vom Input platziert, sodass ein zusammengesetztes Bild mit doppelter Breite entsteht.
-Ein Datensatz aus CVC-ColonDB (s.~\autoref{tab:datasets}) hat dann bspw. die Auflösung 1000$\times$574.
+Ein Datensatz aus CVC-300 (s.~\autoref{tab:datasets}) hat dann bspw. die Auflösung 1000$\times$574.
 
 Das \gls{can} kann, wie viele Deep-Learning-Architekturen, die auf Bilddaten arbeiten, nativ nur mit quadratischen Bildern umgehen, auch wenn theoretisch jede Auflösung verarbeitet werden kann, indem man eine zusätzliche Faltung beim Input und Output verwendet.
 Trotzdem werden der Einfachheit wegen beim Training nur quadratische Bilder erlaubt.
@@ -43,11 +43,12 @@ Die kombinierten Input-Target-Bilder wurden dann als \gls{png} produziert.
 	\label{tab:dataformats}
 	\begin{tabular}{ccc} 
 		\toprule
-		Sub-Dataset  & Input                       & Target                       \\ 
+		Sub-Dataset & Input & Target \\ 
 		\midrule
-		CVC-ColonDB  & \gls{bmp}  & \gls{bmp}   \\
-		CVC-PolypHD  & \gls{bmp}  & \gls{tiff}  \\
-		CVC-ClinicDB & \gls{tiff} & \gls{tiff}  \\
+		CVC-300 & \gls{bmp} & \gls{bmp} \\
+		CVC-612 & \gls{tiff} & \gls{tiff} \\
+		CVC-HDTrain & \gls{bmp} & \gls{tiff} \\
+		CVC-HDTest & \gls{bmp} & \gls{tiff} \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -65,14 +66,11 @@ Am Ende des Trainings wird der Algorithmus auf dem Test-Split evaluiert, der in 
 Das Größenverhältnis dieser Splits zueinander lässt sich zwar rechnerisch bestimmen~\cite{Guyon.1998,Guyon.1997}, allerdings sind die Verfahren ziemlich komplex.
 Oftmals werden Größenverhältnisse zwischen Training- und Test-Set von 75:25 bis 90:10 vorgeschlagen.
 Im Rahmen der \gls{giana} Challenge ist die Einteilung in Training- und Test-Set bereits vorgegeben.
-Bezogen auf die Anzahl der \emph{Samples} macht der Test-Split 63~\% des Datasets aus, was ungewöhnlich groß ist.
-Allerdings enthält der Test-Split nur 25~\% aller \emph{Pixel} des Datasets, da das Training-Set mit CVC-Polyp-HD ein sehr hochauflösendes Sub-Dataset enthält.
+Bezogen auf die Anzahl der \emph{Samples} macht der Test-Split beim SD-Dataset 67~\% und beim HD-Dataset 66~\% aus, was die üblichen Größenverhältnisse beinahe umkehrt.
+Betrachtet man allerdings die Anzahl der Pixel, kommt zumindest beim SD-Dataset der Test-Split auf nur 44~\% des Datasets, da dessen Auflösung geringer ist.
 
-In dieser Arbeit wurde die Aufteilung des Training-Sets in die Splits für Training und Validierung folgendermaßen gewählt:
-Sowohl von CVC-ColonDB als auch von CVC-PolypHD wurden Sub-Splits im Verhältnis 75:25 durch zufälliges Sampling erstellt.
-Die beiden größeren Sub-Splits der Sub-Datasets wurden zum Trainings-Split kombiniert, die kleiner Sub-Splits zum Validierungs-Split.
-Dies sollte eine möglichst gleichmäßige Verteilung der beiden Sub-Datasets über die beiden Splits ermöglichen.
-Wünschenswert wäre eine Einteilung der beiden Splits nach \emph{Patienten} gewesen wie bei \citeauthor{Vazquez.2017}~\cite{Vazquez.2017}, aber die Zuordnung von Datensätzen zu Patienten ist weder öffentlich zugänglich noch direkt aus den Daten erkenntlich.
+In dieser Arbeit wurde die Aufteilung des Training-Sets in die Splits für Training und Validierung pro Dataset im Verhältnis 75:25 gewählt.
+Wünschenswert wäre eine Einteilung dieser beiden Splits nach \emph{Patienten} gewesen wie bei \citeauthor{Vazquez.2017}~\cite{Vazquez.2017}, aber die Zuordnung von Datensätzen zu Patienten ist weder öffentlich zugänglich noch direkt aus den Daten ersichtlich.
 
 
 
