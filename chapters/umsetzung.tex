@@ -23,12 +23,6 @@ Intern nimmt der Code die Bilddaten als Kombination aus Input und Target an.
 Hierbei muss für jedes Input-Target-Paar ein Bild generiert werden, welches das Target rechts vom Input platziert, sodass ein zusammengesetztes Bild mit doppelter Breite entsteht.
 Ein Datensatz aus CVC-300 (s.~\autoref{tab:datasets}) hat dann bspw. die Auflösung 1000$\times$574.
 
-Das \gls{can} kann, wie viele Deep-Learning-Architekturen, die auf Bilddaten arbeiten, nativ nur mit quadratischen Bildern umgehen, auch wenn theoretisch jede Auflösung verarbeitet werden kann, indem man eine zusätzliche Faltung beim Input und Output verwendet.
-Trotzdem werden der Einfachheit wegen beim Training nur quadratische Bilder erlaubt.
-Viele der Datensätze haben zwar schwarze Ränder, die keine Information enthalten, und nach deren Entfernen man ein ungefähr quadratisches Bild erhalten würde.
-Allerdings sind die relevanten Bildausschnitte je nach Bildsequenz anders im Gesamtbild positioniert.
-Um dieser Varianz gerecht zu werden und gleichzeitig möglichst keine Bildinformation zu verlieren, wurde die längere Bildseite als Seitenlänge des neuen quadratischen Bildes gewählt und der Rest des Bildes mit Nullen, also Schwarz, aufgefüllt.
-
 Im originalen Code sind außerdem nur die Dateiformate \gls{jpg} und \gls{png} erlaubt.
 Das Dataset enthält allerdings eine Mischung aus \gls{bmp} und \gls{tiff} (s.~\autoref{tab:dataformats}).
 TensorFlow bietet native Methoden, um mit dem BMP-Format umzugehen, also wurde der Code erweitert, sodass \gls{bmp} als Eingabeformat für Datensätze möglich wird.
@@ -71,6 +65,100 @@ Betrachtet man allerdings die Anzahl der Pixel, kommt zumindest beim SD-Dataset 
 
 In dieser Arbeit wurde die Aufteilung des Training-Sets in die Splits für Training und Validierung pro Dataset im Verhältnis 75:25 gewählt.
 Wünschenswert wäre eine Einteilung dieser beiden Splits nach \emph{Patienten} gewesen wie bei \citeauthor{Vazquez.2017}~\cite{Vazquez.2017}, aber die Zuordnung von Datensätzen zu Patienten ist weder öffentlich zugänglich noch direkt aus den Daten ersichtlich.
+
+
+
+\subsection{Auflösung der Bilddaten}
+
+Das \gls{can} kann, wie viele Deep-Learning-Architekturen, die auf Bilddaten arbeiten, nativ nur mit quadratischen Bildern umgehen, konkret mit einer Seitenlänge von 256 Pixeln.
+Sowohl das Einlesen der Datensätze als auch die Ausgabe des Generators bereitet in diesem Fall Probleme, da keines der Bilder in den Datasets die passende Auflösung noch das richtige Seitenverhältnis hat.
+
+
+
+\subsubsection{Einlesen}
+
+Viele der Datensätze haben zwar schwarze Ränder, die keine Information enthalten, und nach deren Entfernen man ein ungefähr quadratisches Bild erhalten würde.
+Allerdings sind die relevanten Bildausschnitte je nach Bildsequenz anders im Gesamtbild positioniert.
+Um dieser Varianz gerecht zu werden und gleichzeitig möglichst keine Bildinformation zu verlieren, wurde die längere Bildseite als Seitenlänge des neuen quadratischen Bildes gewählt, der originale Bildinhalt horizontal und vertikal zentriert und der Rest des Bildes mit Nullen, also Schwarz, aufgefüllt.
+
+Zwar hat nun immer noch keiner der Datensätze die Zielauflösung, dennoch ist ein Einsatz der \emph{Trainingsdaten} auf verschiedene Arten vorstellbar:
+
+\begin{enumerate}
+	\item Herunterskalieren der Inputs und Targets
+	\item Zufälliges Samplen von 256$\times$256-Patches von Inputs und Targets
+\end{enumerate}
+
+Die erste Variante hat bei der vorliegenden Problemstellung den Nachteil, dass es je nach Skalierungsmethodik zu Aliasing-Artefakten kommen kann.
+Dies wirkt sich besonders nachteilig beim Target aus, da es sich um ein Binärbild handelt, dass dann de facto zum Graustufenbild umgewandelt wird.
+Bilineare und bikubische Skalierungsverfahren beziehen eine 2$\times$2- bzw. eine 4$\times$4-Nachbarschaft um einen zu interpolierenden Punkt mit ein und liefern damit sanftere Übergänge, während das Nearest-Neighbor-Verfahren naiv den Wert des naheliegendsten Nachbars kopiert.
+Damit scheint letzteres Verfahren tendenziell besser geeignet, weil die binäre Natur des Targets beibehalten würde, allerdings können sich besonders an kontrastreichen Kanten treppenartige Artefakte bilden.
+
+Letztere Variante umgeht diese Artefaktprobleme, da die originale Auflösung beibehalten wird und immer ein Teilausschnitt des Inputs und Targets an jeweils derselben Position gewählt wird.
+Würde ein solcher Patch im Target allerdings gar keinen Vordergrundpixel enthalten, könnte der Generator nur sehr wenig von diesem Sample lernen.
+Dementsprechend sollte garantiert sein, dass ein gewisser Prozentsatz der Pixel des gesampleten Patches zur Polypenklasse gehören.
+Entweder garantiert man dies durch eine Einschränkung der Samplingregion bspw. auf ungefähr die Bounding Box des Polypen vor dem Sampling oder durch wiederholtes Sampling bis ein gewisser Prozentsatz an Vordergrundpixeln erreicht ist.
+Ein wiederholtes Sampling aber könnte die Performance des Trainings verschlechtern.
+Außerdem müsste zusätzlicher Aufwand an Evalution investiert werden, um herauszufinden, welcher Prozentsatz an Vordergrundpixeln ungefähr genug ist.
+
+Aus diesen Gründen wird der Ansatz mit Herunterskalieren gewählt.
+Dabei ist die Frage noch nicht geklärt, ob sich das Training stärker verschlechtert, wenn das Netz lernt, dass Graustufen- statt Binärbildern gewollt sind, oder wenn es lernt, dass treppenartige Objektgrenzen realistisch sind.
+Deshalb wird evaluiert, welches Skalierungsverfahren sich am positivsten auf das Training auswirkt.
+
+
+
+\subsubsection{Ausgabe von höheren Auflösungen zur Testzeit}
+
+\citeauthor{Isola.2017} schreiben, dass der Generator durch Faltung auch zur Erzeugung von beliebig großen Outputs zur Testzeit genutzt werden kann~\cite{Isola.2017}.
+Sie demonstrieren dies anhand von Bildern mit einer Auflösung von 512$\times$512.
+Leider erklären sie nicht genauer, wie eine solche Faltung ohne einen weiteren Lernschritt möglich sein soll, denn für jede hochskalierende Faltung müssen zuerst Gewichte gelernt werden.
+Es könnte sich der Verdacht aufdrängen, dass statt einer tatsächlichen Faltungsoperation einfach nur 4 sich nicht überlappende 256$\times$256-Patches des 512$\times$512-Bildes dem Generator übergeben wurden; auf direkte Nachfrage bei den Autoren erfolgte dazu leider keine Antwort.
+
+Wenn der Generator eine Ausgabe erzeugen soll, die mit der Auflösung des originalen Inputs übereinstimmt, ohne dass vorher eine weitere Hochskalierungsschicht trainiert wird, sind folgende Herangehensweisen denkbar:
+
+\begin{enumerate}
+	\item Hochskalieren des Outputs
+	\item Einlesen, Ausgeben und Zusammensetzen von Patches
+\end{enumerate}
+
+Auch in diesem Fall führt der erste Weg dazu, das Aliasing-Artefakte auftreten, die aus dem (zumindest potenziellen) Binärbild ein Graustufenbild erzeugen, wenn man statt Nearest-Neighbor-Verfahren ein bilineares oder bikubisches Verfahren wählt.
+Dieselben Gefahren hinsichtlich treppenartiger Artefakte wie beim Einlesen gelten auch hier.
+
+Alternativ könnte man den Input in 256$\times$256-Patches aufteilen, von jedem Patch eine Ausgabe erzeugen lassen und diese Output-Patches wieder zu einem Gesamt-Output zusammensetzen.
+Bei Pixeln, die in überlappenden Regionen des Gesamt-Outputs liegen, müsste dann ein Mittelwert aller Überlappungen an diesem Bildpunkt berechnet werden.
+Aliasing-Artefakte könnte man an solchen Stellen durch eine Schwellwertberechnung entgegentreten.
+
+Da sich die Umsetzung dieser zweiten Variante in TensorFlow als sehr kompliziert erwies, wurde stattdessen die Hochskalierung gewählt.
+Eine solche Hochskalierung für CVC-612 anzuwenden erscheint sinnvoll, da die hochskalierte Fläche nicht einmal doppelt so groß ist wie die native Ausgabe des Generators.
+Bei CVC-HDTest hingegen wäre die hochskalierte Fläche mehr als dreißigmal so groß wie die Ausgabegröße des Generators.
+Die Ergebnisse einer solchen Hochskalierung wären sehr wahrscheinlich nicht sehr gut; hier müsste eine patchbasierte Lösung oder eine gelernte Hochskalierung zum Einsatz kommen.
+Aus diesem Grund wird in dieser Arbeit \emph{nur das SD-Dataset} im Training verwendet und evaluiert.
+
+
+
+\paragraph{Binarisierung}
+
+Da die \glspl{can} darauf ausgelegt sind, Bilder von natürlichen Szenen zu produzieren, ist die Ausgabe des Generators immer ein Farbbild mit drei Kanälen.
+Die Zielsetzung, dass das \gls{can} ein Binärbild produziert, kann demnach auf zwei Arten scheitern:
+
+\begin{enumerate}
+	\item Das Netz lernt es Graustufenbilder statt Binärbildern zu produzieren.
+	\item Das Netz lernt es zwar Binärbilder zu produzieren, aber nur kanalweise; die Kanäle eines Output-Bildes unterscheiden sich.
+\end{enumerate}
+
+Notwendigerweise muss mit beiden Problematiken umgegangen werden.
+Am sinnvollsten erscheint es, die Schwellwertoperation erst so spät wie möglich durchzuführen.
+Darum wird zuerst der Mittelwert aller drei Kanäle gebildet, indem die elementweise Summe der Kanäle durch die Anzahl der Kanäle geteilt wird.
+Anschließend wird binarisiert; als Schwellwert wird die Hälfte des Maximalwerts gewählt, da die Ergebnisse sich bereits nahe an Binärbildern befinden.
+
+Der gesamte Ablauf der Nachbearbeitung des Generator-Outputs setzt sich nun folgendermaßen zusammen:
+
+\begin{enumerate}
+	\item Hochskalieren
+	\item Kanäle zusammenfassen
+	\item Binarisieren
+\end{enumerate}
+
+Auch in diesem Fall wird evaluiert werden, welches Verfahren bei der Hochskalierung die besten Ergebnisse liefert.
 
 
 
