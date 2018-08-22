@@ -39,7 +39,7 @@ Die kombinierten Input-Target-Bilder wurden dann als \gls{png} produziert.
 		\toprule
 		Sub-Dataset & Input & Target \\ 
 		\midrule
-		CVC-300 & \gls{bmp} & \gls{bmp} \\
+		CVC-300 & \gls{bmp} & \gls{bmp} mit nur 1 Kanal \\
 		CVC-612 & \gls{tiff} & \gls{tiff} \\
 		CVC-HDTrain & \gls{bmp} & \gls{tiff} \\
 		CVC-HDTest & \gls{bmp} & \gls{tiff} \\
@@ -211,4 +211,14 @@ Die Transformationen von \citeauthor{Vazquez.2017} beinhalten die folgenden zuf�
 \end{itemize}
 
 Die Autoren stellen auf ihrem Dataset bei einer Kombination all dieser Transformationen eine Verbesserung der Polypensegmentierung um ca. 10 Prozentpunkte fest.
-Die dort angewandten Transformationen kommen auch in dieser Arbeit zum Einsatz.
+In dieser Arbeit werden alle genannten Transformationen angewandt bis auf das Warping, da diese nicht genau genug dokumentiert ist, um sie verlässlich zu reproduzieren.
+
+
+
+\subsubsection{Modifikationen der Architektur}
+
+Eine wichtige Veränderung in der Funktionsweise der \glspl{can}, um sie für binäre Segmentierungen gangbar zu machen, ist die \emph{Deaktivierung von Dropout zur Testzeit}.
+Dropout beim Training einzusetzen hilft dem Netz, dass jedes einzelne Hidden Unit besser regularisiert.
+Diese Methodik zur Testzeit einzusetzen ergibt bei den originalen \glspl{can} Sinn, weil die zusätzliche Stochastizität bei der Erzeugung von natürlichen Szenen durchaus hilfreich sein kann.
+Auch wenn diese Stochastizität laut den Autoren gering ist~\cite{Isola.2017}, führt sie bei dieser Problemstellung zu einem hohen Maß an Varianz in den Ergebnissen.
+Dem Output einer binären Segmentierung tut eine größere Menge Determinismus gut, deshalb wird Dropout zur Testzeit deaktiviert.
