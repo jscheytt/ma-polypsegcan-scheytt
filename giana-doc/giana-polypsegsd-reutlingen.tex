@@ -3,6 +3,7 @@
 %%% Packages
 
 \usepackage[utf8]{inputenc}
+\usepackage{textcomp}
 
 \usepackage[
 	backend=biber,
@@ -47,7 +48,7 @@
 Automatically localizing polyps in colonoscopic imagery is a difficult task because polyp appearance varies greatly in color, texture, and shape.
 Recently, conditional variants of \glspl{gan} have been developed for a wide range of image-to-image translation tasks.
 To our knowledge, we are the first to use this deep learning architecture for segmenting colorectal polyps.
-We enhance the original methodology for the binary segmentation task.
+We extend the original methodology for the binary segmentation task.
 \end{abstract}
 
 \glspl{gan}~\cite{Goodfellow.2014} are designed to unsupervisedly learn to generate realistic outputs in terms of closeness to the training data.
@@ -58,12 +59,13 @@ Using an L1 loss for low image frequencies and a patch-based discriminator for h
 The architecture is based on \glspl{dcgan}~\cite{Radford.2016} and the generator is a U-Net~\cite{Ronneberger.2015}.
 We evaluate \glspl{can} on the GIANA polyp segmentation SD subtask and change the following:
 
-Outputs are limited to 256$\times$256 resolution, so we use \emph{bicubic upsampling at test time} to achieve the desired output resolution.
+Outputs are originally limited to 256$\times$256 resolution, so we use \emph{bicubic upsampling at test time} to achieve the desired output resolution.
 %TODO maybe insert results of evaluation
 The generated outputs are 3-channel images but very close to binary images, so we simply \emph{average all channels and threshold} them by half the maximum value.
-Training can easily be subject to vanishing gradients, so we determine the minimum batch size (3) and \emph{best batch size} (32, used for final results) as a compromise between learning stability and limited memory.
-Dropout is applied both at training and test time to generate rich and naturalistic outputs but binary segmentation results vary too much, so we \emph{deactivate dropout at test time}.
-Furthermore we evaluate the use of dataset augmentation by using the same techniques as \citeauthor{Vazquez.2017}~\cite{Vazquez.2017}: zooming, rotation, and shearing.
+Training can easily be subject to vanishing gradients, so we determine the minimum batch size avoiding stagnation at the beginning (3) and \emph{best batch size} (32, used for final results) as a compromise between learning stability and limited memory.
+
+Dropout is applied both at training and test time to generate rich and naturalistic outputs but results for binary segmentation vary too much, therefore we \emph{deactivate dropout at test time}.
+We also evaluate the use of dataset augmentation by randomly flipping up/down, flipping left/right, and rotating from $-45$\textdegree to $+45$\textdegree.
 %TODO insert results of evaluation
 
 \printbibliography
