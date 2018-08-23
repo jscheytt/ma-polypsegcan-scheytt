@@ -114,13 +114,23 @@ Der Generator der \glspl{can} basiert auf dem \gls{dcgan}, muss aber in der kond
 Man könnte dafür den Aufbau eines Encoder-Decoders wählen; tatsächlich orientiert sich der Generator konkret an der Struktur des U-Net~\cite{Ronneberger.2015}:
 Diese Netzvariante ähnelt den \glspl{fcn}~\cite{Long.2015}, die bereits Skip Connections einbauen, damit trotz der Herunterskalierung Information aus den ursprünglichen Skalenstufen in die späteren Schichten des Netzes fließen kann.
 Beim U-Net werden allerdings im Gegensatz zum FCN-8s nicht nur die niedrigsten drei Skalierungsstufen verbunden, sondern jede Schicht $ i $ wird mit der "gegenüberliegenden" Schicht $ n-i $ verbunden (s.~\autoref{fig:unetarchitecture}).
-Zusätzlich entsprechen diese Skip Connections nicht der elementweisen Aufsummierung, sondern aus einem Anhängen der Kanäle von Schicht $ i $ an die Kanäle der späteren Schicht $ n-i $.
+Außerdem entsprechen diese Skip Connections nicht der elementweisen Aufsummierung, sondern einem Anhängen der Kanäle von Schicht $ i $ an die Kanäle der späteren Schicht $ n-i $.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.7\linewidth]{img/unet_architecture}
+	\includegraphics[width=0.9\linewidth]{img/unet_architecture}
 	\caption{Architektur des U-Net~\cite{Ronneberger.2015}.}
 	\label{fig:unetarchitecture}
+\end{figure}
+
+Konkret nimmt der Generator Inputs mit der Auflösung 256$\times$256 entgegen und gibt auch Outputs dieser Größe aus.
+Der genaue Aufbau ist \autoref{fig:cangenerator} zu entnehmen.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/can_generator}
+	\caption[Generator des \gls{can}.]{Generator des \gls{can}. Die dritte Dimension entspricht bei erster und letzter Schicht der Anzahl der Kanäle, bei allen anderen der Anzahl der gelernten Filter. Quelle: \url{https://affinelayer.com/pix2pix/}}
+	\label{fig:cangenerator}
 \end{figure}
 
 
@@ -142,10 +152,22 @@ Der Diskriminator hingegen wird als \emph{PatchGAN} aufgebaut, der die feinen St
 (Der Name des Diskriminators ist irreführend gewählt, da es sich bei dem Diskriminator nicht um ein \gls{gan} handelt -- besser wäre vermutlich so etwas wie \emph{Patch-Diskriminator}.)
 Dieser Diskriminator ist als Netzstruktur aufgebaut, die einen Filter mit fester Größe faltend auf dem gesamten Bild einsetzt.
 Eine zu kleine Größe des Filters erzeugt Bilder, die kachelartige Artefakte aufweisen; ein Filter mit der vollen Bildgröße skaliert nicht gut für Bilder mit beliebiger Größe und liefert nicht so gute Ergebnisse wie ein Filter mit 70$\times$70 Pixeln.
-Die Ausgabe des Diskriminators sind die Aktivierungen seiner letzten Schicht, was einer 30$\times$30-Matrix entspricht, wobei jedes Element dieser Matrix der Glaubwürdigkeit eines 70$\times$70-Ausschnitt des Bildes entspricht.
+
+Die Ausgabe des Diskriminators sind die Aktivierungen seiner letzten Schicht, was einer 30$\times$30-Matrix entspricht, wobei jeder Bildpunkt dieser Matrix der Glaubwürdigkeit eines 70$\times$70-Ausschnittes des Bildes entspricht.
+Der konkrete Aufbau des Diskriminators ist in \autoref{fig:candiscriminator} verdeutlicht.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/can_discriminator}
+	\caption[Diskriminator des \gls{can}.]{Diskriminator des \gls{can}. Übernommen und korrigiert von \url{https://affinelayer.com/pix2pix/}}
+	\label{fig:candiscriminator}
+\end{figure}
 
 Diese Formulierung des Diskriminators drückt prinzipiell die gleiche Annahme wie die eines \gls{mrf} aus:
 Ein Pixel ist nur von den Pixeln unabhängig, die von ihm durch einen gewissen Abstand getrennt sind.
+
+Das GAN-Framework sorgt optimalerweise dafür, dass der Diskriminator im Lauf des Trainings immer weniger in der Lage ist, zwischen realistischen und gefälschten Bildern zu unterscheiden.
+Konkret visualisiert bedeutet dies, dass bei einem guten Trainingsverlauf die 30$\times$30-Ausgabe für den Generator-Output der 30$\times$30-Ausgabe für das Trainings-Target immer ähnlicher wird.
 
 
 
