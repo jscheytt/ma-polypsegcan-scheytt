@@ -8,12 +8,16 @@ Dazu wird auf das gewählte Framework, die Vorverarbeitung des Datasets und die 
 \section{TensorFlow}
 
 Zur Entwicklung des \gls{can} wurde das Deep-Learning-Framework \emph{TensorFlow}~\cite{Abadi.2016} gewählt.
-Zugrunde liegt TensorFlow das Paradigma, dass das Modell zuerst als Graph mit Entitäten und Operationen definiert und dann schrittweise trainiert wird.
-Dies macht zwar die Programmierung etwas weniger intuitiv, sorgt aber dafür, dass viele Operationen im Voraus vereinfacht und teilweise auch parallelisiert werden können, sodass das Training insgesamt schneller abläuft.
+TensorFlow liegt ein Paradigma zugrunde, nach dem das Modell zuerst als Graph mit Entitäten und Operationen definiert und erst dann schrittweise trainiert wird.
+Im Gegensatz zu imperativen Frameworks wie PyTorch ist dadurch zwar insbesondere das Debugging erschwert, aber diese gewählte Architektur sorgt dafür, dass viele Rechenoperationen im Voraus vereinfacht und teilweise auch parallelisiert werden können, sodass das Training insgesamt schneller abläuft~\cite{Goodfellow.2016}.
 
 \citeauthor{Isola.2017} stellen den originalen Code ihrer Publikation, der in Torch geschrieben ist, online zur Verfügung\footnote{\url{https://github.com/phillipi/pix2pix}}.
-Mehrere Portierungen auf andere Frameworks wurden bereits geschrieben, darunter auch mehrere für TensorFlow.
+Portierungen auf andere Python-basierte Frameworks wurden bereits geschrieben, darunter auch mehrere für TensorFlow.
 Gewählt wurde in dieser Arbeit die TensorFlow-Portierung von Christopher Hesse\footnote{\url{https://github.com/affinelayer/pix2pix-tensorflow}}, da diese von allen am besten dokumentiert ist.
+
+Diese Portierung konnte nur mit der TensorFlow-Version 1.5.0 nutzbar gemacht werden, da sie seit etwa 8 Monaten nicht mehr aktiv weiterentwickelt wurde.
+Dadurch stehen die Kernfunktionalitäten von TensorFlow zur Verfügung, besonders praktische Weiterentwicklungen wie die Eager Execution zur unmittelbaren Evaluierung von Graph-Komponenten aber nicht.
+Da kein GPU zur Verfügung stand, wurde die CPU-basierte Variante von TensorFlow genutzt.
 
 
 
