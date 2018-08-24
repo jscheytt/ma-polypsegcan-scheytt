@@ -1,23 +1,55 @@
-\chapter{Ergebnisse -- 10~\%}
+\chapter{Ergebnisse}
+
+Dieses Kapitel stellt die Resultate der verschiedenen Experimente vor und zeigt auf, welche Design-Entscheidungen welche Auswirkungen haben.
+
+
+
+\section{Erste Experimente und Debugging}
+
+Der zur Verfügung stehende TensorFlow-Code bietet bereits einige Möglichkeiten, den Trainingsverlauf zu bewerten, da bestimmte Werte während des Trainings als Skalar ausgegeben und in Tensorboard als Verlauf angezeigt werden.
+Zu diesen Werten gehören Mittelwerte der Gewichte und Bias-Werte jeder Schicht sowie deren Gradienten und drei Terme aus der Verlustfunktion:
+
+\begin{enumerate}
+	\item das \emph{Diskriminator-Loss}, der GAN-Term $ \mathcal{L}_c(D, G) $ der Gesamtverlustfunktion $ R^* $ (s. \autoref{eq:canlosswonoise})
+	\item das \emph{Generator-Loss} $ D(\mathbf{x}, G(\mathbf{x})) $, die Ausgabe des Diskriminators für den Generator-Output
+	\item das \emph{L1-Loss}, der L1-Term $ \lambda \mathcal{L}_{L1}(G) $ der Gesamtverlustfunktion $ R^* $
+\end{enumerate}
+
+Ebenso gibt das Netz auch Bilder bzw. Aktivierungen bestimmter Schichten als Bild aus.
+Unter diesen Bildausgaben sind neben Input, Target und Output auch die Aktivierungen der letzten Diskriminatorschicht für die Bewertung des realistischen Inputs $ D(\mathbf{x}, \mathbf{y}) $ und für die Bewertung des gefälschten Outputs $ D(\mathbf{x}, G(\mathbf{x})) $.
+Diese werden im folgenden mit \emph{Real} und \emph{Fake} respektive bezeichnet.
+Das Generator-Loss entspricht hierbei dem Mittelwert aller Aktivierungen von Fake.
+
+Bei einem ersten Trainingslauf wurde das Netz für etwa 200 Epochen trainiert.
+Demo-Datasets, die von den Autoren im Paper verwendet und online zur Verfügung gestellt werden, erzielen nach Trainingszeiten in dieser Größenordnung gute Ergebnisse.
+In diesem Fall jedoch war der Output immer komplett schwarz, Real komplett weiß und Fake ebenfalls schwarz.
+Letzteres zeigt, dass der Diskriminator maximal in der Lage ist, zwischen gefälschten und realistischen Bildern zu unterscheiden.
+Die Verläufe der Losses des ersten Trainingslaufs in \autoref{fig:lossini} zeigen, dass das Diskriminator-Loss sofort auf Null fällt, das Generator-Loss ungewöhnlich große Sprünge aufweißt und das L1-Loss nach kürzester Zeit auf einem Plateau stagniert.
+
+% TODO fig:lossini Losses von initial und facades
+
+Als Referenz ist in \autoref{fig:lossini} der Trainingsverlauf des Facades-Demo-Datasets aufgezeichnet:
+Hier bewegt sich das Diskriminator-Loss auf den Wert 0.5 zu, der Verlauf des Generator-Loss ist sehr viel beständiger und das L1-Loss nimmt stetig ab.
+
+Eine Debugging-Strategie, die \citeauthor{Goodfellow.2016} bei Deep Learning vorschlagen, ist das Trainieren mit einem sehr kleinen Dataset, um zu überprüfen, ob das Netz überhaupt in der Lage ist, aus den Trainingsdaten zu lernen~\cite{Goodfellow.2016}.
+Zu diesem Zweck wurde ein Trainingslauf mit drei zufällig gewählten Datensätzen durchgeführt, und schon nach wenigen Trainingsschritten zeigte sich Erfolg (s. \autoref{fig:outputsminsamples} und \autoref{fig:lossminsamples}):
+
+% TODO fig:outputsminsamples Bilder von min-samples
+
+% TODO fig:lossminsamples Losses von min-samples, initial und facades angedeutet
+
+Der Output ist nicht mehr leer, sondern nahe am Target, und Real und Fake sind sehr ähnlich.
+Außerdem ist das Diskriminator-Loss nicht mehr auf Null, das Generator-Loss tendiert zu niedrigeren Werten und das L1-Loss verläuft monoton fallend.
+Ein weiterer Trainingslauf mit den vollen Trainingsdaten und doppelter Trainingsdauer war dann erfolgreicher und führte zu ähnlich guten Ergebnissen wie der zweite Durchlauf mit minimaler Anzahl an Samples.
+
+
 
 \section{Metriken}
 
-Die Challenge gibt den Jaccard-Index, auch als "Intersection over Union" bekannt, und den DICE-Score als Metriken vor.
-[jede einzeln erklären]
 
-Zusätzlich wurde die Performance des Netzes unter folgenden Gesichtspunkten untersucht:
-[evtl. weitere Metriken ins Spiel bringen]
 
-\section{CANs in Originalform}
 
-\section{Regularisierung}
 
-\subsection{Dataset Augmentation}
+\section{Batch-Größen}
 
-\subsection{Weitere Regularisierungen}
 
-\section{Sequenzbetrachung}
-
-\subsection{3D-CANs}
-
-\subsection{Optischer Fluss}
