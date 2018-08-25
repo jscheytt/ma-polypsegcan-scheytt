@@ -44,13 +44,26 @@ Es lässt sich zeigen, dass $ G $ auf diese Weise implizit eine Wahrscheinlichke
 Da $ D $ einen Skalar zwischen 0 und 1 ausgibt als Bewertung für die Realitätsnähe eines Samples, wird das Training als abgeschlossen betrachtet, wenn $ D $ für Samples aus den Trainingsdaten und generierte Samples den gleichen Wert ausgibt, nämlich $ \frac{1}{2} $.
 In diesem Zielzustand kann der Diskriminator nicht mehr zwischen realen und gefälschten Samples unterscheiden; er kann dann verworfen werden.
 
-Die visuelle Qualität der Erzeugnisse der originalen \glspl{gan} wurde in darauffolgenden Arbeiten deutlich verbessert.
-Besonders die LAPGANs und \glspl{dcgan} haben sich hierbei hervorgetan.
+
+
+\subsection{Herausforderungen beim Training}
+
+Das Trainieren von \glspl{gan} kann aus verschiedenen Gründen unstabil verlaufen:
+Zum einen kann es passieren, dass je nach \emph{Formulierung} des GAN-Spiels das Training gegebenenfalls nicht konvergiert~\cite{Goodfellow.2014}.
+Bei der effektivsten Formulierung versucht der Generator die Wahrscheinlichkeit zu erhöhen, dass der Diskriminator eine Fehlklassifikation macht, statt die Wahrscheinlichkeit zu erhöhen, dass er eine korrekte Klassifikation ausgibt.
+Zum anderen ist der \emph{Rhythmus} des Trainings entscheidend, denn es wird immer abwechselnd eine bestimmte Anzahl Trainingsschritte der Diskriminator und dann ebenfalls für eine bestimmte Anzahl Schritte der Generator trainiert.
+Lernt der Diskriminator zu schnell, ist es möglich, dass der Generator keine Chance hat zu lernen, realistische Samples zu erzeugen, weil der Diskriminator alle Generator-Outputs maximal ablehnt.
+
+Ein weiteres großes Risiko beim Training von \glspl{gan} besteht im teilweisen oder kompletten \emph{Zusammenfallen von Moden}~\cite{Che.2016}:
+Selbst wenn das Netz qualitativ überzeugende Samples liefert, kann es passiert sein, dass die Wahrscheinlichkeitsverteilung, die der Generator gelernt hat, nur wenige Regionen oder sogar nur eine Region mit hoher Wahrscheinlichkeitsdichte abdeckt.
+Außerdem sind \glspl{gan} sehr sensibel hinsichtlich der Wahl der \emph{Hyperparameter}.
 
 
 
 \subsection{LAPGANs}
 
+Die visuelle Qualität der Erzeugnisse der originalen \glspl{gan} wurde in darauffolgenden Arbeiten deutlich verbessert.
+Besonders die LAPGANs und \glspl{dcgan} haben sich hierbei hervorgetan.
 Die LAPGANs von \citeauthor{Denton.2015}~\cite{Denton.2015} basieren auf einer Laplace'schen Pyramide, bei der auf jeder Ebene ein gesondertes \gls{gan} eine Bildschärfung lernt.
 Am Anfang erzeugt das erste \gls{gan} $ G_1 $ ein Sample mit sehr niedriger Auflösung, welches anschließend hochskaliert wird.
 Das \gls{gan} der zweiten Ebene $ G_2 $ nimmt dann dieses hochskalierte, unscharfe Bild, und generiert dazu ein Restbild.
