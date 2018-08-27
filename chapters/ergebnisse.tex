@@ -22,9 +22,11 @@ Das Generator-Loss entspricht hierbei dem Mittelwert aller Aktivierungen von Fak
 
 Bei einem ersten Trainingslauf wurde das Netz für etwa 200 Epochen trainiert.
 Demo-Datasets, die von den Autoren im Paper verwendet und online zur Verfügung gestellt werden, erzielen nach Trainingszeiten in dieser Größenordnung gute Ergebnisse.
-In diesem Fall jedoch war der Output immer komplett schwarz, Real komplett weiß und Fake ebenfalls schwarz.
+In diesem Fall jedoch war der Output immer komplett schwarz, Real komplett weiß und Fake ebenfalls schwarz (s. \autoref{fig:outputsini}).
 Letzteres zeigt, dass der Diskriminator maximal in der Lage ist, zwischen gefälschten und realistischen Bildern zu unterscheiden.
 Die Verläufe der Losses des ersten Trainingslaufs in \autoref{fig:lossini} zeigen, dass das Diskriminator-Loss sofort auf Null fällt, das Generator-Loss ungewöhnlich große Sprünge aufweißt und das L1-Loss nach kürzester Zeit auf einem Plateau stagniert.
+
+% TODO fig:outputsini Bilder von initial
 
 % TODO fig:lossini Losses von initial und facades
 
