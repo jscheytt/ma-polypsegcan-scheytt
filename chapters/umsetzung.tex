@@ -213,6 +213,7 @@ Die Transformationen von \citeauthor{Vazquez.2017} beinhalten die folgenden zuf�
 
 Die Autoren stellen auf ihrem Dataset bei einer Kombination all dieser Transformationen eine Verbesserung der Polypensegmentierung um ca. 10 Prozentpunkte fest.
 In dieser Arbeit werden alle genannten Transformationen angewandt bis auf das Warping, da diese nicht genau genug dokumentiert ist, um sie verlässlich zu reproduzieren.
+Nach der Durchführung einer Augmentierung wird das erzeugte Bild mit der Hälfte des maximalen Wertes als Schwellwert binarisiert, da bei der Anwendung der Transformationen Interpolationsartefakte auftreten können, die dem Bild Graustufenverläufe hinzufügen.
 
 
 
