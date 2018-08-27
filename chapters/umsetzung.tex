@@ -8,12 +8,16 @@ Dazu wird auf das gewählte Framework, die Vorverarbeitung des Datasets und die 
 \section{TensorFlow}
 
 Zur Entwicklung des \gls{can} wurde das Deep-Learning-Framework \emph{TensorFlow}~\cite{Abadi.2016} gewählt.
-Zugrunde liegt TensorFlow das Paradigma, dass das Modell zuerst als Graph mit Entitäten und Operationen definiert und dann schrittweise trainiert wird.
-Dies macht zwar die Programmierung etwas weniger intuitiv, sorgt aber dafür, dass viele Operationen im Voraus vereinfacht und teilweise auch parallelisiert werden können, sodass das Training insgesamt schneller abläuft.
+TensorFlow liegt ein Paradigma zugrunde, nach dem das Modell zuerst als Graph mit Entitäten und Operationen definiert und erst dann schrittweise trainiert wird.
+Im Gegensatz zu imperativen Frameworks wie PyTorch ist dadurch zwar insbesondere das Debugging erschwert, aber diese gewählte Architektur sorgt dafür, dass viele Rechenoperationen im Voraus vereinfacht und teilweise auch parallelisiert werden können, sodass das Training insgesamt schneller abläuft~\cite{Goodfellow.2016}.
 
 \citeauthor{Isola.2017} stellen den originalen Code ihrer Publikation, der in Torch geschrieben ist, online zur Verfügung\footnote{\url{https://github.com/phillipi/pix2pix}}.
-Mehrere Portierungen auf andere Frameworks wurden bereits geschrieben, darunter auch mehrere für TensorFlow.
+Portierungen auf andere Python-basierte Frameworks wurden bereits geschrieben, darunter auch mehrere für TensorFlow.
 Gewählt wurde in dieser Arbeit die TensorFlow-Portierung von Christopher Hesse\footnote{\url{https://github.com/affinelayer/pix2pix-tensorflow}}, da diese von allen am besten dokumentiert ist.
+
+Diese Portierung konnte nur mit der TensorFlow-Version 1.5.0 nutzbar gemacht werden, da sie seit etwa 8 Monaten nicht mehr aktiv weiterentwickelt wurde.
+Dadurch stehen die Kernfunktionalitäten von TensorFlow zur Verfügung, besonders praktische Weiterentwicklungen wie die Eager Execution zur unmittelbaren Evaluierung von Graph-Komponenten aber nicht.
+Da kein GPU zur Verfügung stand, wurde die CPU-basierte Variante von TensorFlow genutzt.
 
 
 
@@ -178,14 +182,14 @@ Deshalb wird anfangs ein Trainingslauf auf dem \gls{giana} Dataset mit den vorge
 	\label{tab:train_def_val}
 	\begin{tabular}{rl} 
 		\toprule
-		Parameter                                            & Standardwert  \\ 
+		Parameter & Standardwert \\ 
 		\midrule
-		Batch-Größe                                          & 1             \\
-		Anzahl der Filter in der ersten Generator-Schicht    & 64            \\
-		Anzahl der Filter in der ersten Diskriminator-Schicht    & 64            \\
-		Lernrate des Optimierungsalgorithmus                 & $ 2 \times 10^{-4} $    \\
-		Momentum-Term des~Optimierungsalgorithmus            & 0.5           \\
-		$ \lambda $ (Gewichtung des L1-Terms der Verlustfunktion) & 100           \\
+		Batch-Größe & 1 \\
+		Anzahl der Filter in der ersten Generator-Schicht & 64 \\
+		Anzahl der Filter in der ersten Diskriminator-Schicht & 64 \\
+		Lernrate des Optimierungsalgorithmus & $ 2 \times 10^{-4} $ \\
+		Momentum-Term des~Optimierungsalgorithmus & 0.5 \\
+		$ \lambda $ (Gewichtung des L1-Terms der Verlustfunktion) & 100 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -201,17 +205,24 @@ Andererseits können Netze beim Training besonders von erhöhter Varianz profiti
 
 \citeauthor{Vazquez.2017}~\cite{Vazquez.2017} nutzen ein FCN-8s für eine Polypensegmentierung und setzen dafür verschiedene Augmentierungen ein, die dazu gedacht sind, die Varianz angemessen zu erhöhen, ohne das Polypenaussehen zu drastisch zu verändern.
 Eine zu drastische Veränderung des Bildmaterials könnte zu unrealistischen Verformungen führen, sodass das zugehörige Target eines Inputs möglicherweise nicht mehr wahrheitsgemäß wäre.
-Die Transformationen von \citeauthor{Vazquez.2017} beinhalten die folgenden zufällig angewandten Operationen:
+Die Transformationen von \citeauthor{Vazquez.2017} beinhalten die folgenden Operationen, die mit einer Wahrscheinlichkeit von 50~\% angewandt werden:
 
 \begin{itemize}
 	\item Zoom mit einem Faktor von 0,9 bis 1,1
-	\item Rotation bis zu 180~\textdegree
-	\item Scherung mit einem Faktor von 0 bis 0,4
+	\item Rotation von 0 bis 180\textdegree
+	\item Scherung mit einem Winkel von 0 bis 0,4
 	\item Warping mit $ \sigma $ von 0 bis 10
 \end{itemize}
 
 Die Autoren stellen auf ihrem Dataset bei einer Kombination all dieser Transformationen eine Verbesserung der Polypensegmentierung um ca. 10 Prozentpunkte fest.
-In dieser Arbeit werden alle genannten Transformationen angewandt bis auf das Warping, da diese nicht genau genug dokumentiert ist, um sie verlässlich zu reproduzieren.
+Leider können nicht alle diese Transformationen in dieser Arbeit angewandt werden, einerseits weil Details für die Warp-Transformation und die Scherung fehlen, andererseits weil TensorFlow in der vorliegenden Version für viele dieser Operationen keine native Einbindung bereitstellt.
+Evaluiert werden in dieser Arbeit deshalb folgende Augmentationen, die TensorFlow standardmäßig bereitstellt:
+
+\begin{itemize}
+	\item vertikale Spiegelung (von links nach rechts)
+	\item horizontale Spiegelung (von oben nach unten)
+	\item Rotation von 0 bis 180\textdegree
+\end{itemize}
 
 
 
