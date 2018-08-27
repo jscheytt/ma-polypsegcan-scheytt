@@ -105,7 +105,8 @@ Außerdem müsste zusätzlicher Aufwand an Evalution investiert werden, um herau
 
 Aus diesen Gründen wird der Ansatz mit Herunterskalieren gewählt.
 Dabei ist die Frage noch nicht geklärt, ob sich das Training stärker verschlechtert, wenn das Netz lernt, dass Graustufen- statt Binärbildern gewollt sind, oder wenn es lernt, dass treppenartige Objektgrenzen realistisch sind.
-Deshalb wird evaluiert, welches Skalierungsverfahren sich am positivsten auf das Training auswirkt.
+TensorFlow bietet zur Skalierung verschiedene Interpolationsverfahren an: Area-, Nearest-Neighbor-, bilineare und bikubische Interpolation.
+Für eine Herunterskalierung eignet sich die Area-Interpolation am besten, da sie als einzige dieser Optionen Aliasing-Effekte beim Downscaling vermeidet.
 
 
 
@@ -131,6 +132,8 @@ Bei Pixeln, die in überlappenden Regionen des Gesamt-Outputs liegen, müsste da
 Aliasing-Artefakte könnte man an solchen Stellen durch eine Schwellwertberechnung entgegentreten.
 
 Da sich die Umsetzung dieser zweiten Variante in TensorFlow als sehr kompliziert erwies, wurde stattdessen die Hochskalierung gewählt.
+In diesem Fall wird evaluiert, welches der von TensorFlow angeboteten Verfahren bei der Hochskalierung die besten Ergebnisse liefert.
+
 Eine solche Hochskalierung für CVC-612 anzuwenden erscheint sinnvoll, da die hochskalierte Fläche nicht einmal doppelt so groß ist wie die native Ausgabe des Generators.
 Bei CVC-HDTest hingegen wäre die hochskalierte Fläche mehr als dreißigmal so groß wie die Ausgabegröße des Generators.
 Die Ergebnisse einer solchen Hochskalierung wären sehr wahrscheinlich nicht sehr gut; hier müsste eine patchbasierte Lösung oder eine gelernte Hochskalierung zum Einsatz kommen.
@@ -160,8 +163,6 @@ Der gesamte Ablauf der Nachbearbeitung des Generator-Outputs setzt sich nun folg
 	\item Kanäle zusammenfassen
 	\item Binarisieren
 \end{enumerate}
-
-Auch in diesem Fall wird evaluiert werden, welches Verfahren bei der Hochskalierung die besten Ergebnisse liefert.
 
 
 
