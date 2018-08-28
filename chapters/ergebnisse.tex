@@ -150,3 +150,32 @@ Aus diesem Grund wurde 32 als die Batch-Größe aller folgenden Experimente gew�
 % TODO fig:es081632 Early Stopping Werte min und max als 2 Linien von b081632
 
 
+
+\section{Dataset Augmentation}
+
+
+
+\section{Dropout}
+
+Um den Effekt der Deaktivierung von Dropout zur Testzeit zu untersuchen, wurde folgendes Evaluierungsszenario erstellt:
+Der \gls{iou} wurde einmal auf dem gesamten Test-Sub-Dataset CVC-612 und einmal auf einem einzelnen, zufällig ausgewählten Bild berechnet.
+Hierbei wurde einmal Dropout zur Testzeit aktiviert und einmal deaktiviert.
+Für jede dieser vier Varianten wurden 10 Testläufe durchgeführt.
+
+Für CVC-612 ergab sich bei aktivem Dropout ein mittlerer \gls{iou} von 0,2073 mit einer Standardabweichung von 0,012, bei deaktiviertem Dropout hingegen ein konstanter Wert von 0,2117.
+Dies bedeutet nicht nur eine Verbesserung des Durchschnittswertes um 0,44 Prozentpunkte, sondern auch eine Eliminierung der Varianz in den Ergebnissen.
+
+Die Berechnung auf dem einzelnen Bild ergab bei aktivem Dropout einen mittleren \gls{iou} von 0,4243 mit Standardabweichung 0,0412, bei deaktiviertem Dropout ergab sich ein konstanter Wert von 0,4365.
+Dies entspricht einer Verbesserung vom durchschnittlichen zum konstanten Wert von sogar 1,22 Prozentpunkten.
+
+Entsprechend diesen Ergebnissen wurde Dropout zur Testzeit standardmäßig deaktiviert.
+
+
+
+\section{Umkehren der Lernrichtung}
+
+
+
+\section{L1-Loss ohne GAN}
+
+
