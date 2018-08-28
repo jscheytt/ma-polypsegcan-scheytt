@@ -136,7 +136,7 @@ Bei Pixeln, die in überlappenden Regionen des Gesamt-Outputs liegen, müsste da
 Aliasing-Artefakte könnte man an solchen Stellen durch eine Schwellwertberechnung entgegentreten.
 
 Da sich die Umsetzung dieser zweiten Variante in TensorFlow als sehr kompliziert erwies, wurde stattdessen die Hochskalierung gewählt.
-In diesem Fall wird evaluiert, welches der von TensorFlow angeboteten Verfahren bei der Hochskalierung die besten Ergebnisse liefert.
+Als Interpolationsverfahren wurde die \emph{bikubische Interpolation} gewählt, weil sie unter allen Optionen die größte Region, nämlich eine 4$\times$4-Nachbarschaft um den zu interpolierenden Punkt, berücksichtigt.
 
 Eine solche Hochskalierung für CVC-612 anzuwenden erscheint sinnvoll, da die hochskalierte Fläche nicht einmal doppelt so groß ist wie die native Ausgabe des Generators.
 Bei CVC-HDTest hingegen wäre die hochskalierte Fläche mehr als dreißigmal so groß wie die Ausgabegröße des Generators.
