@@ -73,9 +73,80 @@ J = \frac{SD}{2 - SD} \ , \quad SD = \frac{2 \ J}{1 + J}
 \end{equation}
 
 Es ist direkt ersichtlich, dass der \gls{iou} nicht korrekt klassifizierte Pixel, also solche außerhalb der Schnittmenge, stärker bestraft als der F1-Score.
+In den nachfolgenden Experimenten wird der Einfachheit wegen nur der \gls{iou} angegeben, da dieser der pessimistischere der beiden Werte ist und der F1-Score sich ohne Umschweife aus dem Wert \gls{iou} berechnen lässt.
 
 
 
 \section{Batch-Größen}
+
+Da die ersten Trainingsläufe mit den Standardparametern des Netzes durchgeführt wurden, betrug die Batch-Größe immer 1.
+Das \gls{can} braucht bei einer solchen Batch-Größe sehr lange, bis der Generator überhaupt anfängt etwas zu lernen.
+Möglicherweise liegt die Ursache dafür in der Tatsache, dass das Netz \emph{zu wenig Varianz pro Batch} und damit pro Lernschritt zu sehen bekommt und es deshalb lange dauert, bis der Generator etwas lernt.
+
+Zur Überprüfung dieser Hypothese wurden verschiedene Batch-Größen evaluiert.
+Oftmals werden in solchen Fällen Zweierpotenzen gewählt, deshalb wurden hier die Batch-Größen 1, 2, 4, 8, 16, 32 und 64 getestet.
+Für jede Batch-Größe wurden zwei Trainingsläufe durchgeführt, um mögliche Varianzen beim Training zu einem gewissen Grad einschätzen zu können.
+Die Dauer jedes Trainingslaufs betrug 600 Epochen, was bei unterschiedlichen Batch-Größen zu einer unterschiedlichen Anzahl von Trainingsschritten führt.
+
+In \autoref{fig:lossb0124} wird ersichtlich, dass das Netz erst bei einer Batch-Größe über 2 in der Lage ist, von Anfang an zu lernen.
+Es zeigt sich ebenso, dass folgende Muster in den Verläufen aller Batch-Größen sehr zuverlässig korrelieren:
+
+\begin{itemize}
+	\item Diskriminator-Loss: Fallen oder Zurückfallen auf Null 
+	\item Generator-Loss: steil ansteigende Werte mit sägezahnartigen Verläufen
+	\item L1-Loss: Stagnieren auf einem Niveau, das bei allen Trainingsläufen ähnlich ausfällt
+	\item \gls{iou}: Stagnieren bei Null oder Verschlechterung
+	\item Diskriminator und Generator in jeweils allen Schichten: Stagnieren von Gewichten und Bias-Werten und Zurückfallen auf Null der Gradienten
+\end{itemize}
+
+All diese Verläufe und besonders das letzte Muster sprechen dafür, dass der Generator in solchen Phasen nicht in der Lage ist, irgendetwas zu lernen, das er dem Diskriminator entgegen setzen kann.
+
+% TODO fig:lossb0124 alle 4 Losses (loss|mean_iou_val) von 2017/b0[124]/ step_relative(?)
+% TODO erklären relativ skaliert gesamter Trainingsverlauf auf maximale Breite
+% TODO erklären IoU nur auf val
+
+Um herauszufinden, welche Batch-Größe minimal notwendig ist, damit das Netz von Beginn an lernen kann, wurden auch zwei Trainingsläufe mit Batch-Größe 3 durchgeführt.
+\autoref{fig:loss3} zeigt, dass alle Durchläufe mit dieser Batch-Größe in Bezug auf den \gls{iou} kontinuierlich ansteigen und eine Art Schranke erreichen, ab der die Ergebnisse nicht mehr besser werden.
+Auf diesem Niveau sind die auf den Trainingsdaten erzeugten Outputs visuell akzeptabel, aber der Diskriminator ist dennoch in der Lage, die gefälschten Exemplare sicher zu identifizieren (s. \autoref{fig:outputsb03}).
+
+% TODO fig:lossb03 Losses 2017/b03/ step_step (Hinweis?)
+
+% TODO fig:outputsb03 5 Bilder input output target real fake von b03 bei ca. step 6300
+
+Man könnte vermuten, dass das Netz in einem lokalen Minimum angelangt ist, und hoffen, dass bei anderen Batch-Größen über 3 sich ähnlich konsistente Ergebnisse zeigen, bei denen die Schranke sich kontinuierlich nach oben verschiebt.
+Tatsächlich aber ergibt sich eine solche Konsistenz erst wieder bei einer Batch-Größe von 64.
+Zusätzlich wurde die logarithmische Mitte zwischen 32 und 64, also $ round(2^{5,5}) = 45 $ evaluiert; auch hier waren beide Trainingsläufe ähnlich und fielen in keines der oben genannten Muster von Zurückfallen und Stagnation.
+Insgesamt sind die Trainingsverläufe sehr glatt (s. \autoref{fig:lossb4564}) und \autoref{fig:outputsb64} zeigt, dass der Diskriminator kaum noch in der Lage ist zwischen realistisch und gefälscht zu unterscheiden.
+
+% TODO fig:lossb4564 Losses 2017/b(45|64) step_step(?)
+
+% TODO fig:outputs64 real und fake von b64
+
+Eine sehr hohe Batch-Größe wie 45 oder 64 zu wählen wäre demnach sinnvoll, um gute und vor allem konsistente Ergebnisse zu bekommen.
+Allerdings sind solch hohe Batch-Größen aufgrund von begrenztem Arbeitsspeicher nicht erstrebenswert.
+Stattdessen wurde versucht, einen guten Kompromiss in Form einer geringeren Batch-Größe auszuwählen.
+
+In \autoref{fig:lossworst} und \autoref{fig:lossbest} sind jeweils der schlechtere und der bessere Durchlauf jeder Batch-Größe zwischen 3 und 32 abgebildet.
+Es lässt sich zwar kein klarer Trend ausmachen, welche Batch-Größe zu mehr Stabilität und gleichzeitig besseren Ergebnissen tendiert.
+Allerdings lässt sich beobachten, dass bei den besseren Trainingsläufen Batch-Größe 4 zu einem ähnlichen IoU-Plateau wie Batch-Größe 3 tendiert.
+Außerdem tritt selbst bei dem besseren Trainingslauf von Batch-Größe 8 eine lange Periode von katastrophalem Rückfall auf.
+
+% TODO fig:lossworst b03/A b04/A b08/B b16/B b32/B
+
+% TODO fig:lossbest b03/B b04/B b08/A b16/A b32/A
+
+Hätte man allerdings bei dieser Batch-Größe und dem besseren Durchlauf das Training an dem Punkt beendet, auf dem der \gls{iou} am höchsten war, wäre dieser Wert weniger als 2 Prozentpunkte unter dem Schlusswert des besseren Durchlaufs von Batch-Größe 32 gewesen.
+\emph{Early Stopping} ist eine Methode zur Vermeidung von Overfitting, die das Training nach einem Stoppkriterium beendet.
+Dieses Kriterium ist dann erfüllt, wenn der Fehler auf den Trainingsdaten kleiner wird, gleichzeitig aber den Fehler auf den Validierungsdaten anfängt zu steigen und nach einer gewissen Geduldsperiode nicht wieder gesunken ist~\cite{Goodfellow.2016}.
+
+\autoref{fig:loss081632} zeigt alle Trainingsläufe der Batch-Größen 8, 16 und 32.
+Wenn wir jeden dieser Verläufe so betrachten, als wäre er mit Early Stopping bei einer Geduldsperiode von bspw. 1000 Trainingsschritten durchgeführt worden, erhalten wir zwei Early-Stopping-Werte pro Batch-Größe.
+Die besten und schlechtesten ES-Werte sind in \autoref{fig:es081632} visualisiert und zeigen, dass Batch-Größe 8 zwar die geringste Varianz bietet, während Batch-Größe 32 einen höheren maximalen ES-Wert bietet bei ähnlich geringer Varianz.
+Außerdem ist bei Batch-Größe 32 möglicherweise noch nicht der höchstmögliche beste ES-Wert erreicht, da im besseren Trainingsverlauf noch keine Verschlechterung des \gls{iou} stattgefunden hat.
+Aus diesem Grund wurde 32 als die Batch-Größe aller folgenden Experimente gewählt.
+
+% TODO fig:loss081632 Losses 8, 16, 32
+
+% TODO fig:es081632 Early Stopping Werte min und max als 2 Linien von b081632
 
 
