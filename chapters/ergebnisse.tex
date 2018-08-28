@@ -11,7 +11,7 @@ Zu diesen Werten gehören Mittelwerte der Gewichte und Bias-Werte jeder Schicht 
 
 \begin{enumerate}
 	\item das \emph{Diskriminator-Loss}, der GAN-Term $ \mathcal{L}_c(D, G) $ der Gesamtverlustfunktion $ R^* $ (s. \autoref{eq:canlosswonoise})
-	\item das \emph{Generator-Loss} $ D(\mathbf{x}, G(\mathbf{x})) $, die Ausgabe des Diskriminators für den Generator-Output
+	\item das \emph{Generator-Loss} $ D(\mathbf{x}, G(\mathbf{x})) $, die Bewertung des Diskriminators für den Output des Generators
 	\item das \emph{L1-Loss}, der L1-Term $ \lambda \mathcal{L}_{L1}(G) $ der Gesamtverlustfunktion $ R^* $
 \end{enumerate}
 
@@ -49,9 +49,9 @@ Ein weiterer Trainingslauf mit den vollen Trainingsdaten und doppelter Trainings
 \section{Metriken}
 
 Die \gls{giana} Challenge gibt zwei Metriken vor, um die Qualität der produzierten Segmentierungen zu bewerten: den Jaccard-Index~\cite{Jaccard.1901} und den Sørensen–Dice-Koeffizient~\cite{Srensen.1948,Dice.1945}.
-Der Jaccard-Index ist auch bekannt als "Intersection over Union", also Schnittmenge geteilt durch Vereinigungsmenge.
+Der Jaccard-Index ist auch bekannt als \gls{iou}, also Schnittmenge geteilt durch Vereinigungsmenge.
 Die beiden Mengen sind in diesem Fall die Flächen mit Polypenpixeln im Target und im Output; die Schnittmenge ist die Überlappung beider Flächen.
-Der Jaccard-Index berechnet sich anhand der Anzahl wahr positiver (TP), falsch positiver (FP) und falsch negativer (FN) Samples bzw. anhand der Mengen A und B folgendermaßen:
+Der \gls{iou} berechnet sich anhand der Anzahl wahr positiver (TP), falsch positiver (FP) und falsch negativer (FN) Samples bzw. anhand der Mengen A und B folgendermaßen:
 
 \begin{equation}
 J(A, B) = \frac{| A \cap B |}{| A \cup B |} = \frac{TP}{TP + FP + FN}
@@ -65,14 +65,14 @@ SD(A, B) = \frac{2 \ | A \cap B |}{| A | + | B |} = \frac{2 \ TP}{2 \ TP + FP + 
 \end{equation}
 
 Die Werte beider Metriken liegen zwischen 0 und 1.
-Im Gegensatz zum Jaccard-Index erfüllt der F1-Score die Dreiecksungleichung nicht, wodurch nur der Jaccard-Index sich als Distanzmaß eignet.
+Im Gegensatz zum \gls{iou} erfüllt der F1-Score die Dreiecksungleichung nicht, wodurch nur der \gls{iou} sich als Distanzmaß eignet.
 Beide Metriken sind insofern gleichwertig als dass sich der Wert einer Metrik durch den Wert der anderen berechnen lässt:
 
 \begin{equation}
 J = \frac{SD}{2 - SD} \ , \quad SD = \frac{2 \ J}{1 + J}
 \end{equation}
 
-Es ist direkt ersichtlich, dass der Jaccard-Index nicht korrekt klassifizierte Pixel, also solche außerhalb der Schnittmenge, stärker bestraft als der F1-Score.
+Es ist direkt ersichtlich, dass der \gls{iou} nicht korrekt klassifizierte Pixel, also solche außerhalb der Schnittmenge, stärker bestraft als der F1-Score.
 
 
 
