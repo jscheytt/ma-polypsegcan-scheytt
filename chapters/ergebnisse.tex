@@ -155,7 +155,7 @@ Aus diesem Grund wurde 32 als die Batch-Größe aller folgenden Experimente gew�
 
 
 
-\section{Dropout}
+\section{Deaktivieren von Dropout zur Testzeit}
 
 Um den Effekt der Deaktivierung von Dropout zur Testzeit zu untersuchen, wurde folgendes Evaluierungsszenario erstellt:
 Der \gls{iou} wurde einmal auf dem gesamten Test-Sub-Dataset CVC-612 und einmal auf einem einzelnen, zufällig ausgewählten Bild berechnet.
@@ -173,6 +173,21 @@ Entsprechend diesen Ergebnissen wurde Dropout zur Testzeit standardmäßig deakt
 
 
 \section{Umkehren der Lernrichtung}
+
+\citeauthor{Isola.2017} explorieren das Training verschiedenster Input-Target-Paare, sei es Labels zu Straßenszene, Vogelperspektive zu Kartenansicht oder Tag zu Nacht.
+Sie experimentieren auch mit einer Umkehrung der Lernrichtung, also dass z.~B. Nacht zu Tag, Kartenansicht zu Vogelperspektive oder Straßenszene zu Labels gelernt wird.
+
+Interessehalber wurde das \gls{can} im Rahmen dieser Arbeit auch für ein paar Epochen mit umgekehrter Lernrichtung trainiert; die Binärmaske war also der Input und die Originalszene das Target.
+Die Ergebnisse in \autoref{fig:lossbtoa} und \autoref{fig:outputsbtoa} zeigen, wie schnell das Netz in diesem Fall selbst mit einer Batch-Größe von 1 lernt.
+Die visuelle Qualität der Ergebnisse ist für die kurze Trainingsdauer gut, und das Training verläuft ähnlich stabil wie das eines Demo-Datasets der \glspl{can}.
+
+% TODO fig:lossbtoa Losses BtoA
+
+% TODO fig:outputsbtoa 5 Outputs von BtoA
+
+Dies lässt den Schluss zu, dass \glspl{can} zwar grundsätzlich darauf ausgelegt sind, eine Repräsentation einer Szene in eine andere zu konvertieren, aber die Ziel-Repräsentation sollte visuell komplex sein.
+Falls die Ziel-Repräsentation zu spärlich ist, wie im Fall von diskreten Labels einer Straßenszene oder dem Binärbild einer Polypensegmentierung, dann bekommt der Generator offensichtlich nicht genug Lernmaterial, um von Anfang an erfolgreich zu lernen.
+Die Erhöhung der Batch-Größe wie oben beschrieben ist demnach ein sinnvolles Mittel, um die \glspl{can} für spärliche Outputs nutzbarer zu machen.
 
 
 
