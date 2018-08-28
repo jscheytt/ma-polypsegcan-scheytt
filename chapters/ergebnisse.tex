@@ -191,6 +191,20 @@ Die Erhöhung der Batch-Größe wie oben beschrieben ist demnach ein sinnvolles 
 
 
 
-\section{L1-Loss ohne GAN}
+\section{L1-Loss ohne GAN-Term}
 
+Bei der Generierung von diskreten Labels aus einer Straßenszene untersuchen \citeauthor{Isola.2017}, wie gut sich die verschiedenen Bestandteile der Verlustfunktion für diese Aufgabe eignen.
+Sowohl hinsichtlich der Pro-Pixel-Genauigkeit als auch bei der Pro-Klassen-Genauigkeit und dem Multiklassen-IoU schneidet das L1-Loss alleine deutlich besser ab als der GAN-Term alleine.
+Letzteres erreicht Werte, die zwischen 12 und 14 Prozentpunkte schlechter als die des L1-Loss alleine sind.
 
+Nimmt man hingegen die Kombination aus L1-Loss und GAN-Term, welche das \gls{can} von einem reinen L1-getriebenen oder einem bloßen \gls{dcgan} unterscheidet, sind die Ergebnisse ebenfalls etwas schlechter als wenn man nur das L1-Loss für solche Daten nutzt.
+Allerdings unterliegt hier das \gls{can} nur mit 3 bis 6 Prozentpunkten.
+
+Auch in dieser Arbeit wurde untersucht, ob das reine L1-Loss bessere Ergebnisse erzielt als die Kombination aus L1-Loss und GAN-Term.
+Dazu wurden je drei Testläufe à 250 Epochen durchgeführt für das Baseline-Modell mit kombinierten Losses und das Modell mit nur L1-Loss.
+Die Verläufe in \autoref{fig:lossbaselinel1} zeigen, dass das reine L1-basierte Netz am Ende des Trainings sowohl im Durchschnitt als auch beim besten und schlechtesten Wert besser abschneidet als das CAN-Modell.
+Der Durchschnittswert des \gls{can} liegt 4,29 Prozentpunkte unter dem des L1-getriebenen Netzes, während immerhin die Standardabweichung der Schlusswerte um 0,42 Prozentpunkte geringer ist.
+
+% TODO fig:lossbaselinel1 Losses 2018_b32/(baseline|only_L1) bis step 2000
+
+Somit ist nicht nur bei einer Multiklassen-Segmentierung, sondern auch bei einer binären Segmentierung das reine L1-Loss knapp besser als die kombinierte Verlustfunktion.
