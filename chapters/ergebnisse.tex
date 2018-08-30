@@ -152,7 +152,7 @@ Es zeigt sich ebenso, dass folgende Muster in den Verläufen aller Batch-Größe
 \begin{itemize}
 	\item Diskriminator-Loss: Fallen oder Zurückfallen auf Null 
 	\item Generator-Loss: steil ansteigende Werte mit sägezahnartigen Verläufen
-	\item L1-Loss: Stagnieren auf einem Niveau, das bei allen Trainingsläufen ähnlich ausfällt
+	\item L1-Loss: Stagnieren auf einem Niveau, dessen Wert bei allen Trainingsläufen ähnlich ausfällt
 	\item \gls{iou}: Stagnieren bei Null oder Verschlechterung
 	\item Diskriminator und Generator in jeweils allen Schichten: Stagnieren von Gewichten und Bias-Werten und Zurückfallen auf Null der Gradienten
 \end{itemize}
@@ -196,7 +196,7 @@ Auf diesem Niveau sind die auf den Trainingsdaten erzeugten Outputs visuell akze
 		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/b03_fake}
 		\caption{Fake}
 	\end{subfigure}
-	\caption{Batch-Größe 3, Durchlauf B nach 6900 Schritten (ca. 78 Epochen): Datensatz mit Ausgabe}
+	\caption{Durchlauf mit Batch-Größe 3 nach 6900 Schritten (ca. 78 Epochen): Datensatz mit Ausgabe}
 	\label{fig:outputsb03}
 \end{figure}
 
@@ -234,7 +234,7 @@ Insgesamt sind die Trainingsverläufe sehr glatt (s. \autoref{fig:lossb4564}) un
 		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/b64_fake}
 		\caption{Fake}
 	\end{subfigure}
-	\caption{Batch-Größe 64, Durchlauf A am Ende des Trainings (600 Epochen): Datensatz mit Ausgabe}
+	\caption{Durchlauf mit Batch-Größe 64 am Ende des Trainings (600 Epochen): Datensatz mit Ausgabe}
 	\label{fig:outputsb64}
 \end{figure}
 
@@ -253,7 +253,7 @@ Außerdem tritt selbst bei dem besseren Trainingslauf von Batch-Größe 8 eine l
 
 Hätte man allerdings bei dieser Batch-Größe und dem besseren Durchlauf das Training an dem Punkt beendet, auf dem der \gls{iou} am höchsten war, wäre dieser Wert weniger als 2 Prozentpunkte unter dem Schlusswert des besseren Durchlaufs von Batch-Größe 32 gewesen.
 \emph{Early Stopping} ist eine Methode zur Vermeidung von Overfitting, die das Training nach einem Stoppkriterium beendet.
-Dieses Kriterium ist dann erfüllt, wenn der Fehler auf den Trainingsdaten kleiner wird, gleichzeitig aber den Fehler auf den Validierungsdaten anfängt zu steigen und nach einer gewissen Geduldsperiode nicht wieder gesunken ist~\cite{Goodfellow.2016}.
+Dieses Kriterium ist dann erfüllt, wenn der Fehler auf den Trainingsdaten kleiner wird, gleichzeitig aber der Fehler auf den Validierungsdaten anfängt zu steigen und nach einer gewissen Geduldsperiode nicht wieder gesunken ist~\cite{Goodfellow.2016}.
 
 \autoref{fig:loss081632} zeigt alle Trainingsläufe der Batch-Größen 8, 16 und 32.
 Wenn wir jeden dieser Verläufe so betrachten, als wäre er mit Early Stopping bei einer Geduldsperiode von bspw. 1000 Trainingsschritten durchgeführt worden, erhalten wir zwei Early-Stopping-Werte pro Batch-Größe.
