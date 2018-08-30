@@ -1,5 +1,24 @@
-\chapter{Diskussion -- 15~\%}
+\chapter{Diskussion}
 
-[Bewertung der Ergebnisse]
+\glspl{can} sind ein wertvolles Werkzeug zur Transformation von Bildern einer Szene aus einer Ursprungsrepräsentation in eine Zielrepräsentation.
+Diese Arbeit hat untersucht, ob sie sich auch für eine binäre Segmentierung im konkreten Fall einer Segmentierung von Kolorektalpolypen eignen.
+Bei konsequenter Verwendung des CAN-Frameworks stellten sich die besten Ergebnisse mit einer Batch-Größe von 32, einer Deaktivierung von Dropout zur Testzeit und einer Augmentierung der Trainingsdaten mit [einer Kombination aus Zoom, Rotation und Scherung?]. % TODO finale Augmentierung einsetzen
 
-[was hat warum nicht funktioniert, wie könnte man es verbessern]
+Bei einem Training ohne GAN-Term und \emph{nur mit L1-Loss} als Lerngrundlage stellen sich jedoch durchschnittlich leicht bessere Ergebnisse heraus.
+Somit bestätigt sich das Experiment von \citeauthor{Isola.2017} bezüglich der Multiklassen-Segmentierung auf beinahe diskretisierten Labels auch hinsichtlich der binären Segmentierung auf tatsächlich diskreten Labels:
+Traditionelle Verlustmaße wie die L1-Distanz sind ausreichend für eine diskrete Segmentierung.
+Vollständig von Daten gelernte Verlustfunktionen sind dafür noch nicht weit genug entwickelt, kommen aber bis auf wenige Prozentpunkte nah an ihre Vorgänger heran.
+
+\citeauthor{Isola.2017} merken an, dass das \gls{can} bei der Multiklassen-Segmentierung viele kleine Objekte verschiedener Klassen detektiert, die in Wirklichkeit gar nicht da sind (s.~\autoref{fig:canseg}).
+Dies lässt sich auch bei der binären Segmentierung beobachten wie bspw. in \autoref{fig:outputsb03}.
+Interessanterweise weist ein Umkehren der Lernrichtung von Anfang ein stabileres Lernverhalten auf.
+All dies lässt die Vermutung zu, dass reichhaltige Zielrepräsentationen eine Voraussetzung für ein stabiles Training von \glspl{can} sind.
+
+Allerdings sind \glspl{gan} generell sehr sensitiv hinsichtlich der Wahl ihrer Hyperparameter.
+Man könnte deshalb zur Verbesserung des Netzes generell oder zur besseren Anpassung auf das konkrete Problem der binären Segmentierung eine Grid Search oder Random Search der Trainingsparameter durchführen, um eine bessere Konstellation als die bereitgestellten Standardparameter (s. \autoref{tab:train_def_val}) zu finden.
+Aus zeitlichen Gründen konnte eine solche Suche im Rahmen dieser Arbeit nicht stattfinden.
+
+Ebenso haben \glspl{gan} oftmals mit Instabilität durch entweder explodierende oder verschwindende Gradienten zu kämpfen.
+Dieses Problem tritt auch bei den \gls{can} für binäre Segmentierung in Form von verschwindenden Gradienten auf (s. \autoref{sec:batchsize}).
+\citeauthor{Arjovsky.2017} zeigen auf, dass das Hinzufügen von Rauschen in der ersten Schicht des Diskriminators sowohl gegen verschwindende als auch explodierende Gradienten theoretisch ein gutes Mittel ist.
+Dies liegt darin begründet, dass []
