@@ -340,6 +340,7 @@ Die Erhöhung der Batch-Größe wie oben beschrieben ist demnach ein sinnvolles 
 
 Bei der Generierung von diskreten Labels aus einer Straßenszene untersuchen \citeauthor{Isola.2017}, wie gut sich die verschiedenen Bestandteile der Verlustfunktion für diese Aufgabe eignen.
 Sowohl hinsichtlich der Pro-Pixel-Genauigkeit als auch bei der Pro-Klassen-Genauigkeit und dem Multiklassen-IoU schneidet das L1-Loss alleine deutlich besser ab als der GAN-Term alleine.
+(Nutzt man nur das L1-Loss, ist das Netz letztendlich nur ein \gls{dcgan} in U-Net-Struktur.)
 Letzteres erreicht Werte, die zwischen 12 und 14 Prozentpunkte schlechter als die des L1-Loss alleine sind.
 
 Nimmt man hingegen die Kombination aus L1-Loss und GAN-Term, welche das \gls{can} von einem reinen L1-getriebenen oder einem bloßen \gls{dcgan} unterscheidet, sind die Ergebnisse ebenfalls etwas schlechter als wenn man nur das L1-Loss für solche Daten nutzt.
