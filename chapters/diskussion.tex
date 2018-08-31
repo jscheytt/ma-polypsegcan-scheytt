@@ -18,7 +18,26 @@ Allerdings sind \glspl{gan} generell sehr sensitiv hinsichtlich der Wahl ihrer H
 Man könnte deshalb zur Verbesserung des Netzes generell oder zur besseren Anpassung auf das konkrete Problem der binären Segmentierung eine Grid Search oder Random Search der Trainingsparameter durchführen, um eine bessere Konstellation als die bereitgestellten Standardparameter (s. \autoref{tab:train_def_val}) zu finden.
 Aus zeitlichen Gründen konnte eine solche Suche im Rahmen dieser Arbeit nicht stattfinden.
 
-Ebenso haben \glspl{gan} oftmals mit Instabilität durch entweder explodierende oder verschwindende Gradienten zu kämpfen.
+
+
+\section{Verschwindende Gradienten}
+
+\glspl{gan} haben außerdem oftmals mit Instabilität durch entweder explodierende oder verschwindende Gradienten zu kämpfen.
 Dieses Problem tritt auch bei den \gls{can} für binäre Segmentierung in Form von verschwindenden Gradienten auf (s. \autoref{sec:batchsize}).
 \citeauthor{Arjovsky.2017} zeigen auf, dass das Hinzufügen von Rauschen in der ersten Schicht des Diskriminators sowohl gegen verschwindende als auch explodierende Gradienten theoretisch ein gutes Mittel ist.
-Dies liegt darin begründet, dass []
+
+Dies liegt darin begründet, dass im Falle von generativen Netzen die Region mit hoher Wahrscheinlichkeitsdichte der Wahrscheinlichkeitsverteilung des Generators und die des Diskriminators sich auf getrennten niedrigdimensionalen Mannigfaltigkeiten befinden, die nie perfekt zueinander ausgerichtet sind~\cite{Arjovsky.2017}.
+Andere generative Ansätze als die \glspl{gan} führen traditionellerweise Maximum-Likelihood-Schätzung zur Annäherung der beiden Verteilungen aneinander; dies entspricht der nicht-kommutativen \gls{kld}.
+Liegen die beiden Verteilungen sehr weit voneinander entfernt, gibt die \gls{kld} dem Generator zu wenig Feedback, um lernen zu können.
+
+Trainiert man den Diskriminator getrennt vom Generator auf optimale Bewertung, dann führt auch die originale Formulierung der \glspl{gan} für die Fake-Bewertung $ \mathbb{E}\log(1 - D(G(\mathbf{z}))) $ dazu, dass der Gradient für den Generator fast überall Null wird.
+Die alternative Formulierung des Generator-Terms mit $ \mathbb{E}-\log(D(G(\mathbf{z}))) $ aus dem GAN-Paper~\cite{Goodfellow.2014} führt bei optimalem Diskriminator hingegen zu explodierenden Gradienten.
+
+Fügt man jedoch Rauschen am Input des Diskriminators hinzu und nimmt die originale Formulierung des Generator-Terms, glättet man dessen Verteilung und sorgt somit dafür, dass der Gradient für den Generator der \gls{jsd} entspricht.
+Diese Divergenz ist der Mittelwert der \glspl{kld} beider Verteilungskombinationen und nicht überall Null, selbst wenn beide Verteilungen weiter voneinander entfernt sind.
+Somit kann ein solches Rauschen zumindest in der Theorie zu stabilen Gradienten führen, die weder verschwinden noch explodieren.
+Die \glspl{can} von \citeauthor{Isola.2017} müssten dementsprechend so angepasst werden, dass sowohl Inputs als auch Targets mit einem Gauss'schen Rauschen gefiltert werden, bevor sie dem Diskriminator übergeben werden; der Generator hingegen erhält den originalen Datensatz.
+
+
+
+
