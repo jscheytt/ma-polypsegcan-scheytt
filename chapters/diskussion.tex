@@ -45,4 +45,18 @@ In ihren Experimenten stellen die Autoren deutliche Verbesserungen durch eine Er
 Erste Plätze bei Detektions- und Lokalisierungs-Challenges auf ImageNet und COCO belegen die Wirksamkeit dieses Rest-Lernens.
 Diesen Aufbau statt das U-Net als Grundlage für den Generator zu nehmen, könnte weitere Verbesserungen bei der Stabilisierung des Trainings bewirken.
 
+Ein weiterer interessanter Ansatz basiert auf der Wasserstein-Distanz, welche die minimalen Kosten beim Transport aller Wahrscheinlichkeitsdichte einer Verteilung auf die Wahrscheinlichkeitsdichte einer anderen Verteilung ausdrückt~\cite{Arjovsky.2017}.
+Wird ein Netz anhand dieser Metrik trainiert, approximiert der Diskriminator ebenfalls die \gls{jsd} und bietet damit dem Generator ständig Feedback zum Lernen.
+Eine sehr vielversprechende Konsequenz dieses Aufbaus wäre, dass man tatsächlich zuerst den Diskriminator getrennt trainieren könnte bis zu einem optimalen Punkt und den Generator anschließend trainieren könnte, ohne befürchten zu müssen, dass der Diskriminator dem Generator zu wenig Feedback bietet.
+Experimente hinsichtlich des Rhythmus von Diskriminator- und Generator-Updates bei den \glspl{can} könnten bei einer solchen Trainingsweise vermutlich entfallen.
+
+Um ein \gls{wgan} zu implementieren, muss man die Wasserstein-Distanz allerdings approximieren, und dafür wird der Diskriminator durch einen "Kritiker" ersetzt, nämlich eine Funktion mit 1-Lipschitz-Stetigkeit ist~\cite{Arjovsky.2017b}.
+Um diese Lipschitz-Stetigkeit der Funktion einzuhalten, wird im originalen Paper ein naives Begrenzen der Gewichte im Diskriminator mithilfe eines Hyperparameters umgesetzt.
+Dies hält zwar die Lipschitz-Stetigkeit ein, begrenzt aber die Kapazität des Modells.
+Durch eine Gradient Penalty, also eine Bestrafung zu hoher Gradientenwerte, wird diese Situation wieder verbessert~\cite{Gulrajani.2017}.
+
+\glspl{wgan} erreichen durchaus Ergebnisse, die ähnlich gut wie oder besser als traditionelle Architekturen wie \glspl{dcgan} sind, brauchen dafür aber in der Regel mehr Trainingszeit, wenn auch nicht mehr Iterationen.
+Ihr großer Vorteil ist das deutlich stabilere Konvergieren, das ein Training großer Netze besser möglich machen kann.
+Außerdem erzielen \glspl{wgan} mit Gradient Penalty im Gegensatz zu vielen anderen erfolgreichen Architekturen selbst noch dann sehr gute Ergebnisse, wenn keinerlei Normalisierung in Generator und Diskriminator geschieht oder ein ResNet trainiert wird.
+
 
