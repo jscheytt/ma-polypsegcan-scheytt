@@ -85,4 +85,11 @@ Eine solche Architektur im Generator der \glspl{can} zu verwenden, könnte nicht
 
 
 
+\section{Weiterentwicklungen der CANs}
 
+Die Autoren der \glspl{can} haben ihren Ansatz bereits weiterentwickelt für eine Bild-zu-Bild-Übersetzung, bei der keine direkten Bild-zu-Bild-Paare zum Training zur Verfügung stehen.
+Stattdessen stehen eine \emph{Menge $ X $ an Inputs} einer \emph{Menge $ Y $ an Targets} gegenüber.
+Mithilfe des GAN-Frameworks wird eine Projektion von $ X $ nach $ Y $ gelernt.
+Diese wird mithilfe der Verlustfunktion auf Zyklenkonsistenz beschränkt, sodass nach einem Mapping von $ X $ nach $ Y $ das Mapping dessen Ergebnisses $ Y' $ auf $ X $ wieder ähnlich wie $ X $ sein muss.
+Indem sie das GAN-Training mit einem Zyklenkonsistenz-Loss für beide Prädiktionsrichtungen kombinieren, übertreffen sie aktuelle Ansätze.
+Für eine Multiklassen-Segmentierung verschlechtert sich allerdings das Ergebnis gegenüber den \glspl{can}.
