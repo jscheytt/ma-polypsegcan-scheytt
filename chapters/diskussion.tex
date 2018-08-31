@@ -38,6 +38,11 @@ Diese Divergenz ist der Mittelwert der \glspl{kld} beider Verteilungskombination
 Somit kann ein solches Rauschen zumindest in der Theorie zu stabilen Gradienten führen, die weder verschwinden noch explodieren.
 Die \glspl{can} von \citeauthor{Isola.2017} müssten dementsprechend so angepasst werden, dass sowohl Inputs als auch Targets mit einem Gauss'schen Rauschen gefiltert werden, bevor sie dem Diskriminator übergeben werden; der Generator hingegen erhält den originalen Datensatz.
 
-
+Als eine sehr hilfreiche Taktik gegen explodierende oder verschwindende Gradienten hat sich bei Deep Learning neben Batch-Normalisierung auch \emph{Residual Learning} in Form von ResNets etabliert:
+Statt nur die Anzahl an Schichten im Netz zu erhöhen, werden in wiederholenden Abständen parameterfreie Skip Connections mit elementweiser Summierung eingebaut, die ein reines Identitätsmapping erzielen~\cite{He.2016}.
+Dadurch lernen die dazwischen liegenden Schichten nur eine Restfunktion statt eine vollständige Funktion.
+In ihren Experimenten stellen die Autoren deutliche Verbesserungen durch eine Erhöhung der Tiefe fest im Gegensatz zu Referenzarchitekturen.
+Erste Plätze bei Detektions- und Lokalisierungs-Challenges auf ImageNet und COCO belegen die Wirksamkeit dieses Rest-Lernens.
+Diesen Aufbau statt das U-Net als Grundlage für den Generator zu nehmen, könnte weitere Verbesserungen bei der Stabilisierung des Trainings bewirken.
 
 
