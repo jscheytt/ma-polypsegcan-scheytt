@@ -109,7 +109,8 @@ Außerdem müsste zusätzlicher Aufwand an Evalution investiert werden, um herau
 
 Aus diesen Gründen wird der Ansatz mit Herunterskalieren gewählt.
 Dabei ist die Frage noch nicht geklärt, ob sich das Training stärker verschlechtert, wenn das Netz lernt, dass Graustufen- statt Binärbildern gewollt sind, oder wenn es lernt, dass treppenartige Objektgrenzen realistisch sind.
-Deshalb wird evaluiert, welches Skalierungsverfahren sich am positivsten auf das Training auswirkt.
+TensorFlow bietet zur Skalierung verschiedene Interpolationsverfahren an: Area-, Nearest-Neighbor-, bilineare und bikubische Interpolation.
+Für eine Herunterskalierung eignet sich die Area-Interpolation am besten, da sie als einzige dieser Optionen Aliasing-Effekte beim Downscaling vermeidet.
 
 
 
@@ -135,6 +136,8 @@ Bei Pixeln, die in überlappenden Regionen des Gesamt-Outputs liegen, müsste da
 Aliasing-Artefakte könnte man an solchen Stellen durch eine Schwellwertberechnung entgegentreten.
 
 Da sich die Umsetzung dieser zweiten Variante in TensorFlow als sehr kompliziert erwies, wurde stattdessen die Hochskalierung gewählt.
+Als Interpolationsverfahren wurde die \emph{bikubische Interpolation} gewählt, weil sie unter allen Optionen die größte Region, nämlich eine 4$\times$4-Nachbarschaft um den zu interpolierenden Punkt, berücksichtigt.
+
 Eine solche Hochskalierung für CVC-612 anzuwenden erscheint sinnvoll, da die hochskalierte Fläche nicht einmal doppelt so groß ist wie die native Ausgabe des Generators.
 Bei CVC-HDTest hingegen wäre die hochskalierte Fläche mehr als dreißigmal so groß wie die Ausgabegröße des Generators.
 Die Ergebnisse einer solchen Hochskalierung wären sehr wahrscheinlich nicht sehr gut; hier müsste eine patchbasierte Lösung oder eine gelernte Hochskalierung zum Einsatz kommen.
@@ -164,8 +167,6 @@ Der gesamte Ablauf der Nachbearbeitung des Generator-Outputs setzt sich nun folg
 	\item Kanäle zusammenfassen
 	\item Binarisieren
 \end{enumerate}
-
-Auch in diesem Fall wird evaluiert werden, welches Verfahren bei der Hochskalierung die besten Ergebnisse liefert.
 
 
 
@@ -210,19 +211,16 @@ Die Transformationen von \citeauthor{Vazquez.2017} beinhalten die folgenden Oper
 \begin{itemize}
 	\item Zoom mit einem Faktor von 0,9 bis 1,1
 	\item Rotation von 0 bis 180\textdegree
-	\item Scherung mit einem Winkel von 0 bis 0,4
+	\item Scherung mit einem Winkel von 0 bis 0,4 rad
 	\item Warping mit $ \sigma $ von 0 bis 10
 \end{itemize}
 
 Die Autoren stellen auf ihrem Dataset bei einer Kombination all dieser Transformationen eine Verbesserung der Polypensegmentierung um ca. 10 Prozentpunkte fest.
-Leider können nicht alle diese Transformationen in dieser Arbeit angewandt werden, einerseits weil Details für die Warp-Transformation und die Scherung fehlen, andererseits weil TensorFlow in der vorliegenden Version für viele dieser Operationen keine native Einbindung bereitstellt.
-Evaluiert werden in dieser Arbeit deshalb folgende Augmentationen, die TensorFlow standardmäßig bereitstellt:
+In dieser Arbeit werden alle genannten Transformationen angewandt bis auf das Warping, da diese nicht genau genug dokumentiert ist, um sie verlässlich zu reproduzieren.
+Nach der Durchführung einer Augmentierung wird das erzeugte Bild mit der Hälfte des maximalen Wertes als Schwellwert binarisiert, da bei der Anwendung der Transformationen Interpolationsartefakte auftreten können, die dem Bild Graustufenverläufe hinzufügen.
 
-\begin{itemize}
-	\item vertikale Spiegelung (von links nach rechts)
-	\item horizontale Spiegelung (von oben nach unten)
-	\item Rotation von 0 bis 180\textdegree
-\end{itemize}
+Es wäre wünschenswert gewesen, fertige Python-Module zur Dataset Augmentation zu verwenden, aber keine der vorhandenen Lösungen konnte sich mit der verwendeten TensorFlow-Version so integrieren, dass eine Live-Augmentierung möglich gewesen wäre.
+Stattdessen wurden mithilfe des Moduls \emph{affine} die Transformationsmatrizen inklusive Verschiebung zu und vom Ursprung berechnet und dann mit der entsprechenden TensorFlow-Operation auf Input und Target angewendet.
 
 
 
