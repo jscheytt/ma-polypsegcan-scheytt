@@ -1,3 +1,80 @@
+\newenvironment{losseswoiou}[1]
+{\begin{figure}
+	\centering
+	\begin{subfigure}{.32\textwidth}
+		\centering
+		\includegraphics[width=.95\linewidth]{data/#1-disc}
+		\caption{Diskriminator-Loss}
+	\end{subfigure}
+	\begin{subfigure}{.32\textwidth}
+		\centering
+		\includegraphics[width=.95\linewidth]{data/#1-gen}
+		\caption{Generator-Loss}
+	\end{subfigure}
+	\begin{subfigure}{.32\textwidth}
+		\centering
+		\includegraphics[width=.95\linewidth]{data/#1-l1}
+		\caption{L1-Loss}
+\end{subfigure}}
+{\end{figure}}
+
+\newenvironment{losses}[1]
+{\begin{figure}
+	\centering
+	\begin{subfigure}{.24\textwidth}
+		\centering
+		\includegraphics[width=.95\linewidth]{data/#1-disc}
+		\caption{Diskrim.-Loss}
+	\end{subfigure}
+	\begin{subfigure}{.24\textwidth}
+		\centering
+		\includegraphics[width=.95\linewidth]{data/#1-gen}
+		\caption{Generator-Loss}
+	\end{subfigure}
+	\begin{subfigure}{.24\textwidth}
+		\centering
+		\includegraphics[width=.95\linewidth]{data/#1-l1}
+		\caption{L1-Loss}
+	\end{subfigure}
+	\begin{subfigure}{.24\textwidth}
+		\centering
+		\includegraphics[width=.95\linewidth]{data/#1-iou}
+		\caption{\gls{iou} auf Val.}
+\end{subfigure}}
+{\end{figure}}
+
+\newenvironment{outputs}[1]
+{\begin{figure}
+	\centering
+	\begin{subfigure}{.19\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{img/results/#1_input}
+		\caption{Input}
+	\end{subfigure}
+	\begin{subfigure}{.19\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{img/results/#1_target}
+		\caption{Target}
+	\end{subfigure}
+	\begin{subfigure}{.19\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{img/results/#1_output}
+		\caption{Output}
+	\end{subfigure}
+	\begin{subfigure}{.19\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/#1_real}
+		\caption{Real}
+	\end{subfigure}
+	\begin{subfigure}{.19\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/#1_fake}
+		\caption{Fake}
+\end{subfigure}}
+{\end{figure}}
+
+
+
 \chapter{Ergebnisse}
 
 Dieses Kapitel stellt die Resultate der verschiedenen Experimente vor und zeigt auf, welche Design-Entscheidungen welche Auswirkungen haben.
@@ -26,77 +103,28 @@ In diesem Fall jedoch war der Output immer komplett schwarz, Real komplett weiß
 Letzteres zeigt, dass der Diskriminator maximal in der Lage ist, zwischen gefälschten und realistischen Bildern zu unterscheiden.
 Die Verläufe der Losses des ersten Trainingslaufs in \autoref{fig:lossini} zeigen, dass das Diskriminator-Loss sofort auf Null fällt, das Generator-Loss ungewöhnlich große Sprünge aufweist und das L1-Loss nach kürzester Zeit auf einem Plateau stagniert.
 
-% TODO fig:lossini Losses von initial und facades
+\begin{losseswoiou}{ini}
+	\caption{Verläufe des initialen Trainingslaufs.}
+	\label{fig:lossini}
+\end{losseswoiou}
 
-\begin{figure}
-	\centering
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/initial_input}
-		\caption{Input}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/initial_target}
-		\caption{Target}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/initial_output}
-		\caption{Output}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/initial_real}
-		\caption{Real}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/initial_fake}
-		\caption{Fake}
-	\end{subfigure}
+\begin{outputs}{initial}
 	\caption{Initialer Trainingslauf: ein Datensatz und die dazugehörige Ausgabe des Netzes.}
 	\label{fig:outputsini}
-\end{figure}
-
-Als Referenz ist in \autoref{fig:lossini} der Trainingsverlauf des Facades-Demo-Datasets aufgezeichnet:
-Hier bewegt sich das Diskriminator-Loss auf den Wert 0.5 zu, der Verlauf des Generator-Loss ist sehr viel beständiger und das L1-Loss nimmt stetig ab.
+\end{outputs}
 
 Eine Debugging-Strategie, die \citeauthor{Goodfellow.2016} bei Deep Learning vorschlagen, ist das Trainieren mit einem sehr kleinen Dataset, um zu überprüfen, ob das Netz überhaupt in der Lage ist, aus den Trainingsdaten zu lernen~\cite{Goodfellow.2016}.
 Zu diesem Zweck wurde ein Trainingslauf mit drei zufällig gewählten Datensätzen durchgeführt, und schon nach wenigen Trainingsschritten zeigte sich Erfolg (s. \autoref{fig:lossminsamples} und \autoref{fig:outputsminsamples}):
 
-% TODO fig:lossminsamples Losses von min-samples, initial und facades angedeutet
+\begin{losseswoiou}{min_samples}
+	\caption{Verläufe des Durchlaufs mit minimaler Anzahl Samples.}
+	\label{fig:lossminsamples}
+\end{losseswoiou}
 
-\begin{figure}
-	\centering
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/min_input}
-		\caption{Input}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/min_target}
-		\caption{Target}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/min_output}
-		\caption{Output}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/min_real}
-		\caption{Real}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/min_fake}
-		\caption{Fake}
-	\end{subfigure}
-	\caption{Durchlauf mit minimaler Anzahl Samples: Datensatz mit Ausgabe}
+\begin{outputs}{min}
+	\caption{Datensatz und Ausgabe des Durchlaufs mit minimaler Anzahl Samples.}
 	\label{fig:outputsminsamples}
-\end{figure}
+\end{outputs}
 
 Der Output ist nicht mehr leer, sondern nahe am Target, und Real und Fake sind sehr ähnlich.
 Außerdem ist das Diskriminator-Loss nicht mehr auf Null, das Generator-Loss tendiert zu niedrigeren Werten und das L1-Loss verläuft monoton fallend.
@@ -146,7 +174,7 @@ Oftmals werden in solchen Fällen Zweierpotenzen gewählt, deshalb wurden hier d
 Für jede Batch-Größe wurden zwei Trainingsläufe durchgeführt, um mögliche Varianzen beim Training zu einem gewissen Grad einschätzen zu können.
 Die Dauer jedes Trainingslaufs betrug 600 Epochen, was bei unterschiedlichen Batch-Größen zu einer unterschiedlichen Anzahl von Trainingsschritten führt.
 
-In \autoref{fig:lossb0124} wird ersichtlich, dass das Netz erst bei einer Batch-Größe über 2 in der Lage ist, von Anfang an zu lernen.
+In \autoref{fig:lossb010204} wird ersichtlich, dass das Netz erst bei einer Batch-Größe über 2 in der Lage ist, von Anfang an zu lernen.
 Es zeigt sich ebenso, dass folgende Muster in den Verläufen aller Batch-Größen sehr zuverlässig korrelieren:
 
 \begin{itemize}
@@ -159,84 +187,40 @@ Es zeigt sich ebenso, dass folgende Muster in den Verläufen aller Batch-Größe
 
 All diese Verläufe und besonders das letzte Muster sprechen dafür, dass der Generator in solchen Phasen nicht in der Lage ist, irgendetwas zu lernen, das er dem Diskriminator entgegen setzen kann.
 
-% TODO fig:lossb0124 alle 4 Losses (loss|mean_iou_val) von 2017/b0[124]/ step_relative(?)
-% TODO erklären relativ skaliert gesamter Trainingsverlauf auf maximale Breite
-% TODO erklären IoU nur auf val
+\begin{losses}{b010204}
+	\caption{Verläufe der Durchläufe mit Batch-Größe 1 (dunkellila), 2 (hellblau) und 4 (grün und gelb). Der \gls{iou} wurde hier nur auf den Validierungsdaten berechnet. Je höher die Batch-Größe, desto weniger Trainingsschritte bei gleich vielen Trainingsepochen.}
+	\label{fig:lossb010204}
+\end{losses}
+
 
 Um herauszufinden, welche Batch-Größe minimal notwendig ist, damit das Netz von Beginn an lernen kann, wurden auch zwei Trainingsläufe mit Batch-Größe 3 durchgeführt.
 \autoref{fig:loss3} zeigt, dass alle Durchläufe mit dieser Batch-Größe in Bezug auf den \gls{iou} kontinuierlich ansteigen und eine Art Schranke erreichen, ab der die Ergebnisse nicht mehr besser werden.
 Auf diesem Niveau sind die auf den Trainingsdaten erzeugten Outputs visuell akzeptabel, aber der Diskriminator ist dennoch in der Lage, die gefälschten Exemplare sicher zu identifizieren (s. \autoref{fig:outputsb03}).
 
-% TODO fig:lossb03 Losses 2017/b03/ step_step (Hinweis?)
+\begin{losses}{b03}
+	\caption{Verläufe der Durchläufe mit Batch-Größe 3.}
+	\label{fig:lossb03}
+\end{losses}
 
-\begin{figure}
-	\centering
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/b03_input}
-		\caption{Input}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/b03_target}
-		\caption{Target}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/b03_output}
-		\caption{Output}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/b03_real}
-		\caption{Real}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/b03_fake}
-		\caption{Fake}
-	\end{subfigure}
-	\caption{Durchlauf mit Batch-Größe 3 nach 6900 Schritten (ca. 78 Epochen): Datensatz mit Ausgabe}
+\begin{outputs}{b03}
+	\caption{Datensatz und Ausgabe des Durchlaufs mit Batch-Größe 3 nach 6900 Schritten (ca. 78 Epochen).}
 	\label{fig:outputsb03}
-\end{figure}
+\end{outputs}
 
 Man könnte vermuten, dass das Netz in einem lokalen Minimum angelangt ist, und hoffen, dass bei anderen Batch-Größen über 3 sich ähnlich konsistente Ergebnisse zeigen, bei denen die Schranke sich kontinuierlich nach oben verschiebt.
 Tatsächlich aber ergibt sich eine solche Konsistenz erst wieder bei einer Batch-Größe von 64.
 Zusätzlich wurde die logarithmische Mitte zwischen 32 und 64, also $ round(2^{5,5}) = 45 $ evaluiert; auch hier waren beide Trainingsläufe ähnlich und fielen in keines der oben genannten Muster von Zurückfallen und Stagnation.
 Insgesamt sind die Trainingsverläufe sehr glatt (s. \autoref{fig:lossb4564}) und \autoref{fig:outputsb64} zeigt, dass der Diskriminator kaum noch in der Lage ist zwischen realistisch und gefälscht zu unterscheiden.
 
-% TODO fig:lossb4564 Losses 2017/b(45|64) step_step(?)
+\begin{losses}{b4564}
+	\caption{Verläufe der Durchläufe mit Batch-Größe 45 (dunkellila und hellblau) und 64 (grün und gelb).}
+	\label{fig:lossb4564}
+\end{losses}
 
-\begin{figure}
-	\centering
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/b64_input}
-		\caption{Input}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/b64_target}
-		\caption{Target}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/b64_output}
-		\caption{Output}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/b64_real}
-		\caption{Real}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/b64_fake}
-		\caption{Fake}
-	\end{subfigure}
-	\caption{Durchlauf mit Batch-Größe 64 am Ende des Trainings (600 Epochen): Datensatz mit Ausgabe}
+\begin{outputs}{b64}
+	\caption{Datensatz und Ausgabe des Durchlaufs mit Batch-Größe 64 am Ende des Trainings (600 Epochen).}
 	\label{fig:outputsb64}
-\end{figure}
+\end{outputs}
 
 Eine sehr hohe Batch-Größe wie 45 oder 64 zu wählen wäre demnach sinnvoll, um gute und vor allem konsistente Ergebnisse zu bekommen.
 Allerdings sind solch hohe Batch-Größen aufgrund von begrenztem Arbeitsspeicher nicht erstrebenswert.
@@ -247,9 +231,15 @@ Es lässt sich zwar kein klarer Trend ausmachen, welche Batch-Größe zu mehr St
 Allerdings lässt sich beobachten, dass bei den besseren Trainingsläufen Batch-Größe 4 zu einem ähnlichen IoU-Plateau wie Batch-Größe 3 tendiert.
 Außerdem tritt selbst bei dem besseren Trainingslauf von Batch-Größe 8 eine lange Periode von katastrophalem Rückfall auf.
 
-% TODO fig:lossworst b03/A b04/A b08/B b16/B b32/B
+\begin{losses}{main_worst}
+	\caption{Verläufe der schlechtesten Durchläufe von jeweils Batch-Größe 3 (dunkellila), 4 (blau), 8 (türkis), 16 (grün) und 32 (gelb).}
+	\label{fig:lossworst}
+\end{losses}
 
-% TODO fig:lossbest b03/B b04/B b08/A b16/A b32/A
+\begin{losses}{main_best}
+	\caption{Verläufe der besten Durchläufe von jeweils Batch-Größe 3, 4, 8, 16 und 32 (Farben s. \autoref{fig:lossworst}).}
+	\label{fig:lossbest}
+\end{losses}
 
 Hätte man allerdings bei dieser Batch-Größe und dem besseren Durchlauf das Training an dem Punkt beendet, auf dem der \gls{iou} am höchsten war, wäre dieser Wert weniger als 2 Prozentpunkte unter dem Schlusswert des besseren Durchlaufs von Batch-Größe 32 gewesen.
 \emph{Early Stopping} ist eine Methode zur Vermeidung von Overfitting, die das Training nach einem Stoppkriterium beendet.
@@ -261,7 +251,10 @@ Die besten und schlechtesten ES-Werte sind in \autoref{fig:es081632} visualisier
 Außerdem ist bei Batch-Größe 32 möglicherweise noch nicht der höchstmögliche beste ES-Wert erreicht, da im besseren Trainingsverlauf noch keine Verschlechterung des \gls{iou} stattgefunden hat.
 Aus diesem Grund wurde 32 als die Batch-Größe aller folgenden Experimente gewählt.
 
-% TODO fig:loss081632 Losses 8, 16, 32
+\begin{losses}{b081632}
+	\caption{Verläufe aller Durchläufe von Batch-Größe 8 (dunkellila und dunkelblau), 16 (hellblau, türkis) und 32 (hellgrün und gelb).}
+	\label{fig:loss081632}
+\end{losses}
 
 % TODO fig:es081632 Early Stopping Werte min und max als 2 Linien von b081632
 
@@ -297,38 +290,15 @@ Interessehalber wurde das \gls{can} im Rahmen dieser Arbeit auch für ein paar E
 Die Ergebnisse in \autoref{fig:lossbtoa} und \autoref{fig:outputsbtoa} zeigen, wie schnell das Netz in diesem Fall selbst mit einer Batch-Größe von 1 lernt.
 Die visuelle Qualität der Ergebnisse ist für die kurze Trainingsdauer gut, und das Training verläuft ähnlich stabil wie das eines Demo-Datasets der \glspl{can}.
 
-% TODO fig:lossbtoa Losses BtoA
+\begin{losseswoiou}{btoa}
+	\caption{Verläufe des Durchlaufs mit umgekehrter Trainingsrichtung.}
+	\label{fig:lossbtoa}
+\end{losseswoiou}
 
-\begin{figure}
-	\centering
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/btoa_input}
-		\caption{Input}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/btoa_target}
-		\caption{Target}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth]{img/results/btoa_output}
-		\caption{Output}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/btoa_real}
-		\caption{Real}
-	\end{subfigure}
-	\begin{subfigure}{.19\textwidth}
-		\centering
-		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/btoa_fake}
-		\caption{Fake}
-	\end{subfigure}
-	\caption{Durchlauf mit umgekehrter Lernrichtung am Ende des Trainings (ca. 18 Epochen): Datensatz mit Ausgabe}
+\begin{outputs}{btoa}
+	\caption{Datensatz und Ausgabe des Durchlaufs mit umgekehrter Lernrichtung am Ende des Trainings (ca. 18 Epochen).}
 	\label{fig:outputsbtoa}
-\end{figure}
+\end{outputs}
 
 Dies lässt den Schluss zu, dass \glspl{can} zwar grundsätzlich darauf ausgelegt sind, eine Repräsentation einer Szene in eine andere zu konvertieren, aber die Ziel-Repräsentation sollte visuell komplex sein.
 Falls die Ziel-Repräsentation zu spärlich ist, wie im Fall von diskreten Labels einer Straßenszene oder dem Binärbild einer Polypensegmentierung, dann bekommt der Generator offensichtlich nicht genug Lernmaterial, um von Anfang an erfolgreich zu lernen.
@@ -351,6 +321,8 @@ Dazu wurden je drei Testläufe à 250 Epochen durchgeführt für das Baseline-Mo
 Die Verläufe in \autoref{fig:lossbaselinel1} zeigen, dass das reine L1-basierte Netz am Ende des Trainings sowohl im Durchschnitt als auch beim besten und schlechtesten Wert besser abschneidet als das CAN-Modell.
 Der Durchschnittswert des \gls{can} liegt 4,29 Prozentpunkte unter dem des L1-getriebenen Netzes, während immerhin die Standardabweichung der Schlusswerte um 0,42 Prozentpunkte geringer ist.
 
-% TODO fig:lossbaselinel1 Losses 2018_b32/(baseline|only_L1) bis step 2000
+\begin{losses}{baselinel1}
+	\caption{Verläufe des CAN-Modells (dunkellila, dunkelblau, hellblau) und des rein L1-basierten Modells (türkis, hellgrün, gelb). Zwei Trainingsläufe des L1-Modells wurden ungeplant frühzeitig bei Schritt 2000 beendet und konnten aus Zeitgründen nicht mehr vollständig wiederholt werden.}
+\end{losses}
 
 Somit ist nicht nur bei einer Multiklassen-Segmentierung, sondern auch bei einer binären Segmentierung das reine L1-Loss knapp besser als die kombinierte Verlustfunktion.

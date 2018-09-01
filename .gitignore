@@ -227,3 +227,7 @@ TSWLatexianTemp*
 
 # standalone packages
 *.sta
+
+# RStudio
+*.RData
+*.Rhistory
