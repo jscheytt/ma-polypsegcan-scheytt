@@ -55,7 +55,7 @@ Zum anderen ist der \emph{Rhythmus} des Trainings entscheidend, denn es wird imm
 Lernt der Diskriminator zu schnell, ist es möglich, dass der Generator keine Chance hat zu lernen, realistische Samples zu erzeugen, weil der Diskriminator alle Generator-Outputs maximal ablehnt.
 
 Ein weiteres großes Risiko beim Training von \glspl{gan} besteht im teilweisen oder kompletten \emph{Zusammenfallen von Moden}~\cite{Che.2016}:
-Selbst wenn das Netz qualitativ überzeugende Samples liefert, kann es passiert sein, dass die Wahrscheinlichkeitsverteilung, die der Generator gelernt hat, nur wenige Regionen oder sogar nur eine Region mit hoher Wahrscheinlichkeitsdichte abdeckt.
+Selbst wenn das Netz überzeugende Samples liefert, kann es passiert sein, dass die Wahrscheinlichkeitsverteilung, die der Generator gelernt hat, nur wenige Regionen oder sogar nur eine Region mit hoher Wahrscheinlichkeitsdichte abdeckt.
 Außerdem sind \glspl{gan} sehr sensibel hinsichtlich der Wahl der \emph{Hyperparameter}.
 
 
@@ -166,7 +166,7 @@ Der Diskriminator hingegen wird als \emph{PatchGAN} aufgebaut, der die feinen St
 Dieser Diskriminator ist als Netzstruktur aufgebaut, die einen Filter mit fester Größe faltend auf dem gesamten Bild einsetzt.
 Eine zu kleine Größe des Filters erzeugt Bilder, die kachelartige Artefakte aufweisen; ein Filter mit der vollen Bildgröße skaliert nicht gut für Bilder mit beliebiger Größe und liefert nicht so gute Ergebnisse wie ein Filter mit 70$\times$70 Pixeln.
 
-Die Ausgabe des Diskriminators sind die Aktivierungen seiner letzten Schicht, was einer 30$\times$30-Matrix entspricht, wobei jeder Bildpunkt dieser Matrix der Glaubwürdigkeit eines 70$\times$70-Ausschnittes des Bildes entspricht.
+Die Ausgabe des Diskriminators sind die Aktivierungen seiner letzten Schicht, was einer 30$\times$30-Matrix entspricht, wobei jeder Bildpunkt der Glaubwürdigkeit eines 70$\times$70-Ausschnittes des Bildes entspricht.
 Der konkrete Aufbau des Diskriminators ist in \autoref{fig:candiscriminator} verdeutlicht.
 
 \begin{figure}

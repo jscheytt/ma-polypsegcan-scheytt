@@ -43,7 +43,7 @@ Wird ein Netz anhand dieser Metrik trainiert, approximiert der Diskriminator ebe
 Eine sehr vielversprechende Konsequenz dieses Aufbaus wäre, dass man tatsächlich zuerst den Diskriminator getrennt trainieren könnte bis zu einem optimalen Punkt und den Generator anschließend trainieren könnte, ohne befürchten zu müssen, dass der Diskriminator dem Generator zu wenig Feedback bietet.
 Experimente hinsichtlich des Rhythmus von Diskriminator- und Generator-Updates bei den \glspl{can} könnten bei einer solchen Trainingsweise vermutlich entfallen.
 
-Um ein \gls{wgan} zu implementieren, muss man die Wasserstein-Distanz allerdings approximieren, und dafür wird der Diskriminator durch einen "Kritiker" ersetzt, nämlich eine Funktion mit 1-Lipschitz-Stetigkeit ist~\cite{Arjovsky.2017b}.
+Um ein \gls{wgan} zu implementieren, muss man die Wasserstein-Distanz allerdings approximieren, und dafür wird der Diskriminator durch einen "Kritiker" ersetzt, nämlich eine Funktion mit 1-Lipschitz-Stetigkeit~\cite{Arjovsky.2017b}.
 Um diese Lipschitz-Stetigkeit der Funktion einzuhalten, wird im originalen Paper ein naives Begrenzen der Gewichte im Diskriminator mithilfe eines Hyperparameters umgesetzt.
 Dies hält zwar die Lipschitz-Stetigkeit ein, begrenzt aber die Kapazität des Modells.
 Durch eine Gradient Penalty, also eine Bestrafung zu hoher Gradientenwerte, wird diese Situation wieder verbessert~\cite{Gulrajani.2017}.

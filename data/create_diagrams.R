@@ -37,8 +37,8 @@ plot_values <- function(values, name) {
     # theme_bw() +
     # theme_minimal() +
     theme(legend.position="none", # Remove legend
-          text=element_text(size=10),
-          plot.margin=margin(10, 10, 5, 5)
+          text=element_text(size=10)
+          # plot.margin=margin(10, 10, 5, 5)
     ) +
     # scale_colour_brewer(palette="Set1") +
     scale_color_viridis(discrete=TRUE) + # option="plasma" ?

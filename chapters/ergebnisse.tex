@@ -3,17 +3,17 @@
 	\centering
 	\begin{subfigure}{.32\textwidth}
 		\centering
-		\includegraphics[width=.95\linewidth]{data/#1-disc}
+		\includegraphics[width=.98\linewidth]{data/#1-disc}
 		\caption{Diskriminator-Loss}
 	\end{subfigure}
 	\begin{subfigure}{.32\textwidth}
 		\centering
-		\includegraphics[width=.95\linewidth]{data/#1-gen}
+		\includegraphics[width=.98\linewidth]{data/#1-gen}
 		\caption{Generator-Loss}
 	\end{subfigure}
 	\begin{subfigure}{.32\textwidth}
 		\centering
-		\includegraphics[width=.95\linewidth]{data/#1-l1}
+		\includegraphics[width=.98\linewidth]{data/#1-l1}
 		\caption{L1-Loss}
 \end{subfigure}}
 {\end{figure}}
@@ -23,22 +23,22 @@
 	\centering
 	\begin{subfigure}{.24\textwidth}
 		\centering
-		\includegraphics[width=.95\linewidth]{data/#1-disc}
+		\includegraphics[width=.98\linewidth]{data/#1-disc}
 		\caption{Diskrim.-Loss}
 	\end{subfigure}
 	\begin{subfigure}{.24\textwidth}
 		\centering
-		\includegraphics[width=.95\linewidth]{data/#1-gen}
+		\includegraphics[width=.98\linewidth]{data/#1-gen}
 		\caption{Generator-Loss}
 	\end{subfigure}
 	\begin{subfigure}{.24\textwidth}
 		\centering
-		\includegraphics[width=.95\linewidth]{data/#1-l1}
+		\includegraphics[width=.98\linewidth]{data/#1-l1}
 		\caption{L1-Loss}
 	\end{subfigure}
 	\begin{subfigure}{.24\textwidth}
 		\centering
-		\includegraphics[width=.95\linewidth]{data/#1-iou}
+		\includegraphics[width=.98\linewidth]{data/#1-iou}
 		\caption{\gls{iou} auf Val.}
 \end{subfigure}}
 {\end{figure}}
@@ -48,27 +48,27 @@
 	\centering
 	\begin{subfigure}{.19\textwidth}
 		\centering
-		\includegraphics[width=.9\linewidth]{img/results/#1_input}
+		\includegraphics[width=.98\linewidth]{img/results/#1_input}
 		\caption{Input}
 	\end{subfigure}
 	\begin{subfigure}{.19\textwidth}
 		\centering
-		\includegraphics[width=.9\linewidth]{img/results/#1_target}
+		\includegraphics[width=.98\linewidth]{img/results/#1_target}
 		\caption{Target}
 	\end{subfigure}
 	\begin{subfigure}{.19\textwidth}
 		\centering
-		\includegraphics[width=.9\linewidth]{img/results/#1_output}
+		\includegraphics[width=.98\linewidth]{img/results/#1_output}
 		\caption{Output}
 	\end{subfigure}
 	\begin{subfigure}{.19\textwidth}
 		\centering
-		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/#1_real}
+		\includegraphics[width=.98\linewidth,interpolate=false]{img/results/#1_real}
 		\caption{Real}
 	\end{subfigure}
 	\begin{subfigure}{.19\textwidth}
 		\centering
-		\includegraphics[width=.9\linewidth,interpolate=false]{img/results/#1_fake}
+		\includegraphics[width=.98\linewidth,interpolate=false]{img/results/#1_fake}
 		\caption{Fake}
 \end{subfigure}}
 {\end{figure}}
@@ -194,7 +194,7 @@ All diese Verläufe und besonders das letzte Muster sprechen dafür, dass der Ge
 
 
 Um herauszufinden, welche Batch-Größe minimal notwendig ist, damit das Netz von Beginn an lernen kann, wurden auch zwei Trainingsläufe mit Batch-Größe 3 durchgeführt.
-\autoref{fig:loss3} zeigt, dass alle Durchläufe mit dieser Batch-Größe in Bezug auf den \gls{iou} kontinuierlich ansteigen und eine Art Schranke erreichen, ab der die Ergebnisse nicht mehr besser werden.
+\autoref{fig:lossb03} zeigt, dass alle Durchläufe mit dieser Batch-Größe in Bezug auf den \gls{iou} kontinuierlich ansteigen und eine Art Schranke erreichen, ab der die Ergebnisse nicht mehr besser werden.
 Auf diesem Niveau sind die auf den Trainingsdaten erzeugten Outputs visuell akzeptabel, aber der Diskriminator ist dennoch in der Lage, die gefälschten Exemplare sicher zu identifizieren (s. \autoref{fig:outputsb03}).
 
 \begin{losses}{b03}
@@ -300,7 +300,7 @@ Die visuelle Qualität der Ergebnisse ist für die kurze Trainingsdauer gut, und
 	\label{fig:outputsbtoa}
 \end{outputs}
 
-Dies lässt den Schluss zu, dass \glspl{can} zwar grundsätzlich darauf ausgelegt sind, eine Repräsentation einer Szene in eine andere zu konvertieren, aber die Ziel-Repräsentation sollte visuell komplex sein.
+Dies lässt den Schluss zu, dass \glspl{can} zwar grundsätzlich in der Lage sind, eine Repräsentation einer Szene in eine andere zu konvertieren, aber die Ziel-Repräsentation sollte visuell komplex sein.
 Falls die Ziel-Repräsentation zu spärlich ist, wie im Fall von diskreten Labels einer Straßenszene oder dem Binärbild einer Polypensegmentierung, dann bekommt der Generator offensichtlich nicht genug Lernmaterial, um von Anfang an erfolgreich zu lernen.
 Die Erhöhung der Batch-Größe wie oben beschrieben ist demnach ein sinnvolles Mittel, um die \glspl{can} für spärliche Outputs nutzbarer zu machen.
 
@@ -323,6 +323,7 @@ Der Durchschnittswert des \gls{can} liegt 4,29 Prozentpunkte unter dem des L1-ge
 
 \begin{losses}{baselinel1}
 	\caption{Verläufe des CAN-Modells (dunkellila, dunkelblau, hellblau) und des rein L1-basierten Modells (türkis, hellgrün, gelb). Zwei Trainingsläufe des L1-Modells wurden ungeplant frühzeitig bei Schritt 2000 beendet und konnten aus Zeitgründen nicht mehr vollständig wiederholt werden.}
+	\label{fig:lossbaselinel1}
 \end{losses}
 
 Somit ist nicht nur bei einer Multiklassen-Segmentierung, sondern auch bei einer binären Segmentierung das reine L1-Loss knapp besser als die kombinierte Verlustfunktion.

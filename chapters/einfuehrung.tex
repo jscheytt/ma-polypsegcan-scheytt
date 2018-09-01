@@ -14,26 +14,19 @@ Grundlage dafür wäre eine automatische Lokalisierung von Polypen im koloskopis
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{.3\textwidth}
+	\begin{subfigure}{.45\textwidth}
 		\centering
-		\includegraphics[width=.8\linewidth]{polyp129}
+		\includegraphics[width=.9\linewidth]{polyp129}
 		\caption{}
 		\label{fig:polyp}
 	\end{subfigure}
-	\begin{subfigure}{.3\textwidth}
+	\begin{subfigure}{.45\textwidth}
 		\centering
-		\includegraphics[width=.8\linewidth]{segm129}
+		\includegraphics[width=.9\linewidth]{segm129}
 		\caption{}
 		\label{fig:segm}
 	\end{subfigure}
-	\begin{subfigure}{.3\textwidth}
-		\centering
-		% TODO Create graphic
-		\includegraphics[width=.8\linewidth]{segm129}
-		\caption{}
-		\label{fig:highlight}
-	\end{subfigure}
-	\caption{Kolorektalpolyp, dessen Segmentierung und Hervorhebung im Bild~\cite{Vazquez.2017}}
+	\caption[Kolorektalpolyp und dessen Segmentierung]{Kolorektalpolyp und dessen Segmentierung~\cite{Vazquez.2017}}
 	\label{fig:polypseg}
 \end{figure}
 
@@ -84,7 +77,6 @@ In Echtzeitszenarien kann es durchaus sinnvoll sein, zuerst einen leichtgewichti
 Im Rahmen dieser Arbeit werden Methoden zur reinen Detektion der Präsenz von Polypen allerdings nicht genauer betrachtet.
 
 Ebenso ist die Beurteilung der Bösartigkeit des Gewebes anhand der Bildinformation, eine sogenannte "optische Biopsie", zwar ein interessantes Forschungsproblem~\cite{Roy.2011}, aber diese Arbeit hat keine derartige Klassifikation zum Ziel.
-%TODO optical biopsy als Ausblick am Schluss
 
 
 
@@ -185,7 +177,8 @@ Hierbei wird ein Sliding Window mit fester Größe über ein zu untersuchendes B
 Diese gelernten Features werden mithilfe einer \gls{svm} beurteilt, um zu entscheiden, ob das aktuelle Bildfenster einen Polypen enthält oder nicht; im Grunde genommen betreibt dieser Ansatz also Polypendetektion mit einem Sliding Window.
 Wird ein Fenster gefunden, das einen Polypen enthält, wird die Lokalisierung noch etwas verfeinert und danach wird kein weiteres Bildfenster verarbeitet; es kann also maximal ein Polyp im Bild gefunden werden.
 
-Die Extrahierung der Features geschieht zum einen mithilfe einer Wavelet-Transformation, die eine Mischung aus Farb- und Texturinformationen über mehrere Skalen des Bildfensters generiert und von denen mehrere statistische Werte berechnet und als Features genutzt werden, zum anderen werden Features eines \gls{cnn} dazu genommen.
+Die Extrahierung der Features geschieht mithilfe einer Wavelet-Transformation, die eine Mischung aus Farb- und Texturinformationen über mehrere Skalen des Bildfensters generiert und von denen mehrere statistische Werte berechnet und als Features genutzt werden.
+Zusätzlich werden Features eines \gls{cnn} hinzugenommen.
 Das \gls{cnn} wird so trainiert, dass es in der Lage ist, zwischen Polypen- und Nicht-Polypen-Frames zu unterscheiden; anschließend wird das gesamte \gls{cnn} bis auf seine allerletzte Klassifikationsschicht als Feature-Extraktor mitverwendet.
 
 Leider zeigen die Autoren nicht auf, welchen Vorteil die Kombination der beiden Feature-Extraktoren bietet.
