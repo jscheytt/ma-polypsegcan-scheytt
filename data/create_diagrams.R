@@ -7,9 +7,7 @@ rm(list=ls())
 library(ggplot2); library(scales); library(grid); library(RColorBrewer); library(reshape2); library(viridis)
 
 # ---- Import data ----
-get_run_file <- function(name, id) {
-  return(read.csv(paste(name, id, ".csv", sep = ""), colClasses = c("NULL", NA, NA), col.names = c(NA, "step", name), check.names = FALSE))
-}
+get_run_file <- function(name, id) read.csv(paste(name, id, ".csv", sep = ""), colClasses = c("NULL", NA, NA), col.names = c(NA, "step", name), check.names = FALSE)
 get_values <- function(runs, id) {
   df = data.frame()
   for (run in runs) {
@@ -24,10 +22,10 @@ get_values <- function(runs, id) {
 }
 
 # ---- Plotting ----
-plot_values <- function(values, name) {
-  melted = melt(values, id.var = "step")
+plot_values <- function(values, by="step") {
+  melted = melt(values, id.var=by)
   melted = na.omit(melted)
-  return(ggplot(melted, aes(step, y=value, color=variable)) + # lty=variable ?
+  return(ggplot(melted, aes_string(by, y="value", color="variable")) + # lty=variable ?
     geom_line(size = .5) +
     # geom_smooth(method = lm, se = FALSE) +
     # theme_bw() +
@@ -92,3 +90,11 @@ process_full(c("2018_shear_A", "2018_shear_B", "2018_shear_C"), "shear")
 # Misc
 process_full(c("2017_btoa"), "btoa", iou=FALSE)
 process_full(c("2018_baseline_A", "2018_baseline_B", "2018_baseline_C", "2018_only_L1_A", "2018_only_L1_B", "2018_only_L1_C"), "baselinel1")
+
+# Early stopping main
+es_iou_val <- read.csv2("batch_size_es.csv", sep=";", colClasses=c(NA, "NULL", "NULL", "NULL", NA, NA, NA), check.names = FALSE)
+plot_values(es_iou_val, by="batch_size") +
+  scale_x_continuous(breaks=unique(es_iou$batch_size), trans="log2") +
+  theme(axis.title.x=element_text(margin=margin(2, 0, 0, 0)), axis.title.y=element_text(angle=90, margin=margin(0, 7, 0, 0))) +
+  labs(x="Batch-Größe (log2)", y="Early-Stopping-Wert IoU auf Val.")
+export_plot("main_es")
