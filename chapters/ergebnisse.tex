@@ -23,22 +23,22 @@
 	\centering
 	\begin{subfigure}{.24\textwidth}
 		\centering
-		\includegraphics[width=.98\linewidth]{data/#1-disc}
+		\includegraphics[width=\linewidth]{data/#1-disc}
 		\caption{Diskrim.-Loss}
 	\end{subfigure}
 	\begin{subfigure}{.24\textwidth}
 		\centering
-		\includegraphics[width=.98\linewidth]{data/#1-gen}
+		\includegraphics[width=\linewidth]{data/#1-gen}
 		\caption{Generator-Loss}
 	\end{subfigure}
 	\begin{subfigure}{.24\textwidth}
 		\centering
-		\includegraphics[width=.98\linewidth]{data/#1-l1}
+		\includegraphics[width=\linewidth]{data/#1-l1}
 		\caption{L1-Loss}
 	\end{subfigure}
 	\begin{subfigure}{.24\textwidth}
 		\centering
-		\includegraphics[width=.98\linewidth]{data/#1-iou}
+		\includegraphics[width=\linewidth]{data/#1-iou}
 		\caption{\gls{iou} auf Val.}
 \end{subfigure}}
 {\end{figure}}
@@ -104,7 +104,7 @@ Letzteres zeigt, dass der Diskriminator maximal in der Lage ist, zwischen gefäl
 Die Verläufe der Losses des ersten Trainingslaufs in \autoref{fig:lossini} zeigen, dass das Diskriminator-Loss sofort auf Null fällt, das Generator-Loss ungewöhnlich große Sprünge aufweist und das L1-Loss nach kürzester Zeit auf einem Plateau stagniert.
 
 \begin{losseswoiou}{ini}
-	\caption{Verläufe des initialen Trainingslaufs.}
+	\caption{Verläufe des initialen Trainingslaufs (x: Trainingsschritt, y: Wert).}
 	\label{fig:lossini}
 \end{losseswoiou}
 
@@ -188,7 +188,7 @@ Es zeigt sich ebenso, dass folgende Muster in den Verläufen aller Batch-Größe
 All diese Verläufe und besonders das letzte Muster sprechen dafür, dass der Generator in solchen Phasen nicht in der Lage ist, irgendetwas zu lernen, das er dem Diskriminator entgegen setzen kann.
 
 \begin{losses}{b010204}
-	\caption{Verläufe der Durchläufe mit Batch-Größe 1 (dunkellila), 2 (hellblau) und 4 (grün und gelb). Der \gls{iou} wurde hier nur auf den Validierungsdaten berechnet. Je höher die Batch-Größe, desto weniger Trainingsschritte bei gleich vielen Trainingsepochen.}
+	\caption{Verläufe der Durchläufe mit Batch-Größe 1 (dunkellila), 2 (hellblau) und 4 (grün und gelb). Der \gls{iou} wurde auf den Validierungsdaten berechnet. Je höher die Batch-Größe, desto weniger Trainingsschritte bei gleich vielen Trainingsepochen.}
 	\label{fig:lossb010204}
 \end{losses}
 
@@ -262,13 +262,43 @@ Aus diesem Grund wurde 32 als die Batch-Größe aller folgenden Experimente gew�
 
 \section{Dataset Augmentation}
 
+Die Vergrößerung und Diversifizierung eines Datasets durch Anwenden von Transformationen sollte einem Netz helfen, besser zu generalisieren.
+Für die in \autoref{sec:experiments} angesprochenen Transformationen, also Zoom, Rotation und Scherung, wurden jeweils zwei Trainingsläufe durchgeführt.
+Zusätzlich wurde wie bei ~\cite{Vazquez.2017} eine Kombination aller Augmentierungen mit zwei Durchläufen evaluiert.
+\autoref{fig:augworst} und \autoref{fig:augbest} stellen jeweils die schlechtesten und besten Durchläufe für jede Augmentierung dar.
+
+\begin{losses}{aug_worst}
+	\caption{Verläufe der schlechtesten Durchläufe mit den Augmentierungen Zoom (dunkellila), Rotation (blau), Scherung (grün) und Kombination aller drei Augmentierungen (gelb).}
+	\label{fig:augworst}
+\end{losses}
+
+\begin{losses}{aug_best}
+	\caption{Verläufe der besten Durchläufe mit den Augmentierungen Zoom, Rotation, Scherung und Kombination aller drei Augmentierungen (Farben s. \autoref{fig:augworst}).}
+	\label{fig:augbest}
+\end{losses}
+
+Die beiden Durchläufe mit Zoom waren am stabilsten und hatten kaum Abweichungen in irgendeinem Verlauf; ähnliches ließ sich bei der Rotation beobachten.
+Während bei \cite{Vazquez.2017} die Kombination aller Augmentierungen die besten Ergebnisse für die Segmentierung der beiden Klassen Hintergrund und Polyp erzielte, schnitten in diesem Fall die Kombination und auch die Rotation am schlechtesten ab.
+
+Da bei der Scherung sowohl sehr gute als auch mittelmäßige Ergebnisse erzielt wurden, wurde in diesem Fall ein zusätzlicher Trainingslauf durchgeführt.
+In \autoref{fig:shear} sind die drei Trainingsläufe mit Scherung abgebildet.
+
+\begin{losses}{shear}
+	\caption{Verläufe der Durchläufe mit Scherung.}
+	\label{fig:shear}
+\end{losses}
+
+Die besten Durchläufe von Zoom und von Scherung erzielen bessere Werte als die besten Durchläufe einer Baseline mit Batch-Größe 32 und ohne Augmentierungen.
+Im Gegensatz dazu sind die besten Durchläufe von Rotation und der Kombination schlechter als die besten Durchläufe der Baseline.
+Da Zoom und Scherung so erfolgreich waren und auch eine akzeptable Stabilität im Training aufwiesen, wurde zusätzlich die Kombination von Scherung und Zoom evaluiert.
+
 
 
 \section{Deaktivieren von Dropout zur Testzeit}
 
 Um den Effekt der Deaktivierung von Dropout zur Testzeit zu untersuchen, wurde folgendes Evaluierungsszenario erstellt:
 Der \gls{iou} wurde einmal auf dem gesamten Test-Sub-Dataset CVC-612 und einmal auf einem einzelnen, zufällig ausgewählten Bild berechnet.
-Hierbei wurde einmal Dropout zur Testzeit aktiviert und einmal deaktiviert.
+Hierbei wurde Dropout zur Testzeit einmal aktiviert und einmal deaktiviert.
 Für jede dieser vier Varianten wurden 10 Testläufe durchgeführt.
 
 Für CVC-612 ergab sich bei aktivem Dropout ein mittlerer \gls{iou} von 0,2073 mit einer Standardabweichung von 0,012, bei deaktiviertem Dropout hingegen ein konstanter Wert von 0,2117.
@@ -320,10 +350,9 @@ Auch in dieser Arbeit wurde untersucht, ob das reine L1-Loss bessere Ergebnisse 
 Dazu wurden je drei Testläufe à 250 Epochen durchgeführt für das Baseline-Modell mit kombinierten Losses und das Modell mit nur L1-Loss.
 Die Verläufe in \autoref{fig:lossbaselinel1} zeigen, dass das reine L1-basierte Netz am Ende des Trainings sowohl im Durchschnitt als auch beim besten und schlechtesten Wert besser abschneidet als das CAN-Modell.
 Der Durchschnittswert des \gls{can} liegt 4,29 Prozentpunkte unter dem des L1-getriebenen Netzes, während immerhin die Standardabweichung der Schlusswerte um 0,42 Prozentpunkte geringer ist.
+Somit ist nicht nur bei einer Multiklassen-Segmentierung, sondern auch bei einer binären Segmentierung das reine L1-Loss knapp besser als die kombinierte Verlustfunktion.
 
 \begin{losses}{baselinel1}
 	\caption{Verläufe des CAN-Modells (dunkellila, dunkelblau, hellblau) und des rein L1-basierten Modells (türkis, hellgrün, gelb). Zwei Trainingsläufe des L1-Modells wurden ungeplant frühzeitig bei Schritt 2000 beendet und konnten aus Zeitgründen nicht mehr vollständig wiederholt werden.}
 	\label{fig:lossbaselinel1}
 \end{losses}
-
-Somit ist nicht nur bei einer Multiklassen-Segmentierung, sondern auch bei einer binären Segmentierung das reine L1-Loss knapp besser als die kombinierte Verlustfunktion.

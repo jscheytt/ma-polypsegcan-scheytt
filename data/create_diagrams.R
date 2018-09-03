@@ -24,27 +24,25 @@ get_values <- function(runs, id) {
 }
 
 # ---- Plotting ----
-step_melt <- function(df) {
-  melted = melt(df, id.var = "step")
-  return(na.omit(melted))
-}
 plot_values <- function(values, name) {
-  melted = step_melt(values)
+  melted = melt(values, id.var = "step")
+  melted = na.omit(melted)
   return(ggplot(melted, aes(step, y=value, color=variable)) + # lty=variable ?
-    # geom_point() +
     geom_line(size = .5) +
     # geom_smooth(method = lm, se = FALSE) +
     # theme_bw() +
     # theme_minimal() +
     theme(legend.position="none", # Remove legend
+          axis.title.x=element_blank(), # Remove axis titles
+          axis.title.y=element_blank(),
           text=element_text(size=10)
           # plot.margin=margin(10, 10, 5, 5)
     ) +
     # scale_colour_brewer(palette="Set1") +
-    scale_color_viridis(discrete=TRUE) + # option="plasma" ?
+    scale_color_viridis(discrete=TRUE) #+ # option="plasma" ?
     # scale_x_continuous(labels=scientific) +
     # scale_y_continuous(labels=scientific) +
-    labs(x="Trainingsschritt", y="Wert")
+    # labs(x="Trainingsschritt", y="Wert")
   )
 }
 export_plot <- function(name) ggsave(paste(name, "pdf", sep="."), dpi=300, width=4, height=3)
@@ -55,28 +53,42 @@ process <- function(values, filename) {
   export_plot(filename)
   return(plot)
 }
-process_disc <- function(runs, filename_prefix) process(get_values(runs, id = "-discr-loss"), paste(filename_prefix, "disc", sep="-"))
-process_gen <- function(runs, filename_prefix) process(get_values(runs, id = "-gen-loss"), paste(filename_prefix, "gen", sep="-"))
-process_l1 <- function(runs, filename_prefix) process(get_values(runs, id = "-l1-loss"), paste(filename_prefix, "l1", sep="-"))
-process_iou <- function(runs, filename_prefix) process(get_values(runs, id = "-iou-val"), paste(filename_prefix, "iou", sep="-"))
+
+values <- new.env(hash=TRUE)
+assign("disc", "-discr-loss", values)
+assign("gen", "-gen-loss", values)
+assign("l1", "-l1-loss", values)
+assign("iou", "-iou-val", values)
 process_full <- function(runs, name, iou=TRUE) {
-  process_disc(runs, name)
-  process_gen(runs, name)
-  process_l1(runs, name)
-  if (iou) {
-    process_iou(runs, name)
+  # runs: A vector of filename prefixes to import data and export plots for all runs.
+  # name: Output files name prefix
+  # iou: Specify if iou-val file exists.
+  for (v in ls(values)) {
+    if (iou || v != "iou") {
+      process(get_values(runs, id=values[[v]]), paste(name, v, sep="-"))
+    }
   }
 }
 
 # ---- Create all plots ----
 
+# Initial
 process_full(c("2017_initial"), "ini", iou=FALSE)
 process_full(c("2017_min_samples"), "min_samples", iou=FALSE)
+
+# Batch size
 process_full(c("2017_b01_A", "2017_b02_A", "2017_b04_A", "2017_b04_B"), "b010204")
 process_full(c("2017_b03_A", "2017_b03_B"), "b03")
 process_full(c("2017_b45_A", "2017_b45_B", "2017_b64_A", "2017_b64_B"), "b4564")
 process_full(c("2017_b03_A", "2017_b04_A", "2017_b08_B", "2017_b16_B", "2017_b32_B"), "main_worst")
 process_full(c("2017_b03_B", "2017_b04_B", "2017_b08_A", "2017_b16_A", "2017_b32_A"), "main_best")
 process_full(c("2017_b08_A", "2017_b08_B", "2017_b16_A", "2017_b16_B", "2017_b32_A", "2017_b32_B"), "b081632")
+
+# Augmentations
+process_full(c("2018_zoom_A", "2018_rotate_A", "2018_shear_B", "2018_all_aug_A"), "aug_best")
+process_full(c("2018_zoom_B", "2018_rotate_B", "2018_shear_C", "2018_all_aug_B"), "aug_worst")
+process_full(c("2018_shear_A", "2018_shear_B", "2018_shear_C"), "shear")
+
+# Misc
 process_full(c("2017_btoa"), "btoa", iou=FALSE)
 process_full(c("2018_baseline_A", "2018_baseline_B", "2018_baseline_C", "2018_only_L1_A", "2018_only_L1_B", "2018_only_L1_C"), "baselinel1")
