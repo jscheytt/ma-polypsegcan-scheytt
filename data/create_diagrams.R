@@ -53,10 +53,10 @@ process <- function(values, filename) {
 }
 
 values <- new.env(hash=TRUE)
-assign("disc", "-discr-loss", values)
-assign("gen", "-gen-loss", values)
-assign("l1", "-l1-loss", values)
-assign("iou", "-iou-val", values)
+values$disc <- "-discr-loss"
+values$gen <- "-gen-loss"
+values$l1 <- "-l1-loss"
+values$iou <- "-iou-val"
 process_full <- function(runs, name, iou=TRUE) {
   # runs: A vector of filename prefixes to import data and export plots for all runs.
   # name: Output files name prefix
@@ -94,7 +94,7 @@ process_full(c("2018_baseline_A", "2018_baseline_B", "2018_baseline_C", "2018_on
 # Early stopping main
 es_iou_val <- read.csv2("batch_size_es.csv", sep=";", colClasses=c(NA, "NULL", "NULL", "NULL", NA, NA, NA), check.names = FALSE)
 plot_values(es_iou_val, by="batch_size") +
-  scale_x_continuous(breaks=unique(es_iou$batch_size), trans="log2") +
+  scale_x_continuous(breaks=unique(es_iou_val$batch_size), trans="log2") +
   theme(axis.title.x=element_text(margin=margin(2, 0, 0, 0)), axis.title.y=element_text(angle=90, margin=margin(0, 7, 0, 0))) +
   labs(x="Batch-Größe (log2)", y="Early-Stopping-Wert IoU auf Val.")
 export_plot("main_es")
