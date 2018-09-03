@@ -296,6 +296,34 @@ In \autoref{fig:shear} sind die drei Trainingsläufe mit Scherung abgebildet.
 Die besten Durchläufe von Zoom und von Scherung erzielen bessere Werte als die besten Durchläufe einer Baseline mit Batch-Größe 32 und ohne Augmentierungen.
 Im Gegensatz dazu sind die besten Durchläufe von Rotation und der Kombination schlechter als die besten Durchläufe der Baseline.
 Da Zoom und Scherung so erfolgreich waren und auch eine akzeptable Stabilität im Training aufwiesen, wurde zusätzlich die Kombination von Scherung und Zoom evaluiert.
+% TODO Ergebnisse shear+zoom eintragen
+
+Alle bisherigen Evaluationen der Augmentierungen haben nur die IoU-Werte auf den Validierungsdaten berücksichtigt.
+Wie aber verhält sich das Netz auf den Testdaten?
+Hierzu wurden alle Modelle, die durch die Trainingsläufe mit Augmentierungen erzeugt wurden, auf den Testdaten evaluiert.
+\autoref{tab:aug} zeigt, dass die Baseline ohne Augmentierung die besten und gleichzeitig konsistentesten Ergebnisse auf den Testdaten erzielt.
+
+\begin{table}
+	\centering
+	\setlength{\extrarowheight}{0pt}
+	\addtolength{\extrarowheight}{\aboverulesep}
+	\addtolength{\extrarowheight}{\belowrulesep}
+	\setlength{\aboverulesep}{0pt}
+	\setlength{\belowrulesep}{0pt}
+	\caption[Mittlerer IoU der Augmentierungen auf den Validierungs- und Testdaten]{Mittlerer IoU der Augmentierungen auf den Validierungs- und Testdaten. Jede Zeile repräsentiert die Mittelung aller Modelle einer Augmentierung.}
+	\begin{tabular}{rlll} 
+		\toprule
+		Augmentierung & IoU Val. & IoU Test & IoU Test (Standardabweichung) \\ 
+		\midrule
+		Keine & {\cellcolor[rgb]{0.612,0.816,0.529}}0,57365 & {\cellcolor[rgb]{0.388,0.745,0.482}}0,25520614 & {\cellcolor[rgb]{0.388,0.745,0.482}}0,00756198 \\
+		Scherung & {\cellcolor[rgb]{0.6,0.812,0.529}}0,5745 & {\cellcolor[rgb]{0.749,0.859,0.561}}0,14016343 & {\cellcolor[rgb]{0.49,0.776,0.502}}0,0137862 \\
+		Zoom & {\cellcolor[rgb]{0.388,0.745,0.482}}0,58965 & {\cellcolor[rgb]{0.8,0.875,0.573}}0,12484235 & {\cellcolor[rgb]{1,0.937,0.612}}0,04397085 \\
+		Rotation & {\cellcolor[rgb]{0.859,0.894,0.584}}0,5557 & {\cellcolor[rgb]{0.965,0.925,0.604}}0,07206854 & {\cellcolor[rgb]{0.941,0.918,0.596}}0,04055263 \\
+		Kombination (3) & {\cellcolor[rgb]{1,0.937,0.612}}0,54545 & {\cellcolor[rgb]{1,0.937,0.612}}0,05975719 & {\cellcolor[rgb]{0.914,0.91,0.592}}0,03894286 \\
+		\bottomrule
+	\end{tabular}
+\label{tab:aug}
+\end{table}
 
 
 
@@ -355,9 +383,10 @@ Auch in dieser Arbeit wurde untersucht, ob das reine L1-Loss bessere Ergebnisse 
 Dazu wurden je drei Testläufe à 250 Epochen durchgeführt für das Baseline-Modell mit kombinierten Losses und das Modell mit nur L1-Loss.
 Die Verläufe in \autoref{fig:lossbaselinel1} zeigen, dass das reine L1-basierte Netz am Ende des Trainings sowohl im Durchschnitt als auch beim besten und schlechtesten Wert besser abschneidet als das CAN-Modell.
 Der Durchschnittswert des \gls{can} liegt 4,29 Prozentpunkte unter dem des L1-getriebenen Netzes, während immerhin die Standardabweichung der Schlusswerte um 0,42 Prozentpunkte geringer ist.
+
 Somit ist nicht nur bei einer Multiklassen-Segmentierung, sondern auch bei einer binären Segmentierung das reine L1-Loss knapp besser als die kombinierte Verlustfunktion.
 
 \begin{losses}{baselinel1}
-	\caption{Verläufe des CAN-Modells (dunkellila, dunkelblau, hellblau) und des rein L1-basierten Modells (türkis, hellgrün, gelb). Zwei Trainingsläufe des L1-Modells wurden ungeplant frühzeitig bei Schritt 2000 beendet und konnten aus Zeitgründen nicht mehr vollständig wiederholt werden.}
+	\caption{Verläufe des CAN-Modells (dunkellila, dunkelblau, hellblau) und des rein L1-basierten Modells (türkis, hellgrün, gelb). Zwei Trainingsläufe des L1-Modells und einer des CAN-Modells wurden ungeplant frühzeitig bei Schritt 2000 beendet und konnten aus Zeitgründen nicht mehr vollständig wiederholt werden.}
 	\label{fig:lossbaselinel1}
 \end{losses}
