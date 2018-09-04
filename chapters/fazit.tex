@@ -1,3 +1,14 @@
-\chapter{Fazit -- 5~\%}
+\chapter{Fazit}
 
+Die Segmentierung von Kolorektalpolypen in koloskopischem Bildmaterial kann Ärzte bei der Entdeckung von potenziell bösartigen Adenokarzinomen unterstützen.
+\acrlongpl{can} sind eine Weiterentwicklung der \glspl{gan} und werden für eine Bild-zu-Bild-Übersetzung trainiert.
 
+In dieser Masterarbeit wurden sie zum ersten Mal für eine Polypensegmentierung im Speziellen und für eine binäre Segmentierung generell verwendet.
+% TODO finalen Bestwert auf Testdaten eintragen
+% TODO Platz in GIANA Kategorie eintragen
+Beim Training auf einem niedrigauflösenden Dataset der \gls{giana} Sub-Challenge 2018 erzielt das Netz IoU-Bestwerte von [finaler] auf den Testdaten und erreicht damit in der Kategorie "Polypen-Segmentierung SD" den [x.] Platz von [y].
+
+Die visuelle Qualität der Segmentierungen ist nicht optimal, da sie oft kleine False Positives enthält.
+Viele Erkenntnisse deuten darauf hin, dass die Zielrepräsentation, die das Netz lernen soll, reichhaltiger als ein spärliches Binärbild sein müsste.
+Dennoch ist das \gls{can} in der Lage, eine binäre Segmentierung zu lernen.
+Zukünftige Verbesserungen können in einer Stabilisierung des Trainings durch neue Verlustfunktionen und Generator-Architekturen liegen.

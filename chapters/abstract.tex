@@ -1,6 +1,9 @@
 Kolorektale Karzinome haben eine hohe Sterblichkeitsrate, wenn sie spät entdeckt werden.
 Eine frühzeitige Entfernung von bösartigen Polypen im Magen-Darm-Trakt, die deren Vorstufen bilden, bietet jedoch hohe Überlebenschancen.
-Bei Darmspiegelungen werden gerade kleine Polypen aber recht häufig übersehen.
-Zuverlässige bildverarbeitende Systeme, die Polypen in einem Koloskopie-Frame nicht nur detektieren, sondern pixelgenau segmentieren, könnten Ärzten bei Darmkrebs-Screenings helfen.
+Bei Darmspiegelungen werden gerade kleine Polypen häufig übersehen.
+Bildverarbeitende Systeme, die Polypen in einem Koloskopie-Frame nicht nur detektieren, sondern auch pixelgenau segmentieren, könnten Ärzten bei Darmkrebs-Screenings helfen.
 
-Diese Arbeit analysiert den aktuellen Stand der Segmentierung von Polypen im Gastrointestinaltrakt. Weiterführend wird untersucht, inwiefern die in letzter Zeit sehr erfolgreichen Methoden des Deep Learning hier Vorteile bieten.
+Diese Arbeit setzt zum ersten Mal ein \acrlong{can} zur binären Segmentierung von Kolorektalpolypen ein.
+Die optimale Batch-Größe sowie verschiedene Augmentierungstechniken werden evaluiert hinsichtlich der Stabilisierung des Trainings und einer Verbesserung der Ergebnisse.
+% TODO finale Ergebnisse eintragen
+Durch die Deaktivierung von Dropout zur Inferenzzeit und eine Batch-Größe von 32 werden Intersection-over-Union-Werte von bis zu [] erzielt.

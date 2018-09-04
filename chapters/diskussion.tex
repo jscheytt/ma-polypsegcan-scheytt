@@ -2,10 +2,10 @@
 
 \glspl{can} sind ein wertvolles Werkzeug zur Transformation von Bildern einer Szene aus einer Ursprungsrepräsentation in eine Zielrepräsentation.
 Diese Arbeit hat untersucht, ob sie sich auch für eine binäre Segmentierung im konkreten Fall einer Segmentierung von Kolorektalpolypen eignen.
-Bei konsequenter Verwendung des CAN-Frameworks stellen sich die besten Ergebnisse mit einer Batch-Größe von 32 und einer Deaktivierung von Dropout zur Testzeit ein
+Bei konsequenter Verwendung des CAN-Frameworks stellen sich die besten Ergebnisse mit einer Batch-Größe von 32 und einer Deaktivierung von Dropout zur Testzeit ein.
 Geometrische Augmentierungen verbessern zwar die Ergebnisse auf den Trainings- und Validierungsdaten um bis zu 1,6 Prozentpunkte, verschlechtern allerdings die Ergebnisse auf den Testdaten um mindestens 11,5 Prozentpunkte.
 
-Bei einem Training ohne GAN-Term und \emph{nur mit L1-Loss} als Lerngrundlage stellen sich durchschnittlich leicht bessere Ergebnisse auf den Trainingsdaten heraus.
+Bei einem Training ohne GAN-Term und nur mit L1-Loss als Lerngrundlage stellen sich leicht bessere Ergebnisse auf den Trainingsdaten heraus.
 Auf den Testdaten hingegen erreicht die kombinierte Verlustfunktion aus GAN-Term und L1-Loss leicht bessere Werte.
 \citeauthor{Isola.2017} merken an, dass das \gls{can} bei der Multiklassen-Segmentierung viele kleine Objekte verschiedener Klassen detektiert, die in Wirklichkeit gar nicht da sind (s.~\autoref{fig:canseg}).
 Dies lässt sich leider auch bei der binären Segmentierung beobachten wie bspw. in \autoref{fig:outputsb03}.
