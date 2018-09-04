@@ -15,8 +15,8 @@ Im Gegensatz zu imperativen Frameworks wie PyTorch ist dadurch zwar insbesondere
 Portierungen auf andere Python-basierte Frameworks wurden bereits geschrieben, darunter auch mehrere für TensorFlow.
 Gewählt wurde in dieser Arbeit die TensorFlow-Portierung von Christopher Hesse\footnote{\url{https://github.com/affinelayer/pix2pix-tensorflow}}, da diese von allen am besten dokumentiert ist.
 
-Diese Portierung konnte nur mit der TensorFlow-Version 1.5.0 nutzbar gemacht werden, da sie seit etwa 8 Monaten nicht mehr aktiv weiterentwickelt wurde.
-Dadurch stehen die Kernfunktionalitäten von TensorFlow zur Verfügung, besonders praktische Weiterentwicklungen wie die Eager Execution zur unmittelbaren Evaluierung von Graph-Komponenten aber nicht.
+Diese Portierung konnte nur mit der TensorFlow-Version 1.5.0 nutzbar gemacht werden, da sie seit Ende Dezember 2017 nicht mehr aktiv weiterentwickelt wurde.
+Dadurch stehen die Kernfunktionalitäten von TensorFlow zwar zur Verfügung, besonders praktische Weiterentwicklungen wie die Eager Execution zur unmittelbaren Evaluierung von Graph-Komponenten allerdings nicht.
 Da kein GPU zur Verfügung stand, wurde die CPU-basierte Variante von TensorFlow genutzt.
 
 
@@ -63,14 +63,14 @@ Am Ende des Trainings wird der Algorithmus auf dem Test-Split evaluiert, der in 
 
 Das Größenverhältnis dieser Splits zueinander lässt sich zwar rechnerisch bestimmen~\cite{Guyon.1998,Guyon.1997}, allerdings sind die Verfahren ziemlich komplex.
 Oftmals werden Größenverhältnisse zwischen Training- und Test-Set von 75:25 bis 90:10 vorgeschlagen.
-Im Rahmen der \gls{giana} Challenge ist die Einteilung in Training- und Test-Set bereits vorgegeben.
-Bezogen auf die Anzahl der \emph{Samples} macht der Test-Split beim SD-Dataset 67~\% und beim HD-Dataset 66~\% aus, was die üblichen Größenverhältnisse beinahe umkehrt.
+Im Rahmen der \gls{giana} Sub-Challenge ist die Einteilung in Training- und Test-Set bereits vorgegeben.
+Bezogen auf die Anzahl der \emph{Samples} macht der Test-Split beim SD-Dataset 67~\% und beim HD-Dataset 66~\% aus, was die üblichen Größenverhältnisse nahezu umkehrt.
 Betrachtet man allerdings die Anzahl der Pixel, kommt zumindest beim SD-Dataset der Test-Split auf nur 44~\% des Datasets, da dessen Auflösung geringer ist.
 
 In dieser Arbeit wurde die Aufteilung des Training-Sets in die Splits für Training und Validierung pro Dataset im Verhältnis 80:20 gewählt.
-Wie später beschrieben, wird in dieser Arbeit nur das SD-Dataset verwendet.
+Wie anschließend beschrieben, wird in dieser Arbeit nur das SD-Dataset verwendet.
 Das gewählte Verhältnis ist ein Kompromiss zwischen den Zielen, so viel wie möglich der Trainingsdaten beim Lernen zu nutzen und gleichzeitig so viel Varianz wie möglich im Validierungsset abzubilden.
-Konkret entspricht der Anteil des Validierungssets beinahe der fünffachen Menge der Sequenzen, wodurch bei zufälligem Sampling des Validierungsset optimalerweise von jeder Sequenz mindestens ein Datensatz enthalten ist.
+Konkret entspricht der Anteil des Validierungssets beinahe der fünffachen Menge der Sequenzen, wodurch bei zufälligem Sampling des Validierungssets optimalerweise von jeder Sequenz mindestens ein Datensatz enthalten ist.
 Wünschenswert wäre eine Einteilung dieser beiden Splits nach \emph{Patienten} gewesen wie bei \citeauthor{Vazquez.2017}~\cite{Vazquez.2017}, aber die Zuordnung von Datensätzen zu Patienten ist weder öffentlich zugänglich noch direkt aus den Daten ersichtlich.
 
 
@@ -88,7 +88,7 @@ Viele der Datensätze haben zwar schwarze Ränder, die keine Information enthalt
 Allerdings sind die relevanten Bildausschnitte je nach Bildsequenz anders im Gesamtbild positioniert.
 Um dieser Varianz gerecht zu werden und gleichzeitig möglichst keine Bildinformation zu verlieren, wurde die längere Bildseite als Seitenlänge des neuen quadratischen Bildes gewählt, der originale Bildinhalt horizontal und vertikal zentriert und der Rest des Bildes mit Nullen, also Schwarz, aufgefüllt.
 
-Zwar hat nun immer noch keiner der Datensätze die Zielauflösung, dennoch ist ein Einsatz der \emph{Trainingsdaten} auf verschiedene Arten vorstellbar:
+Zwar hat nun immer noch keiner der Datensätze die Zielauflösung, dennoch ist ein Einsatz der Trainingsdaten auf verschiedene Arten vorstellbar:
 
 \begin{enumerate}
 	\item Herunterskalieren der Inputs und Targets
@@ -108,7 +108,8 @@ Ein wiederholtes Sampling aber könnte die Performance des Trainings verschlecht
 Außerdem müsste zusätzlicher Aufwand an Evalution investiert werden, um herauszufinden, welcher Prozentsatz an Vordergrundpixeln ungefähr genug ist.
 
 Aus diesen Gründen wird der Ansatz mit Herunterskalieren gewählt.
-Dabei ist die Frage noch nicht geklärt, ob sich das Training stärker verschlechtert, wenn das Netz lernt, dass Graustufen- statt Binärbildern gewollt sind, oder wenn es lernt, dass treppenartige Objektgrenzen realistisch sind.
+Dabei bleibt die Frage offen, ob sich das Training stärker verschlechtert, wenn das Netz lernt, dass Graustufen- statt Binärbildern gewollt sind, oder wenn es lernt, dass treppenartige Objektgrenzen realistisch sind.
+
 TensorFlow bietet zur Skalierung verschiedene Interpolationsverfahren an: Area-, Nearest-Neighbor-, bilineare und bikubische Interpolation.
 Für eine Herunterskalierung eignet sich die Area-Interpolation am besten, da sie als einzige dieser Optionen Aliasing-Effekte beim Downscaling vermeidet.
 
@@ -132,20 +133,20 @@ Auch in diesem Fall führt der erste Weg dazu, das Aliasing-Artefakte auftreten,
 Dieselben Gefahren hinsichtlich treppenartiger Artefakte wie beim Einlesen gelten auch hier.
 
 Alternativ könnte man den Input in 256$\times$256-Patches aufteilen, von jedem Patch eine Ausgabe erzeugen lassen und diese Output-Patches wieder zu einem Gesamt-Output zusammensetzen.
-Bei Pixeln, die in überlappenden Regionen des Gesamt-Outputs liegen, müsste dann ein Mittelwert aller Überlappungen an diesem Bildpunkt berechnet werden.
-Aliasing-Artefakte könnte man an solchen Stellen durch eine Schwellwertberechnung entgegentreten.
+Bei Pixeln, die in überlappenden Regionen des Gesamt-Outputs liegen, müsste dann bspw. ein Mittelwert aller Überlappungen an diesem Bildpunkt berechnet werden.
+Aliasing-Artefakten könnte man an solchen Stellen durch eine Schwellwertberechnung entgegentreten.
 
 Da sich die Umsetzung dieser zweiten Variante in TensorFlow als sehr kompliziert erwies, wurde stattdessen die Hochskalierung gewählt.
-Als Interpolationsverfahren wurde die \emph{bikubische Interpolation} gewählt, weil sie unter allen Optionen die größte Region, nämlich eine 4$\times$4-Nachbarschaft um den zu interpolierenden Punkt, berücksichtigt.
+Als Interpolationsverfahren wurde die \emph{bikubische Interpolation} gewählt, weil sie unter allen zur Verfügung stehenden Optionen die größte Region, nämlich eine 4$\times$4-Nachbarschaft um den zu interpolierenden Punkt, berücksichtigt.
 
 Eine solche Hochskalierung für CVC-612 anzuwenden erscheint sinnvoll, da die hochskalierte Fläche nicht einmal doppelt so groß ist wie die native Ausgabe des Generators.
 Bei CVC-HDTest hingegen wäre die hochskalierte Fläche mehr als dreißigmal so groß wie die Ausgabegröße des Generators.
-Die Ergebnisse einer solchen Hochskalierung wären sehr wahrscheinlich nicht sehr gut; hier müsste eine patchbasierte Lösung oder eine gelernte Hochskalierung zum Einsatz kommen.
+Die Ergebnisse einer solchen Hochskalierung wären wahrscheinlich nicht sehr gut; hier müsste eine patchbasierte Lösung oder eine gelernte Hochskalierung zum Einsatz kommen.
 Aus diesem Grund wird in dieser Arbeit \emph{nur das SD-Dataset} im Training verwendet und evaluiert.
 
 
 
-\paragraph{Binarisierung}
+\subsubsection{Binarisierung}
 
 Da die \glspl{can} darauf ausgelegt sind, Bilder von natürlichen Szenen zu produzieren, ist die Ausgabe des Generators immer ein Farbbild mit drei Kanälen.
 Die Zielsetzung, dass das \gls{can} ein Binärbild produziert, kann demnach auf zwei Arten scheitern:
@@ -197,16 +198,16 @@ Deshalb wird anfangs ein Trainingslauf auf dem \gls{giana} Dataset mit den vorge
 
 Anschließend wird untersucht, wie sich die Veränderung bestimmter Parameter auf die Ergebnisse auswirkt.
 Dazu wird zum einen mit verschiedenen Batch-Größen und zum anderen mit \emph{Dataset Augmentation} experimentiert.
-Die Batch-Größe wird mit wachsenden Zweierpotenzen, nämlich von 1 bis 64, und mit mehreren Trainingsläufen pro Batch-Größe ausprobiert.
+Die Batch-Größe wird mit Zweierpotenzen zwischen 1 und 64 und mit mehreren Trainingsläufen pro Batch-Größe ausprobiert.
 
-Dataset Augmentation umfasst verschiedene Techniken, um die Größe und Varianz eines Datasets durch Transformationen zu vergrößern~\cite{Goodfellow.2016}.
-Dazu können geometrische Transformationen wie Translation, Rotation und Warping gehören, aber auch andere Transformationen wie das Hinzufügen von zufälligem Rauschen oder Salt-and-Pepper-Rauschen.
+Dataset Augmentation umfasst verschiedene Techniken, um die Größe und Varianz eines Datasets durch Transformationen zu erhöhen~\cite{Goodfellow.2016}.
+Dazu können geometrische Transformationen wie Translation, Rotation oder elastische Verformungen gehören, aber auch andersartige Transformationen wie das Hinzufügen von zufälligem Rauschen oder Salt-and-Pepper-Rauschen.
 Durch solche Transformationen kann man zum einen ein Dataset künstlich vergrößern, indem man einzelne Datensätze in transformierter Form kopiert und dem Dataset hinzufügt.
-Andererseits können Netze beim Training besonders von erhöhter Varianz profitieren, vorausgesetzt geometrische Transformationen werden am Target in exakt derselben Weise durchgeführt.
+Andererseits können Netze beim Training besonders von erhöhter Varianz profitieren, vorausgesetzt im Fall einer Segmentierung werden geometrische Transformationen am Target in exakt derselben Weise wie am Input durchgeführt.
 
 \citeauthor{Vazquez.2017}~\cite{Vazquez.2017} nutzen ein FCN-8s für eine Polypensegmentierung und setzen dafür verschiedene Augmentierungen ein, die dazu gedacht sind, die Varianz angemessen zu erhöhen, ohne das Polypenaussehen zu drastisch zu verändern.
 Eine zu drastische Veränderung des Bildmaterials könnte zu unrealistischen Verformungen führen, sodass das zugehörige Target eines Inputs möglicherweise nicht mehr wahrheitsgemäß wäre.
-Die Transformationen von \citeauthor{Vazquez.2017} beinhalten die folgenden Operationen, die mit einer Wahrscheinlichkeit von 50~\% angewandt werden:
+Die Transformationen von \citeauthor{Vazquez.2017} beinhalten die folgenden Operationen, die mit einer Wahrscheinlichkeit von 50~\% angewendet werden:
 
 \begin{itemize}
 	\item Zoom mit einem Faktor von 0,9 bis 1,1
@@ -216,11 +217,11 @@ Die Transformationen von \citeauthor{Vazquez.2017} beinhalten die folgenden Oper
 \end{itemize}
 
 Die Autoren stellen auf ihrem Dataset bei einer Kombination all dieser Transformationen eine Verbesserung der Polypensegmentierung um ca. 10 Prozentpunkte fest.
-In dieser Arbeit werden alle genannten Transformationen angewandt bis auf das Warping, da diese nicht genau genug dokumentiert ist, um sie verlässlich zu reproduzieren.
-Nach der Durchführung einer Augmentierung wird das erzeugte Bild mit der Hälfte des maximalen Wertes als Schwellwert binarisiert, da bei der Anwendung der Transformationen Interpolationsartefakte auftreten können, die dem Bild Graustufenverläufe hinzufügen.
+In dieser Arbeit werden alle genannten Transformationen angewandt bis auf das Warping, da dieses nicht genau genug dokumentiert ist, um es verlässlich reproduzieren zu können.
+Nach der Durchführung einer oder mehrerer Augmentierungen wird das erzeugte Bild mit der Hälfte des maximalen Wertes als Schwellwert binarisiert, da bei der Anwendung der Transformationen Interpolationsartefakte auftreten können, die dem Bild Graustufenverläufe hinzufügen.
 
-Es wäre wünschenswert gewesen, fertige Python-Module zur Dataset Augmentation zu verwenden, aber keine der vorhandenen Lösungen konnte sich mit der verwendeten TensorFlow-Version so integrieren, dass eine Live-Augmentierung möglich gewesen wäre.
-Stattdessen wurden mithilfe des Moduls \emph{affine} die Transformationsmatrizen inklusive Verschiebung zu und vom Ursprung berechnet und dann mit der entsprechenden TensorFlow-Operation auf Input und Target angewendet.
+Es wäre wünschenswert gewesen, fertige Python-Module zur Dataset Augmentation wie \emph{imgaug} oder \emph{Augmentor} zu verwenden, aber keine der vorhandenen Lösungen konnte sich mit der verwendeten TensorFlow-Version so integrieren, dass eine Live-Augmentierung möglich gewesen wäre.
+Stattdessen wurden mithilfe des Moduls \emph{affine} die projektiven Transformationsmatrizen inklusive Verschiebung zum und vom Ursprung berechnet und dann mit der entsprechenden TensorFlow-Operation auf Input und Target angewendet.
 
 
 
@@ -228,6 +229,6 @@ Stattdessen wurden mithilfe des Moduls \emph{affine} die Transformationsmatrizen
 
 Eine wichtige Veränderung in der Funktionsweise der \glspl{can}, um sie für binäre Segmentierungen gangbar zu machen, ist die \emph{Deaktivierung von Dropout zur Testzeit}.
 Dropout beim Training einzusetzen hilft dem Netz, dass jedes einzelne Hidden Unit besser regularisiert.
-Diese Methodik zur Testzeit einzusetzen ergibt bei den originalen \glspl{can} Sinn, weil die zusätzliche Stochastizität bei der Erzeugung von natürlichen Szenen durchaus hilfreich sein kann.
-Auch wenn diese Stochastizität laut den Autoren gering ist~\cite{Isola.2017}, führt sie bei dieser Problemstellung zu einem hohen Maß an Varianz in den Ergebnissen.
+Diese Methodik zur Testzeit einzusetzen ergibt bei den originalen \glspl{can} durchaus Sinn, weil die zusätzliche Stochastizität bei der Erzeugung von natürlichen Szenen hilfreich sein kann.
+Auch wenn diese Stochastizität laut den Autoren gering ist~\cite{Isola.2017}, führt sie aber bei dieser Problemstellung zu einem hohen Maß an Varianz in den Segmentierungsergebnissen.
 Dem Output einer binären Segmentierung tut eine größere Menge Determinismus gut, deshalb wird Dropout zur Testzeit deaktiviert.

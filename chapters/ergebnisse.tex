@@ -84,11 +84,11 @@ Dieses Kapitel stellt die Resultate der verschiedenen Experimente vor und zeigt 
 \section{Erste Experimente und Debugging}
 
 Der zur Verfügung stehende TensorFlow-Code bietet bereits einige Möglichkeiten, den Trainingsverlauf zu bewerten, da bestimmte Werte während des Trainings als Skalar ausgegeben und in Tensorboard als Verlauf angezeigt werden.
-Zu diesen Werten gehören Mittelwerte der Gewichte und Bias-Werte jeder Schicht sowie deren Gradienten und drei Terme aus der Verlustfunktion:
+Zu diesen Werten gehören Mittelwerte der Gewichte und Bias-Werte jeder Schicht sowie deren Gradienten und zusätzlich drei wichtige Terme aus der Verlustfunktion:
 
 \begin{enumerate}
-	\item das \emph{Diskriminator-Loss}: der GAN-Term $ \mathcal{L}_c(D, G) $ der Gesamtverlustfunktion $ R^* $ (s. \autoref{eq:canlosswonoise})
-	\item das \emph{Generator-Loss} $ D(\mathbf{x}, G(\mathbf{x})) $: die Bewertung des Diskriminators für den Output des Generators
+	\item das \emph{Diskriminator-Loss}: der GAN-Term $ \mathcal{L}_c(D, G) $ der Gesamtverlustfunktion $ R^* $ (s.~\autoref{eq:canlosswonoise})
+	\item das \emph{Generator-Loss}: die Bewertung $ D(\mathbf{x}, G(\mathbf{x})) $ des Diskriminators für den Output des Generators
 	\item das \emph{L1-Loss}: der L1-Term $ \lambda \mathcal{L}_{L1}(G) $ der Gesamtverlustfunktion $ R^* $
 \end{enumerate}
 
@@ -99,30 +99,30 @@ Das Generator-Loss entspricht hierbei dem Mittelwert aller Aktivierungen von Fak
 
 Bei einem ersten Trainingslauf wurde das Netz für etwa 200 Epochen trainiert.
 Demo-Datasets, die von den Autoren im Paper verwendet und online zur Verfügung gestellt werden, erzielen nach Trainingszeiten in dieser Größenordnung gute Ergebnisse.
-In diesem Fall jedoch war der Output immer komplett schwarz, Real komplett weiß und Fake ebenfalls schwarz (s. \autoref{fig:outputsini}).
+Nach diesem initialen Training jedoch war der Output immer komplett schwarz, Real komplett weiß und Fake ebenfalls schwarz (s.~\autoref{fig:outputsini}).
 Letzteres zeigt, dass der Diskriminator maximal in der Lage ist, zwischen gefälschten und realistischen Bildern zu unterscheiden.
 Die Verläufe der Losses des ersten Trainingslaufs in \autoref{fig:lossini} zeigen, dass das Diskriminator-Loss sofort auf Null fällt, das Generator-Loss ungewöhnlich große Sprünge aufweist und das L1-Loss nach kürzester Zeit auf einem Plateau stagniert.
-
-\begin{losseswoiou}{ini}
-	\caption{Verläufe des initialen Trainingslaufs (x: Trainingsschritt, y: Wert).}
-	\label{fig:lossini}
-\end{losseswoiou}
 
 \begin{outputs}{initial}
 	\caption{Initialer Trainingslauf: ein Datensatz und die dazugehörige Ausgabe des Netzes.}
 	\label{fig:outputsini}
 \end{outputs}
 
+\begin{losseswoiou}{ini}
+	\caption[Verläufe des initialen Trainingslaufs]{Verläufe des initialen Trainingslaufs (x: Trainingsschritt, y: Wert)}
+	\label{fig:lossini}
+\end{losseswoiou}
+
 Eine Debugging-Strategie, die \citeauthor{Goodfellow.2016} bei Deep Learning vorschlagen, ist das Trainieren mit einem sehr kleinen Dataset, um zu überprüfen, ob das Netz überhaupt in der Lage ist, aus den Trainingsdaten zu lernen~\cite{Goodfellow.2016}.
-Zu diesem Zweck wurde ein Trainingslauf mit drei zufällig gewählten Datensätzen durchgeführt, und schon nach wenigen Trainingsschritten zeigte sich Erfolg (s. \autoref{fig:lossminsamples} und \autoref{fig:outputsminsamples}):
+Zu diesem Zweck wurde ein Trainingslauf mit drei zufällig gewählten Datensätzen durchgeführt, und schon nach wenigen Trainingsschritten zeigte sich Erfolg (s.~\autoref{fig:lossminsamples} und \autoref{fig:outputsminsamples}):
 
 \begin{losseswoiou}{min_samples}
-	\caption{Verläufe des Durchlaufs mit minimaler Anzahl Samples.}
+	\caption{Verläufe des Durchlaufs mit minimaler Anzahl Samples}
 	\label{fig:lossminsamples}
 \end{losseswoiou}
 
 \begin{outputs}{min}
-	\caption{Datensatz und Ausgabe des Durchlaufs mit minimaler Anzahl Samples.}
+	\caption{Datensatz und Ausgabe des Durchlaufs mit minimaler Anzahl Samples}
 	\label{fig:outputsminsamples}
 \end{outputs}
 
@@ -134,10 +134,10 @@ Ein weiterer Trainingslauf mit den vollen Trainingsdaten und doppelter Trainings
 
 \section{Metriken}
 
-Die \gls{giana} Challenge gibt zwei Metriken vor, um die Qualität der produzierten Segmentierungen zu bewerten: den Jaccard-Index~\cite{Jaccard.1901} und den Sørensen–Dice-Koeffizient~\cite{Srensen.1948,Dice.1945}.
+Die \gls{giana} Sub-Challenge gsibt zwei Metriken vor, um die Qualität der produzierten Segmentierungen zu bewerten: den Jaccard-Index~\cite{Jaccard.1901} und den Sørensen–Dice-Koeffizient~\cite{Srensen.1948,Dice.1945}.
 Der Jaccard-Index ist auch bekannt als \gls{iou}, also Schnittmenge geteilt durch Vereinigungsmenge.
-Die beiden Mengen sind in diesem Fall die Flächen mit Polypenpixeln im Target und im Output; die Schnittmenge ist die Überlappung beider Flächen.
-Der \gls{iou} berechnet sich anhand der Anzahl wahr positiver (TP), falsch positiver (FP) und falsch negativer (FN) Samples bzw. anhand der Mengen A und B folgendermaßen:
+Die beiden Mengen sind in diesem Fall die Flächen mit Polypenpixeln im Target und im Output respektive; die Schnittmenge ist die Überlappung beider Flächen.
+Der \gls{iou} berechnet sich anhand der Mengen A und B bzw. im binären Fall anhand der Anzahl wahr positiver (TP), falsch positiver (FP) und falsch negativer (FN) Samples folgendermaßen:
 
 \begin{equation}
 J(A, B) = \frac{| A \cap B |}{| A \cup B |} = \frac{TP}{TP + FP + FN}
@@ -166,7 +166,7 @@ In den nachfolgenden Experimenten wird der Einfachheit wegen nur der \gls{iou} a
 \section{Batch-Größen}\label{sec:batchsize}
 
 Da die ersten Trainingsläufe mit den Standardparametern des Netzes durchgeführt wurden, betrug die Batch-Größe immer 1.
-Das \gls{can} braucht bei einer solchen Batch-Größe sehr lange, bis der Generator überhaupt anfängt etwas zu lernen.
+Das \gls{can} benötigt auf diesem Dataset und einer solchen Batch-Größe sehr lange, bis der Generator überhaupt anfängt etwas zu lernen.
 Möglicherweise liegt die Ursache dafür in der Tatsache, dass das Netz \emph{zu wenig Varianz pro Batch} und damit pro Lernschritt zu sehen bekommt und es deshalb lange dauert, bis der Generator etwas lernt.
 
 Zur Überprüfung dieser Hypothese wurden verschiedene Batch-Größen evaluiert.
@@ -188,43 +188,43 @@ Es zeigt sich ebenso, dass folgende Muster in den Verläufen aller Batch-Größe
 All diese Verläufe und besonders das letzte Muster sprechen dafür, dass der Generator in solchen Phasen nicht in der Lage ist, irgendetwas zu lernen, das er dem Diskriminator entgegen setzen kann.
 
 \begin{losses}{b010204}
-	\caption{Verläufe der Durchläufe mit Batch-Größe 1 (dunkellila), 2 (hellblau) und 4 (grün und gelb). Der \gls{iou} wurde auf den Validierungsdaten berechnet. Je höher die Batch-Größe, desto weniger Trainingsschritte bei gleich vielen Trainingsepochen.}
+	\caption[Verläufe der Durchläufe mit Batch-Größe 1, 2 und 4]{Verläufe der Durchläufe mit Batch-Größe 1 (dunkellila), 2 (hellblau) und 4 (grün und gelb). Der \gls{iou} wurde auf den Validierungsdaten berechnet. Je höher die Batch-Größe, desto weniger Trainingsschritte bei gleich vielen Trainingsepochen.}
 	\label{fig:lossb010204}
 \end{losses}
 
 
 Um herauszufinden, welche Batch-Größe minimal notwendig ist, damit das Netz von Beginn an lernen kann, wurden auch zwei Trainingsläufe mit Batch-Größe 3 durchgeführt.
-\autoref{fig:lossb03} zeigt, dass alle Durchläufe mit dieser Batch-Größe in Bezug auf den \gls{iou} kontinuierlich ansteigen und eine Art Schranke erreichen, ab der die Ergebnisse nicht mehr besser werden.
-Auf diesem Niveau sind die auf den Trainingsdaten erzeugten Outputs visuell akzeptabel, aber der Diskriminator ist dennoch in der Lage, die gefälschten Exemplare sicher zu identifizieren (s. \autoref{fig:outputsb03}).
+\autoref{fig:lossb03} zeigt, dass alle Durchläufe mit dieser Batch-Größe in Bezug auf den \gls{iou} zuerst kontinuierlich ansteigen und dann eine Art Schranke erreichen, ab der die Ergebnisse nicht mehr besser werden.
+Auf diesem Niveau sind die auf den Trainingsdaten erzeugten Outputs visuell akzeptabel, aber der Diskriminator ist dennoch in der Lage, die gefälschten Exemplare sicher zu identifizieren (s.~\autoref{fig:outputsb03}).
 
 \begin{losses}{b03}
-	\caption{Verläufe der Durchläufe mit Batch-Größe 3.}
+	\caption{Verläufe der Durchläufe mit Batch-Größe 3}
 	\label{fig:lossb03}
 \end{losses}
 
 \begin{outputs}{b03}
-	\caption{Datensatz und Ausgabe des Durchlaufs mit Batch-Größe 3 nach 6900 Schritten (ca. 78 Epochen).}
+	\caption[Datensatz und Ausgabe des Durchlaufs mit Batch-Größe 3 nach 6900 Schritten]{Datensatz und Ausgabe des Durchlaufs mit Batch-Größe 3 nach 6900 Schritten (ca. 78 Epochen)}
 	\label{fig:outputsb03}
 \end{outputs}
 
 Man könnte vermuten, dass das Netz in einem lokalen Minimum angelangt ist, und hoffen, dass bei anderen Batch-Größen über 3 sich ähnlich konsistente Ergebnisse zeigen, bei denen die Schranke sich kontinuierlich nach oben verschiebt.
 Tatsächlich aber ergibt sich eine solche Konsistenz erst wieder bei einer Batch-Größe von 64.
 Zusätzlich wurde die logarithmische Mitte zwischen 32 und 64, also $ round(2^{5,5}) = 45 $ evaluiert; auch hier waren beide Trainingsläufe ähnlich und fielen in keines der oben genannten Muster von Zurückfallen und Stagnation.
-Insgesamt sind die Trainingsverläufe sehr glatt (s. \autoref{fig:lossb4564}) und \autoref{fig:outputsb64} zeigt, dass der Diskriminator kaum noch in der Lage ist zwischen realistisch und gefälscht zu unterscheiden.
+Insgesamt sind die Trainingsverläufe sehr glatt (s.~\autoref{fig:lossb4564}) und \autoref{fig:outputsb64} zeigt, dass der Diskriminator kaum noch in der Lage ist zwischen realistisch und gefälscht zu unterscheiden.
 
 \begin{losses}{b4564}
-	\caption{Verläufe der Durchläufe mit Batch-Größe 45 (dunkellila und hellblau) und 64 (grün und gelb).}
+	\caption[Verläufe der Durchläufe mit Batch-Größe 45 und 64]{Verläufe der Durchläufe mit Batch-Größe 45 (dunkellila und hellblau) und 64 (grün und gelb)}
 	\label{fig:lossb4564}
 \end{losses}
 
 \begin{outputs}{b64}
-	\caption{Datensatz und Ausgabe des Durchlaufs mit Batch-Größe 64 am Ende des Trainings (600 Epochen).}
+	\caption[Datensatz und Ausgabe des Durchlaufs mit Batch-Größe 64 am Ende des Trainings]{Datensatz und Ausgabe des Durchlaufs mit Batch-Größe 64 am Ende des Trainings (600 Epochen)}
 	\label{fig:outputsb64}
 \end{outputs}
 
-Eine sehr hohe Batch-Größe wie 45 oder 64 zu wählen wäre demnach sinnvoll, um gute und vor allem konsistente Ergebnisse zu bekommen.
+Eine sehr hohe Batch-Größe wie 45 oder 64 zu wählen wäre demnach sinnvoll, um gute und vor allem konsistente Ergebnisse zu erreichen.
 Allerdings sind solch hohe Batch-Größen aufgrund von begrenztem Arbeitsspeicher nicht erstrebenswert.
-Stattdessen wurde versucht, einen guten Kompromiss in Form einer geringeren Batch-Größe auszuwählen.
+Stattdessen wurde hier versucht, einen guten Kompromiss in Form einer mittleren Batch-Größe zu finden.
 
 In \autoref{fig:lossworst} und \autoref{fig:lossbest} sind jeweils der schlechtere und der bessere Durchlauf jeder Batch-Größe zwischen 3 und 32 abgebildet.
 Es lässt sich zwar kein klarer Trend ausmachen, welche Batch-Größe zu mehr Stabilität und gleichzeitig besseren Ergebnissen tendiert.
@@ -232,12 +232,12 @@ Allerdings lässt sich beobachten, dass bei den besseren Trainingsläufen Batch-
 Außerdem tritt selbst bei dem besseren Trainingslauf von Batch-Größe 8 eine lange Periode von katastrophalem Rückfall auf.
 
 \begin{losses}{main_worst}
-	\caption{Verläufe der schlechtesten Durchläufe von jeweils Batch-Größe 3 (dunkellila), 4 (blau), 8 (türkis), 16 (grün) und 32 (gelb).}
+	\caption[Verläufe der schlechtesten Durchläufe von jeweils Batch-Größe 3, 4, 8, 16 und 32]{Verläufe der schlechtesten Durchläufe von jeweils Batch-Größe 3 (dunkellila), 4 (blau), 8 (türkis), 16 (grün) und 32 (gelb)}
 	\label{fig:lossworst}
 \end{losses}
 
 \begin{losses}{main_best}
-	\caption{Verläufe der besten Durchläufe von jeweils Batch-Größe 3, 4, 8, 16 und 32 (Farben s. \autoref{fig:lossworst}).}
+	\caption[Verläufe der besten Durchläufe von jeweils Batch-Größe 3, 4, 8, 16 und 32]{Verläufe der besten Durchläufe von jeweils Batch-Größe 3, 4, 8, 16 und 32. Farben s. \autoref{fig:lossworst}.}
 	\label{fig:lossbest}
 \end{losses}
 
@@ -252,14 +252,14 @@ Außerdem ist bei Batch-Größe 32 möglicherweise noch nicht der höchstmöglic
 Aus diesem Grund wurde 32 als die Batch-Größe aller folgenden Experimente gewählt.
 
 \begin{losses}{b081632}
-	\caption{Verläufe aller Durchläufe von Batch-Größe 8 (dunkellila und dunkelblau), 16 (hellblau, türkis) und 32 (hellgrün und gelb).}
+	\caption[Verläufe aller Durchläufe von Batch-Größe 8, 16 und 32]{Verläufe aller Durchläufe von Batch-Größe 8 (dunkellila und dunkelblau), 16 (hellblau, türkis) und 32 (hellgrün und gelb)}
 	\label{fig:loss081632}
 \end{losses}
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.8\linewidth]{data/main_es}
-	\caption{Early-Stopping-Werte für \gls{iou} auf den Validierungsdaten je Batch-Größe: schlechteste (dunkellila), beste (türkis), Differenz (gelb)}
+	\includegraphics[width=.7\linewidth]{data/main_es}
+	\caption[Early-Stopping-Werte für \gls{iou} auf den Validierungsdaten je Batch-Größe]{Early-Stopping-Werte für \gls{iou} auf den Validierungsdaten je Batch-Größe: schlechteste (dunkellila), beste (türkis), Differenz (gelb)}
 	\label{fig:es081632}
 \end{figure}
 
@@ -273,12 +273,12 @@ Zusätzlich wurde wie bei ~\cite{Vazquez.2017} eine Kombination aller Augmentier
 \autoref{fig:augworst} und \autoref{fig:augbest} stellen jeweils die schlechtesten und besten Durchläufe für jede Augmentierung dar.
 
 \begin{losses}{aug_worst}
-	\caption{Verläufe der schlechtesten Durchläufe mit den Augmentierungen Zoom (dunkellila), Rotation (blau), Scherung (grün) und Kombination aller drei Augmentierungen (gelb).}
+	\caption[Verläufe der schlechtesten Durchläufe mit Augmentierungen]{Verläufe der schlechtesten Durchläufe mit den Augmentierungen Zoom (dunkellila), Rotation (dunkelblau), Scherung (türkis) und Kombination aller drei Augmentierungen (hellgrün), zusätzlich beste Baseline ohne Augmentierungen (gelb).}
 	\label{fig:augworst}
 \end{losses}
 
 \begin{losses}{aug_best}
-	\caption{Verläufe der besten Durchläufe mit den Augmentierungen Zoom, Rotation, Scherung und Kombination aller drei Augmentierungen (Farben s. \autoref{fig:augworst}).}
+	\caption[Verläufe der besten Durchläufe mit Augmentierungen]{Verläufe der besten Durchläufe mit den Augmentierungen Zoom, Rotation, Scherung und Kombination aller drei Augmentierungen, zusätzlich beste Baseline ohne Augmentierungen. Farben s. \autoref{fig:augworst}.}
 	\label{fig:augbest}
 \end{losses}
 
@@ -289,13 +289,14 @@ Da bei der Scherung sowohl sehr gute als auch mittelmäßige Ergebnisse erzielt 
 In \autoref{fig:shear} sind die drei Trainingsläufe mit Scherung abgebildet.
 
 \begin{losses}{shear}
-	\caption{Verläufe der Durchläufe mit Scherung.}
+	\caption{Verläufe der Durchläufe mit Scherung}
 	\label{fig:shear}
 \end{losses}
 
-Die besten Durchläufe von Zoom und von Scherung erzielen bessere Werte als die besten Durchläufe einer Baseline mit Batch-Größe 32 und ohne Augmentierungen.
+Die besten Durchläufe von Zoom und von Scherung erzielen bessere Werte als die besten Durchläufe einer Baseline mit Batch-Größe 32 und ohne Augmentierungen (s.~\autoref{fig:augbest}).
 Im Gegensatz dazu sind die besten Durchläufe von Rotation und der Kombination schlechter als die besten Durchläufe der Baseline.
 Da Zoom und Scherung so erfolgreich waren und auch eine akzeptable Stabilität im Training aufwiesen, wurde zusätzlich die Kombination von Scherung und Zoom evaluiert.
+[Diese waren ...]
 % TODO Ergebnisse shear+zoom eintragen
 
 Alle bisherigen Evaluationen der Augmentierungen haben nur die IoU-Werte auf den Validierungsdaten berücksichtigt.
@@ -310,15 +311,15 @@ Hierzu wurden alle Modelle, die durch die Trainingsläufe mit Augmentierungen er
 	\addtolength{\extrarowheight}{\belowrulesep}
 	\setlength{\aboverulesep}{0pt}
 	\setlength{\belowrulesep}{0pt}
-	\caption[Mittlerer IoU der Augmentierungen auf den Validierungs- und Testdaten]{Mittlerer IoU der Augmentierungen auf den Validierungs- und Testdaten. Jede Zeile repräsentiert die Mittelung aller Modelle einer Augmentierung.}
-	\begin{tabular}{rlll} 
+	\caption[Mittlerer \gls{iou} und Standardabweichung der Augmentierungen auf den Validierungs- und Testdaten]{Mittlerer \gls{iou} und Standardabweichung der Augmentierungen auf den Validierungs- und Testdaten, absteigend sortiert nach mittlerem \gls{iou} auf den Testdaten. Jede Zeile repräsentiert die Mittelung aller Modelle einer Augmentierung.}
+	\begin{tabular}{rlll}
 		\toprule
 		Augmentierung & IoU Val. & IoU Test & IoU Test (Standardabweichung) \\ 
 		\midrule
 		Keine & {\cellcolor[rgb]{0.612,0.816,0.529}}0,57365 & {\cellcolor[rgb]{0.388,0.745,0.482}}0,25520614 & {\cellcolor[rgb]{0.388,0.745,0.482}}0,00756198 \\
 		Scherung & {\cellcolor[rgb]{0.6,0.812,0.529}}0,5745 & {\cellcolor[rgb]{0.749,0.859,0.561}}0,14016343 & {\cellcolor[rgb]{0.49,0.776,0.502}}0,0137862 \\
 		Zoom & {\cellcolor[rgb]{0.388,0.745,0.482}}0,58965 & {\cellcolor[rgb]{0.8,0.875,0.573}}0,12484235 & {\cellcolor[rgb]{1,0.937,0.612}}0,04397085 \\
-		Rotation & {\cellcolor[rgb]{0.859,0.894,0.584}}0,5557 & {\cellcolor[rgb]{0.965,0.925,0.604}}0,07206854 & {\cellcolor[rgb]{0.941,0.918,0.596}}0,04055263 \\
+		Rotation & {\cellcolor[rgb]{0.859,0.894,0.584}}0,5557 & {\cellcolor[rgb]{0.965,0.925,0.604}}0,07206854 & {\cellcolor[rgb]{0.941,0.918,0.596}}0,04055263 \\ % TODO Ergebnisse shear+zoom eintragen
 		Kombination (3) & {\cellcolor[rgb]{1,0.937,0.612}}0,54545 & {\cellcolor[rgb]{1,0.937,0.612}}0,05975719 & {\cellcolor[rgb]{0.914,0.91,0.592}}0,03894286 \\
 		\bottomrule
 	\end{tabular}
@@ -354,12 +355,12 @@ Die Ergebnisse in \autoref{fig:lossbtoa} und \autoref{fig:outputsbtoa} zeigen, w
 Die visuelle Qualität der Ergebnisse ist für die kurze Trainingsdauer gut, und das Training verläuft ähnlich stabil wie das eines Demo-Datasets der \glspl{can}.
 
 \begin{losseswoiou}{btoa}
-	\caption{Verläufe des Durchlaufs mit umgekehrter Trainingsrichtung.}
+	\caption{Verläufe des Durchlaufs mit umgekehrter Trainingsrichtung}
 	\label{fig:lossbtoa}
 \end{losseswoiou}
 
 \begin{outputs}{btoa}
-	\caption{Datensatz und Ausgabe des Durchlaufs mit umgekehrter Lernrichtung am Ende des Trainings (ca. 18 Epochen).}
+	\caption[Datensatz und Ausgabe des Durchlaufs mit umgekehrter Lernrichtung am Ende des Trainings]{Datensatz und Ausgabe des Durchlaufs mit umgekehrter Lernrichtung am Ende des Trainings (ca. 18 Epochen)}
 	\label{fig:outputsbtoa}
 \end{outputs}
 
@@ -381,12 +382,15 @@ Allerdings unterliegt hier das \gls{can} nur mit 3 bis 6 Prozentpunkten.
 
 Auch in dieser Arbeit wurde untersucht, ob das reine L1-Loss bessere Ergebnisse erzielt als die Kombination aus L1-Loss und GAN-Term.
 Dazu wurden je drei Testläufe à 250 Epochen durchgeführt für das Baseline-Modell mit kombinierten Losses und das Modell mit nur L1-Loss.
-Die Verläufe in \autoref{fig:lossbaselinel1} zeigen, dass das reine L1-basierte Netz am Ende des Trainings sowohl im Durchschnitt als auch beim besten und schlechtesten Wert besser abschneidet als das CAN-Modell.
+Die Verläufe in \autoref{fig:lossbaselinel1} zeigen, dass das reine L1-basierte Netz am Ende des Trainings sowohl im Durchschnitt als auch beim besten und schlechtesten Wert bessere IoU-Werte auf den Validierungsdaten abschneidet als das CAN-Modell.
 Der Durchschnittswert des \gls{can} liegt 4,29 Prozentpunkte unter dem des L1-getriebenen Netzes, während immerhin die Standardabweichung der Schlusswerte um 0,42 Prozentpunkte geringer ist.
 
-Somit ist nicht nur bei einer Multiklassen-Segmentierung, sondern auch bei einer binären Segmentierung das reine L1-Loss knapp besser als die kombinierte Verlustfunktion.
+Zwei Trainingsläufe des L1-Modells und einer des CAN-Modells wurden ungeplant frühzeitig bei Schritt 2000 beendet und konnten aus Zeitgründen nicht mehr vollständig wiederholt werden.
+Deshalb sind die Ergebnisse auf den Testdaten für beide Modelle schwer zu beurteilen, weil bei jedem Trainingslauf aus Speicherplatzgründen nur das Modell nach dem letzten Trainingsschritt gespeichert wird.
+Vergleicht man allerdings den Mittelwert für den IoU auf den Testdaten für die beiden CAN-Durchläufe mit 3200 Schritten mit dem für den einen L1-Durchlauf mit derselben Länge, schneidet das CAN-Modell um 2,52 Prozentpunkte besser ab.
+Somit ist zwar bei einer Multiklassen-Segmentierung das reine L1-Loss erfolgreicher, aber bei einer binären Segmentierung scheint die kombinierte Verlustfunktion bessere Ergebnisse zu erzeugen.
 
 \begin{losses}{baselinel1}
-	\caption{Verläufe des CAN-Modells (dunkellila, dunkelblau, hellblau) und des rein L1-basierten Modells (türkis, hellgrün, gelb). Zwei Trainingsläufe des L1-Modells und einer des CAN-Modells wurden ungeplant frühzeitig bei Schritt 2000 beendet und konnten aus Zeitgründen nicht mehr vollständig wiederholt werden.}
+	\caption[Verläufe des CAN-Modells und des rein L1-basierten Modells]{Verläufe des CAN-Modells (dunkellila, dunkelblau, hellblau) und des rein L1-basierten Modells (türkis, hellgrün, gelb).}
 	\label{fig:lossbaselinel1}
 \end{losses}

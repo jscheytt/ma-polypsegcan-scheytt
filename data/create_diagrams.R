@@ -33,7 +33,7 @@ plot_values <- function(values, by="step") {
     theme(legend.position="none", # Remove legend
           axis.title.x=element_blank(), # Remove axis titles
           axis.title.y=element_blank(),
-          text=element_text(size=10)
+          text=element_text(size=15)
           # plot.margin=margin(10, 10, 5, 5)
     ) +
     # scale_colour_brewer(palette="Set1") +
@@ -83,8 +83,8 @@ process_full(c("2017_b03_B", "2017_b04_B", "2017_b08_A", "2017_b16_A", "2017_b32
 process_full(c("2017_b08_A", "2017_b08_B", "2017_b16_A", "2017_b16_B", "2017_b32_A", "2017_b32_B"), "b081632")
 
 # Augmentations
-process_full(c("2018_zoom_A", "2018_rotate_A", "2018_shear_B", "2018_all_aug_A"), "aug_best")
-process_full(c("2018_zoom_B", "2018_rotate_B", "2018_shear_C", "2018_all_aug_B"), "aug_worst")
+process_full(c("2018_zoom_A", "2018_rotate_A", "2018_shear_B", "2018_all_aug_A", "2018_baseline_A"), "aug_best")
+process_full(c("2018_zoom_B", "2018_rotate_B", "2018_shear_C", "2018_all_aug_B", "2018_baseline_A"), "aug_worst")
 process_full(c("2018_shear_A", "2018_shear_B", "2018_shear_C"), "shear")
 
 # Misc
@@ -95,6 +95,10 @@ process_full(c("2018_baseline_A", "2018_baseline_B", "2018_baseline_C", "2018_on
 es_iou_val <- read.csv2("batch_size_es.csv", sep=";", colClasses=c(NA, "NULL", "NULL", "NULL", NA, NA, NA), check.names = FALSE)
 plot_values(es_iou_val, by="batch_size") +
   scale_x_continuous(breaks=unique(es_iou_val$batch_size), trans="log2") +
-  theme(axis.title.x=element_text(margin=margin(2, 0, 0, 0)), axis.title.y=element_text(angle=90, margin=margin(0, 7, 0, 0))) +
+  theme(
+    axis.title.x=element_text(margin=margin(2, 0, 0, 0)), 
+    axis.title.y=element_text(angle=90, margin=margin(0, 7, 0, 0)),
+    text=element_text(size=10)
+  ) +
   labs(x="Batch-Größe (log2)", y="Early-Stopping-Wert IoU auf Val.")
 export_plot("main_es")

@@ -3,7 +3,7 @@
 Dieses Kapitel stellt die Deep-Learning-Architektur und das Dataset genauer vor, mit dem sich diese Thesis beschäftigt.
 Grundlage der \glspl{can} sind die \glspl{gan}, weshalb diese zuerst betrachtet werden.
 Anschließend erfolgt eine Erläuterung zur Architektur der \glspl{can} und welche Besonderheiten in Bezug auf die Segmentierung auftreten.
-Zum Schluss wird das Datenmaterial vorgestellt, das in dieser Arbeit zum Einsatz kommt.
+Zum Schluss wird das Datenmaterial vorgestellt, auf dem in dieser Arbeit trainiert wird.
 
 
 
@@ -20,11 +20,11 @@ Häufig werden auf Markov-Ketten basierende Monte-Carlo-Methoden~\cite{Koller.20
 Die \glspl{gan} von \citeauthor{Goodfellow.2014}~\cite{Goodfellow.2014} umgehen diese Herausforderungen durch die Gestaltung ihrer Architektur.
 Ihr spieltheoretisch motivierter Ansatz, in dem zwei Netze gegeneinander arbeiten, ist mit Backpropagation trainierbar und benötigt somit weder approximierte Inferenz noch unkalkulierbare Normalisierungskonstanten.
 Das Ziel ist es, möglichst realistisch wirkende Samples zu generieren.
-\emph{Realistisch} bedeutet in diesem Kontext, dass ein erzeugtes Sample $ \mathbf{x} $ den Trainingsdaten sehr ähnlich, aber nicht identisch sein soll.
+\emph{Realistisch} bedeutet in diesem Kontext, dass ein erzeugtes Sample den Trainingsdaten sehr ähnlich, aber nicht identisch sein soll.
 
 Das erste Netz, der \emph{Generator} $ G $, lernt eine Wahrscheinlichkeitsverteilung $ p_{\textup{data}}(\mathbf{x}) $ über die Trainingsdaten.
-Aus einem zufällig initialisierten Vektor $ \mathbf{z} $ erzeugt er dann neue Samples.
-Parallel dazu lernt das andere Netz, der \emph{Diskriminator} $ D $, immer besser zu beurteilen, ob ein Sample $ \mathbf{x} $ realistisch ist oder \emph{gefälscht}, also ob es aus den Trainingsdaten stammt oder vom Generator erzeugt wurde.
+Aus einem zufällig initialisierten Vektor $ \mathbf{z} $ erzeugt er dann neue Samples $ G(\mathbf{z}) $.
+Parallel dazu lernt das andere Netz, der \emph{Diskriminator} $ D $, immer besser zu beurteilen, ob ein Sample realistisch ist oder \emph{gefälscht}, also respektive ob es ein Sample $ \mathbf{x} $ aus den Trainingsdaten oder ein \emph{Output} $ G(\mathbf{z}) $ ist, der vom Generator erzeugt wurde.
 
 Der Generator versucht nun die Wahrscheinlichkeit zu maximieren, dass der Diskriminator einen Fehler macht und ein Sample falsch beurteilt~\cite{Goodfellow.2014}.
 Als Zielfunktion ergibt sich
@@ -52,7 +52,7 @@ Das Trainieren von \glspl{gan} kann aus verschiedenen Gründen unstabil verlaufe
 Zum einen kann es passieren, dass je nach \emph{Formulierung} des GAN-Spiels das Training gegebenenfalls nicht konvergiert~\cite{Goodfellow.2014}.
 Bei der effektivsten Formulierung versucht der Generator die Wahrscheinlichkeit zu erhöhen, dass der Diskriminator eine Fehlklassifikation macht, statt die Wahrscheinlichkeit zu erhöhen, dass er eine korrekte Klassifikation ausgibt.
 Zum anderen ist der \emph{Rhythmus} des Trainings entscheidend, denn es wird immer abwechselnd eine bestimmte Anzahl Trainingsschritte der Diskriminator und dann ebenfalls für eine bestimmte Anzahl Schritte der Generator trainiert.
-Lernt der Diskriminator zu schnell, ist es möglich, dass der Generator keine Chance hat zu lernen, realistische Samples zu erzeugen, weil der Diskriminator alle Generator-Outputs maximal ablehnt.
+Lernt der Diskriminator zu schnell, ist es möglich, dass der Generator keine Chance hat zu lernen, realistische Samples zu erzeugen, weil der Diskriminator alle Generator-Outputs mit maximaler Überzeugung ablehnt.
 
 Ein weiteres großes Risiko beim Training von \glspl{gan} besteht im teilweisen oder kompletten \emph{Zusammenfallen von Moden}~\cite{Che.2016}:
 Selbst wenn das Netz überzeugende Samples liefert, kann es passiert sein, dass die Wahrscheinlichkeitsverteilung, die der Generator gelernt hat, nur wenige Regionen oder sogar nur eine Region mit hoher Wahrscheinlichkeitsdichte abdeckt.
@@ -78,8 +78,11 @@ Der Prozess ist in \autoref{fig:lapgansampling} dargestellt.
 \end{figure}
 
 Bis auf das erste \gls{gan} wird in diesem Fall auf jeder Ebene bereits eine konditionierte Variante der originalen \glspl{gan} verwendet.
-Diese Modellvariante wurde schon bei \citeauthor{Goodfellow.2014}~\cite{Goodfellow.2014} vorgeschlagen und auch vor den LAPGANs bereits umgesetzt~\cite{Gauthier.2014,Mirza.2014}.
-Im Kontext der konditionierten \glspl{gan} kommt eine konditionierende Variable $ \mathbf{y} $ hinzu, die sowohl an $ G $ als auch an $ D $ im Training und zur Inferenzzeit übergeben wird.
+Diese Modellvariante wurde schon bei \citeauthor{Goodfellow.2014}~\cite{Goodfellow.2014} vorgeschlagen und auch schon vor den LAPGANs umgesetzt~\cite{Gauthier.2014,Mirza.2014}.
+
+Im Fall der konditionierten \glspl{gan} kommt eine konditionierende Variable $ \mathbf{y} $ hinzu, die im folgenden als \emph{Target} bezeichnet wird.
+Der Diskriminator erhält nun nicht mehr nur irgendein Sample, sondern immer ein Paar aus \emph{Input} und Sample.
+Der Input stammt immer aus den Trainingsdaten, das Sample ist aber einmal das Target aus den Trainingsdaten und einmal der Output des Generators.
 Dies erweitert die Zielfunktion von \autoref{eq:gan} zu
 
 \begin{equation}\label{eq:canloss}
@@ -94,18 +97,20 @@ Dies erweitert die Zielfunktion von \autoref{eq:gan} zu
 \subsection{Deep Convolutional GANs}
 
 Die \glspl{dcgan} von \citeauthor{Radford.2016}~\cite{Radford.2016} sind eine Weiterentwicklung der \glspl{gan}, deren Samples im Vergleich zu den LAPGANs weniger verrauscht sind.
-Sie modifizieren die originalen \glspl{gan}, indem sie ähnlich den \glspl{fcn} nur noch Faltungsschichten statt Pooling- und vollständig verbundenen Schichten.
+Sie modifizieren die originalen \glspl{gan}, indem sie nur noch Faltungsschichten statt Pooling- und vollständig verbundenen Schichten.
+(Dieser Schritt ähnelt der Weiterentwicklung von \glspl
+{cnn} zu \glspl{fcn}.)
 Außerdem nutzen sie in allen Schichten Batch-Normalisierung, was Mittelwert und Standardabweichung jedes Units einer Schicht auf respektive 0 und $ \pm 1 $ normiert.
 Ebenso kommt als Aktivierungsfunktion im Generator nur noch das \gls{relu}~\cite{Nair.2010} und im Diskriminator das Leaky ReLU zum Einsatz; in der Ausgabeschicht des Generators erweist sich die Aktivierungsfunktion mit \emph{tanh} als erfolgreicher im Vergleich zu \emph{maxout} bei den originalen \glspl{gan}.
 
-Durch verschiedene Experimente können die Autoren zeigen, dass der latente Vektorraum, den das Modell lernt, tatsächlich glatte Übergänge hat, und dass die gelernten Filter zu häufig auftretenden Objekten korrespondieren.
+Durch verschiedene Experimente können die Autoren zeigen, dass der latente Vektorraum, den das Modell lernt, tatsächlich glatte Übergänge hat, und dass die gelernten Filter korrespondieren mit häufig auftretenden Objekten.
 Ebenso beobachten sie, dass das Unterdrücken von bestimmten Filtern dem Auslassen oder Transformieren bestimmter Objekte im generierten Sample entspricht, und dass simple Vektorarithmetik im latenten Vektorraum plausible Ergebnisse erzielt (s.~\autoref{fig:dcganarithmetic}).
-All dies spricht dafür, dass diese Architektur nicht nur visuell ansprechende Ergebnisse erzielen kann, sondern auch eine stabile Repräsentation gelernt hat anstatt auswendig zu lernen und damit Overfitting zum Opfer zu fallen.
+All dies spricht dafür, dass diese Architektur nicht nur visuell ansprechende Ergebnisse erzielen kann, sondern auch eine stabile Repräsentation gelernt hat statt auswendig zu lernen und damit Overfitting zum Opfer zu fallen.
 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.9\linewidth]{img/dcgan_arithmetic}
-	\caption{Beispiel für Vektorarithmetik in \glspl{dcgan}~\cite{Radford.2016}.}
+	\caption[Beispiel für Vektorarithmetik in \glspl{dcgan}]{Beispiel für Vektorarithmetik in \glspl{dcgan}~\cite{Radford.2016}}
 	\label{fig:dcganarithmetic}
 \end{figure}
 
@@ -116,7 +121,7 @@ All dies spricht dafür, dass diese Architektur nicht nur visuell ansprechende E
 Die \glspl{can} von \citeauthor{Isola.2017}~\cite{Isola.2017} bestehen aus einem Generator und einem Diskriminator, die beide auf \glspl{dcgan} basieren.
 Ihr Ansatz ist mit dem Zweck gestaltet, eine generische Architektur für Probleme bereitzustellen, bei denen eine Repräsentation eines Bildes auf eine andere Repräsentation eines Bildes abgebildet wird; die Autoren sprechen in diesem Zusammenhang von "Bild-zu-Bild-Übersetzung".
 
-Im Gegensatz zu anderen Arbeiten, die konditionierte \glspl{gan} für spezielle Bild-zu-Bild-Probleme verwenden, ist in ihrer Architektur theoretisch gar nichts anwendungsspezifisch angepasst.
+Im Gegensatz zu anderen Arbeiten, die konditionierte \glspl{gan} für spezielle Bild-zu-Bild-Probleme verwenden, ist in ihrer Architektur theoretisch nichts anwendungsspezifisch angepasst.
 Stattdessen ermöglicht es das GAN-Framework, dass die konkrete Verlustfunktion vollständig aus den Trainingsdaten gelernt wird, ohne dass diese problemspezifisch von Hand definiert werden muss.
 
 
@@ -131,18 +136,19 @@ Außerdem entsprechen diese Skip Connections nicht der elementweisen Aufsummieru
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.9\linewidth]{img/unet_architecture}
-	\caption{Architektur des U-Net~\cite{Ronneberger.2015}.}
+	\includegraphics[width=\linewidth]{img/unet_architecture}
+	\caption[Architektur des U-Net]{Architektur des U-Net~\cite{Ronneberger.2015}}
 	\label{fig:unetarchitecture}
 \end{figure}
 
+Natürlich unterscheidet sich der Generator hier vom U-Net dadurch, dass keinerlei Pooling stattfindet und die gegenüberliegenden Schichten exakt dieselbe Auflösung haben.
 Konkret nimmt der Generator Inputs mit der Auflösung 256$\times$256 entgegen und gibt auch Outputs dieser Größe aus.
 Der genaue Aufbau ist \autoref{fig:cangenerator} zu entnehmen.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.9\linewidth]{img/can_generator}
-	\caption[Generator des \gls{can}.]{Generator des \gls{can}. Die dritte Dimension entspricht bei erster und letzter Schicht der Anzahl der Kanäle, bei allen anderen der Anzahl der gelernten Filter. Quelle: \url{https://affinelayer.com/pix2pix/}}
+	\includegraphics[width=\linewidth]{img/can_generator}
+	\caption[Generator des \gls{can}]{Generator des \gls{can}. Die dritte Dimension entspricht bei erster und letzter Schicht der Anzahl der Kanäle, bei allen anderen der Anzahl der gelernten Filter. Quelle: \url{https://affinelayer.com/pix2pix/}}
 	\label{fig:cangenerator}
 \end{figure}
 
@@ -151,7 +157,7 @@ Der genaue Aufbau ist \autoref{fig:cangenerator} zu entnehmen.
 \subsection{Diskriminator}
 
 Die Formulierung des Diskriminators in einem \gls{gan} entscheidet darüber, wie erfolgreich der Generator lernen kann, weil der Diskriminator ihm aufzeigt, welche Outputs realistisch wirken.
-Damit der Diskriminator entscheiden kann, wie realistisch das Bild $ G(\mathbf{x}, \mathbf{y}) $ aussieht in Abhängigkeit vom Inputbild $ \mathbf{y} $, muss er ein Maß haben, um Bilder miteinander vergleichen zu können.
+Damit der Diskriminator entscheiden kann, wie realistisch das Bild $ G(\mathbf{x}, \mathbf{z}) $ aussieht in Abhängigkeit vom Inputbild $ \mathbf{y} $, muss er ein Maß haben, um Bilder miteinander vergleichen zu können.
 \citeauthor{Isola.2017} gestalten hier sowohl die Verlustfunktion als auch den Diskriminator ausgehend von der Hypothese, dass die niedrigen Frequenzen im Bild von herkömmlichen Distanzfunktionen sehr gut modelliert werden, aber die hohen Bildfrequenzen durch gelernte Funktionen abgedeckt werden müssen.
 
 Verbreitete Maße zum Vergleich von Bildern sind die L1-Distanz mit $ \sum_i | \mathbf{x}_i - \mathbf{y}_i | $ und die L2-Distanz mit $ \sum_i (\mathbf{x}_i - \mathbf{y}_i)^2 $.
@@ -161,7 +167,7 @@ Scheinbar produziert der Einsatz dieser Maße eine unscharfe Ausgabe, wenn sie e
 Allerdings sind diese Maße in der Lage die groben Strukturen, also die tiefen Frequenzen im Bild, treffend abzubilden.
 Deshalb kommt zur Einhaltung der Korrektheit in den tiefen Frequenzen die L1-Distanz in der Verlustfunktion zum Einsatz.
 
-Der Diskriminator hingegen wird als \emph{PatchGAN} aufgebaut, der die feinen Strukturen und damit die hohen Frequenzen im Bild auf Realitätsnähe überprüfen kann.
+Der Diskriminator hingegen wird als \emph{PatchGAN} aufgebaut, das die feinen Strukturen und damit die hohen Frequenzen im Bild auf Realitätsnähe überprüfen kann.
 (Der Name des Diskriminators ist irreführend gewählt, da es sich bei dem Diskriminator nicht um ein \gls{gan} handelt -- besser wäre vermutlich so etwas wie \emph{Patch-Diskriminator}.)
 Dieser Diskriminator ist als Netzstruktur aufgebaut, die einen Filter mit fester Größe faltend auf dem gesamten Bild einsetzt.
 Eine zu kleine Größe des Filters erzeugt Bilder, die kachelartige Artefakte aufweisen; ein Filter mit der vollen Bildgröße skaliert nicht gut für Bilder mit beliebiger Größe und liefert nicht so gute Ergebnisse wie ein Filter mit 70$\times$70 Pixeln.
@@ -172,7 +178,7 @@ Der konkrete Aufbau des Diskriminators ist in \autoref{fig:candiscriminator} ver
 \begin{figure}
 	\centering
 	\includegraphics[width=0.9\linewidth]{img/can_discriminator}
-	\caption[Diskriminator des \gls{can}.]{Diskriminator des \gls{can}. Übernommen und korrigiert von \url{https://affinelayer.com/pix2pix/}}
+	\caption[Diskriminator des \gls{can}]{Diskriminator des \gls{can}. Übernommen und korrigiert von \url{https://affinelayer.com/pix2pix/}}
 	\label{fig:candiscriminator}
 \end{figure}
 
@@ -194,11 +200,13 @@ Um die niedrigen Bildfrequenzen korrekt im \gls{can} zu modellieren, wird ein ge
 R^* = \textup{arg}\min_G \max_D \mathcal{L}_c(D, G) + \lambda \mathcal{L}_{L1}(G)
 \end{equation}
 
-Die hohen Bildfrequenzen können dann durch die beiden Terme des Diskriminators im ersten Summanden abgedeckt werden (s. \autoref{eq:canloss}), die niedrigen Frequenzen werden durch den zweiten Summanden modelliert.
-Die besten Ergebnisse über alle Bild-zu-Bild-Übersetzungsaufgaben wurde erzielt für $ \lambda = 100 $.
+Die hohen Bildfrequenzen können dann durch die beiden Terme des Diskriminators im ersten Summanden abgedeckt werden (s.~\autoref{eq:canloss}), die niedrigen Frequenzen werden durch den zweiten Summanden modelliert.
+Die besten Ergebnisse über alle Bild-zu-Bild-Übersetzungsaufgaben wird erzielt mit $ \lambda = 100 $.
 
 In der Zielfunktion der \glspl{gan} spielt der Rausch-Vektor $ \mathbf{z} $ als Startpunkt für $ G $ eine wichtige Rolle, damit der Generator überhaupt eine Ausgabe erzeugen kann.
-Da der Generator allerdings bei den \glspl{can} bereits einen Input erhält, ist dieser nicht mehr notwendig und es ergibt sich folgende Formulierung der Zielfunktion:
+Da der Generator allerdings bei den \glspl{can} bereits einen Input erhält, ist dieser nicht mehr notwendig.
+Evaluierungen von \citeauthor{Isola.2017} zeigen, dass der Generator das Rauschen einfach ignoriert~\cite{Isola.2017}.
+Es ergibt sich also folgende Formulierung der Zielfunktion:
 
 \begin{equation}\label{eq:canlosswonoise}
 \begin{split}
@@ -223,23 +231,24 @@ Segmentierung wird in der Literatur klassischerweise definiert als
 \begin{quote}Aufteilung des Bildes in mehrere verschiedene Regionen, wobei jede dieser Regionen gewisse Informationen oder Eigenschaften besitzt.~\cite[S.~29]{Ens.2011}\end{quote}
 
 Im Fall der \emph{semantischen Segmentierung} sind diese Regionen \emph{Segmente} des Bildes, die Instanzen von bestimmten Objekten oder Gruppen solcher Objekte enthalten.
-Bei einer Segmentierung mehrerer Klassen wird meist jedes Segment mit einer eigenen Farbe pixelgenau repräsentiert (s.~\autoref{fig:segnet_multiclassseg}), bei \emph{binären} Segmentierung mit nur einer zu segmentierenden Objektklasse wird meist ein Binärbild ausgegeben, wobei die Segmente weiß und der Hintergrund schwarz ist (s.~\autoref{fig:unet_binaryseg}).
+Bei einer Segmentierung mehrerer Klassen wird meist jedes Segment mit einer eigenen Farbe pixelgenau repräsentiert (s.~\autoref{fig:segnet_multiclassseg}).
+Bei einer \emph{binärer} Segmentierung gibt es nur eine zu segmentierende Objektklasse, deshalb wird meist ein Binärbild ausgegeben, wobei die Segmente weiß sind und der Hintergrund schwarz (s.~\autoref{fig:unet_binaryseg}).
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{.45\textwidth}
+	\begin{subfigure}{.48\textwidth}
 		\centering
-		\includegraphics[width=0.9\linewidth]{img/segnet_multiclassseg}
+		\includegraphics[width=\linewidth]{img/segnet_multiclassseg}
 		\caption{}
 		\label{fig:segnet_multiclassseg}
 	\end{subfigure}
-	\begin{subfigure}{.45\textwidth}
+	\begin{subfigure}{.48\textwidth}
 		\centering
-		\includegraphics[width=0.9\linewidth]{img/unet_binaryseg}
+		\includegraphics[width=\linewidth]{img/unet_binaryseg}
 		\caption{}
 		\label{fig:unet_binaryseg}
 	\end{subfigure}
-	\caption{Beispiel von (a) Multiklassen-Segmentierung~\cite{Badrinarayanan.2017} und (b) binärer Segmentierung~\cite{Ronneberger.2015}.}
+	\caption[Beispiel von Multiklassen-Segmentierung und binärer Segmentierung]{Beispiel von (a) Multiklassen-Segmentierung~\cite{Badrinarayanan.2017} und (b) binärer Segmentierung~\cite{Ronneberger.2015}}
 \end{figure}
 
 \citeauthor{Isola.2017} überprüfen auch den Anwendungsfall einer semantischen Segmentierung mit einem Dataset von segmentierten Straßenszenen, wobei mehrere Objektklassen auftreten.
@@ -248,8 +257,8 @@ Scheinbar tendiert das \gls{can} dazu, übereifrig viele kleine Objekte zu segme
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.9\linewidth]{img/can_seg}
-	\caption{Ergebnisse von Multi-Klassen-Segmentierung bei \glspl{can}~\cite{Isola.2017}.}
+	\includegraphics[width=0.95\linewidth]{img/can_seg}
+	\caption[Ergebnisse von Multi-Klassen-Segmentierung bei \glspl{can}]{Ergebnisse von Multi-Klassen-Segmentierung bei \glspl{can}~\cite{Isola.2017}}
 	\label{fig:canseg}
 \end{figure}
 
@@ -261,7 +270,7 @@ Allerdings wurde das \gls{can} noch nicht für eine binäre Segmentierung verwen
 \section{Dataset}
 
 In dieser Arbeit wird eine binäre semantische Segmentierung von Kolorektalpolypen mittels eines \gls{can} durchgeführt.
-Für das Training des \gls{can} ist ein Dataset notwendig, das in diesem Fall im Rahmen der \gls{giana} Challenge 2018\footnote{\url{https://giana.grand-challenge.org/}} zur Verfügung gestellt wurde.
+Für das Training des \gls{can} ist ein Dataset vorhanden, das im Rahmen der \gls{giana} Challenge 2018\footnote{\url{https://giana.grand-challenge.org/}} zur Verfügung gestellt wurde.
 Diese Challenge ist eine Sub-Challenge der Endoscopic Vision Challenge, die wiederum Teil der MICCAI-Konferenz ist.
 Die Endoscopic Vision Challenge findet seit 2015 statt\footnote{\url{https://endovis.grand-challenge.org/}} und hat es sich zum Ziel gesetzt, den aktuellen Stand der Technik im Bereich der medizinischen Bildverarbeitung mithilfe von öffentlich ausgerufenen Sub-Challenges und Datasets zu evaluieren.
 
@@ -276,7 +285,7 @@ In diesem Fall sind nur Trainings- und Test-Split festgelegt; die konkrete Aufte
 
 \begin{table}
 	\centering
-	\caption{Details zu den Datasets (SD und HD)}
+	\caption[Details zu den Datasets (SD und HD)]{Details zu den Datasets (SD und HD). Nicht offiziell bekannte Werte sind mit (*) gekennzeichnet.}
 	\label{tab:datasets}
 	\begin{tabular}{cccccc}
 		\toprule
@@ -288,7 +297,6 @@ In diesem Fall sind nur Trainings- und Test-Split festgelegt; die konkrete Aufte
 		CVC-HDTest & (*) & (*) & 108 & 1920$\times$1080 & Test \\
 		\bottomrule
 	\end{tabular}
-	Nicht offiziell bekannte Werte sind mit (*) gekennzeichnet.
 \end{table}
 
 Jeder Datensatz besteht aus einem Koloskopiebild, das unter Weißlicht-Endoskopie aufgenommen wurde, und einem dazugehörigen Ground-Truth-Binärbild, in dem pixelgenau annotiert ist, welcher Teil des Bildes zu einem Polypen gehört.

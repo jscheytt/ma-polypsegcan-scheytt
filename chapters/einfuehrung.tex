@@ -3,14 +3,14 @@
 Unter den 25 häufigsten Todesursachen weltweit sind drei Krebsarten vertreten, eine davon ist Darmkrebs~\cite{Lozano.2012}.
 Sie hat die vierthöchste Sterblichkeitsrate von allen Krebsarten~\cite{Ferlay.2012} und liegt etwa 10~\% aller Krebstode zugrunde~\cite{Kumar.2005}.
 Polypen in der Darmschleimhaut bilden dessen Vorstufe~\cite{Kumar.2005}.
-Eine frühzeitige Entfernung bösartiger Kolorektalpolypen kann das Sterblichkeitsrisiko bis zur Hälfte reduzieren~\cite{Zauber.2012}, während die vollständige Resektion sämtlicher sowohl benigner als auch maligner Polypen unnötige Risiken wie Blutungen und Perforation aufweisen~\cite{Rex.2009}.
+Eine frühzeitige Entfernung bösartiger Kolorektalpolypen kann das Sterblichkeitsrisiko bis zur Hälfte reduzieren~\cite{Zauber.2012}, während die vollständige Resektion sämtlicher sowohl benigner als auch maligner Polypen unnötige Risiken wie Blutungen und Perforation aufweist~\cite{Rex.2009}.
 
 Regelmäßige Vorsorgeuntersuchungen ermöglichen es, das Wachstum von Kolorektalpolypen zu überwachen.
 Hierbei wird in der Regel der Dickdarm im Rahmen einer Koloskopie endoskopisch untersucht~\cite{Kumar.2005} und von verdächtigen Polypen wird eine Gewebeprobe genommen, um diese anschließend histologisch auf ihre Gut- oder Bösartigkeit zu untersuchen.
 
 Bei solchen Darmspiegelungen werden bis zu 28~\% aller Polypen übersehen~\cite{Leufkens.2012}.
 Mit einer Markierung im endoskopischen Bild könnte man Ärzten das Auffinden von Polypen erleichtern und die Fehlerrate verringern.
-Grundlage dafür wäre eine automatische Lokalisierung von Polypen im koloskopischen Bild (s. \autoref{fig:segm}).
+Grundlage dafür wäre eine automatische Lokalisierung von Polypen im koloskopischen Bild (s.~\autoref{fig:segm}).
 
 \begin{figure}
 	\centering
@@ -65,7 +65,7 @@ Andere Modalitäten wie bspw. Narrow Band Imaging, bei dem zur besseren Hervorhe
 
 Um eine Hervorhebung von Polypen im koloskopischen Bild während einer Darmspiegelung zu ermöglichen, ist ein automatisiertes Auffinden von Polypen notwendig.
 Diese Lokalisierung kann unterschiedlich genau sein, vom einzelnen Bildpunkt über Bounding Boxes bis hin zu ellipsenförmigen Bereichen.
-Wenn ein Algorithmus in der Lage ist, die Fläche des Polypen \emph{pixelgenau} im Bild zu finden, wird in dieser Arbeit von einer \emph{Segmentierung} gesprochen als der genauesten Form der Lokalisierung.
+Wenn ein Algorithmus in der Lage ist, die Fläche des Polypen \emph{pixelgenau} im Bild zu bestimmen, wird in dieser Arbeit von einer \emph{Segmentierung} gesprochen als der genauesten Form der Lokalisierung.
 In allen anderen Fällen wird nur von einer \emph{Lokalisierung} gesprochen.
 
 Diese Arbeit befasst sich mit dem Einsatz einer bestimmten Deep-Learning-Architektur, um Polypen in koloskopischen Bildern zu segmentieren.
@@ -119,7 +119,7 @@ Features in den einzelnen Patches werden generiert durch eine Diskretisierung de
 
 Bei \cite{Prasath.2016} werden auch verschiedene Segmentierungsalgorithmen für Kolorektalpolypen verglichen.
 Diese basieren alle auf Varianten von \emph{Active Contours}~\cite{Kass.1988}, bei denen ein verformbares, a priori festgelegtes Linienmodell durch Energieminimierung auf ein Bild eingepasst wird.
-\citeauthor{Sasmal.2018} nutzen ebenfalls Active Contours und initialisieren die Segmentierung mit kreisförmigen Löchern auf die gesamte Bildfläche~\cite{Sasmal.2018}.
+\citeauthor{Sasmal.2018} nutzen ebenfalls Active Contours und initialisieren die Segmentierung mit kreisförmigen Löchern auf der gesamten Bildfläche~\cite{Sasmal.2018}.
 
 \citeauthor{Ionescu.2013} halten die gekrümmte Form der Polypen für am meisten aussagekräftig und entwickeln eine eigene Methode zur Verstärkung der Polypenkanten im Bild~\cite{Ionescu.2013}.
 \citeauthor{Vieira.2012} segmentieren abnormales Gewebe von normalem und nutzen dafür ein Gaussian Mixture Model basierend auf den Vektoren im HSV- und RGB-Farbraum~\cite{Vieira.2012}.
@@ -142,10 +142,10 @@ Deep Learning bezeichnet eine Klasse von Algorithmen, bei denen künstliche \gls
 Viele lernende Algorithmen kommen nur mit Problemen in niedrigdimensionalen Räumen zurecht, weil sie theoretisch für jeden möglichen Punkt im Merkmalsraum Trainingsbeispiele benötigen.
 Abgesehen von diesem "Fluch der Dimensionalität"~\cite{Bellman.2010} stützen sich viele Lernalgorithmen auf die Annahme, dass die zu lernende Funktion in kleinen, lokalen Bereichen ungefähr konstant verläuft, was aber nicht immer der Fall sein muss.
 Beiden Problemen kann Deep Learning entgegentreten durch das Lernen von niedrigdimensionalen, nicht-lokalen Mannigfaltigkeiten im Merkmalsraum~\cite{Bengio.2005} und durch die Annahme, dass die Trainingsdaten durch mehrere zugrundeliegende Faktoren, möglicherweise auf mehreren Abstraktionsebenen, verursacht wurden~\cite{Goodfellow.2016}.
-Gerade letztere Hypothese bietet sich sehr gut für das hier vorliegende Segmentierungsproblem an, da das Zusammenwirken verschiedener Faktoren eine Grundannahme ist.
+Gerade letztere Hypothese passt sehr gut auf das hier vorliegende Segmentierungsproblem, da das Zusammenwirken verschiedener Faktoren in Form von verschiedenartigen Merkmalen eine Grundannahme ist.
 
-Generell bieten Features lernende Algorithmen einen weiteren Vorteil gegenüber solchen mit selektierten Features:
-Es ist kaum Vorverarbeitung notwendig, da der Algorithmus selbstständig lernt, welche Informationen des Originalinputs nicht relevant sind.
+Generell bieten Algorithmen, die Features lernen, einen weiteren Vorteil gegenüber solchen mit selektierten Features:
+Es ist kaum Vorverarbeitung notwendig, da der Algorithmus selbstständig lernt, welche Teile des Originalinputs nicht relevant sind.
 Aufwendiges Entfernen von Glanzlichtern oder das Limitieren des Gesamtbildes auf eine Interessenregion entfällt, was gerade bei den Ansätzen im vorherigen Abschnitt sehr häufig eingebaut wird.
 
 
@@ -153,9 +153,9 @@ Aufwendiges Entfernen von Glanzlichtern oder das Limitieren des Gesamtbildes auf
 \subsection{Convolutional Neural Networks}
 
 Eine Deep-Learning-Architektur, die besonders im Bereich der Bildverarbeitung sehr verbreitet ist, ist das \gls{cnn}.
-In dieser Variante von tiefen \glspl{nn} wird in mindestens einer Schicht die Faltungsoperation angewandt.
+In dieser Variante von tiefen \glspl{nn} wird in mindestens einer Schicht die Faltungsoperation angewandt~\cite{Goodfellow.2016}.
 Die Werte einer Kernelmatrix, die für eine Neuronenschicht in jedem Bildfenster gleich bleibt, werden vom Netz gelernt.
-Da die Neuronen in \glspl{cnn} mehr Parameter untereinander teilen als Netze mit vollständig verbundenen Schichten, die einer Matrixmultiplikation entspricht, ist ihre Speicherkomplexität geringer.
+Da die Neuronen in \glspl{cnn} mehr Parameter untereinander teilen als Netze mit vollständig verbundenen Schichten, was Matrixmultiplikationen entspricht, ist ihre Speicherkomplexität geringer.
 
 Durch den Einsatz von Pooling-Schichten oder Faltungsschichten mit größeren Strides sind \glspl{cnn} außerdem in der Lage, Repräsentationen zu lernen, die gegenüber kleinen Verschiebungen im Input invariant sind.
 Dies wiederum drückt eine A-Priori-Annahme in \glspl{cnn} aus, die sich für Bilder sehr gut eignet:
@@ -164,7 +164,7 @@ Geringe Translationen sollten die Semantik eines Bildes nicht verändern.
 Damit \glspl{cnn} gut generalisieren, benötigen sie in der Regel sehr viele Trainingsdaten.
 In vielen Fällen lässt sich ein Netz, das schon für ein bestimmtes Problem trainiert wurde, als Ausgangspunkt für ein neues Netz nehmen, welches das bereits trainierte Netz nur noch leicht anpassend nachtrainiert auf das neue Zielproblem.
 Dieses \emph{Transfer Learning} kann den Bedarf an Trainingsdaten deutlich verringern.
-Gerade im Bereich der Objekterkennung haben sich viele Deep-Learning-Architekturen etabliert, die auf großen, gelabelten Bilddatenbanken wie ImageNet~\cite{Deng.2009} trainiert wurden und deren erste Schichten gerne als Startpunkt für neue Objekterkennungsnetze in speziellen Domänen genutzt werden (s. z.~B.~\cite{Simonyan.2014}).
+Gerade im Bereich der Objekterkennung haben sich viele Deep-Learning-Architekturen etabliert, die auf großen, gelabelten Bilddatenbanken wie ImageNet~\cite{Deng.2009} trainiert wurden und deren erste Schichten gerne als Startpunkt für neue Objekterkennungsnetze in speziellen Domänen genutzt werden (s.~z.~B.~\cite{Simonyan.2014}).
 Im Kontext der medizinischen Bildverarbeitung wurde gezeigt, dass der Transfer bereits gelernter Netzwerte mit anschließendem Fine-Tuning mindestens so gute Ergebnisse liefert wie ein Netz, das von Grund auf trainiert wird~\cite{Tajbakhsh.2016}.
 
 
@@ -179,20 +179,20 @@ Wird ein Fenster gefunden, das einen Polypen enthält, wird die Lokalisierung no
 
 Die Extrahierung der Features geschieht mithilfe einer Wavelet-Transformation, die eine Mischung aus Farb- und Texturinformationen über mehrere Skalen des Bildfensters generiert und von denen mehrere statistische Werte berechnet und als Features genutzt werden.
 Zusätzlich werden Features eines \gls{cnn} hinzugenommen.
-Das \gls{cnn} wird so trainiert, dass es in der Lage ist, zwischen Polypen- und Nicht-Polypen-Frames zu unterscheiden; anschließend wird das gesamte \gls{cnn} bis auf seine allerletzte Klassifikationsschicht als Feature-Extraktor mitverwendet.
+Das \gls{cnn} wird so trainiert, dass es in der Lage ist, zwischen Polypen- und Nicht-Polypen-Frames zu unterscheiden; anschließend wird das gesamte \gls{cnn} bis auf seine allerletzte Klassifikationsschicht zusammen mit der Wavelet-Transformation als Feature-Extraktor verwendet.
 
 Leider zeigen die Autoren nicht auf, welchen Vorteil die Kombination der beiden Feature-Extraktoren bietet.
 \glspl{cnn} arbeiten auf mehreren Skalen, entweder durch Pooling oder Strides größer als 1, und sie arbeiten auf dem originalen Rohmaterial und können deshalb ebenfalls sehr viele Zusammenhänge lernen.
-Die Faltungsoperation in \glspl{cnn} macht es natürlich schwierig, Beziehungen zwischen Bildpunkten zu modellieren, die sehr weit entfernt sind -- eventuell bieten hier die vorgeschlagenen Farb-Textur-Wavelets Vorteile, die aber nur im einzelnen Vergleich ersichtlich wären.
+Die Faltungsoperation in \glspl{cnn} macht es natürlich schwierig, Beziehungen zwischen Bildpunkten zu modellieren, die sehr weit entfernt sind -- eventuell bieten hier die vorgeschlagenen Farb-Textur-Wavelets Vorteile, die aber nur dann ersichtlich wären, wenn man sie getrennt statt kombiniert evaluieren würde.
 
 \citeauthor{Lequan.2017}~\cite{Lequan.2017} sind die ersten, die ein \gls{fcn}~\cite{Long.2015} einsetzen zur Lokalisierung von Kolorektalpolypen.
 \glspl{fcn} sind eine Weiterentwicklung von \glspl{cnn}, in denen es nur noch Faltungsschichten gibt und keinerlei Pooling oder vollständig verbundene Schichten mehr.
-Außerdem wird zusätzlich zum Downsampling ein Upsampling gelernt, bei dem Informationen aus den vorherigen Skalierungsstufen des Netzes den Entfaltungs-Schichten durch Skip Connections zur Verfügung gestellt werden.
+Außerdem wird zusätzlich zum Downsampling ein Upsampling gelernt, bei dem Informationen aus den vorherigen Skalierungsstufen des Netzes den Entfaltungsschichten durch Skip Connections zur Verfügung gestellt werden.
 Die FCN-Variante mit Skip Connections auf den meisten Skalierungen ist auch diejenige, die am weitesten verbreitet ist, und nennt sich \emph{FCN-8s}.
 
 Diese Architektur wurde ursprünglich entwickelt, um Segmentierungen zu lernen; in diesem Szenario wird allerdings nur eine Karte mit Wahrscheinlichkeiten generiert, wo im Bild sich wohl Polypen befinden.
 Die Maximalpunkte dieser Karte sind die Ausgabe.
-Interessanterweise verwenden \citeauthor{Lequan.2017} ein 3D-FCN, um auf Videosequenzen zu lernen und zu prädizieren, indem sie eine Videosequenz als ein 3D-Volumen auffassen und dann darauf 3D- statt 2D-Faltung betreiben, um neben räumlichen auch zeitliche Zusammenhänge zu erfassen.
+Interessanterweise verwenden \citeauthor{Lequan.2017} genauer gesagt ein 3D-FCN, um auf Videosequenzen zu lernen und zu prädizieren, indem sie eine Videosequenz als 3D-Volumen auffassen und dann darauf 3D- statt 2D-Faltung betreiben, um neben räumlichen auch zeitliche Zusammenhänge zu erfassen.
 
 
 
@@ -207,11 +207,11 @@ Das \gls{fcn} auf Basis von VGGNet schneidet hierbei am besten ab.
 \citeauthor{Vazquez.2017}~\cite{Vazquez.2017} legen einen Benchmark zur Polypensegmentierung vor, indem sie zwei öffentliche Datasets kombinieren, sie durch eigene Annotationen erweitern und das FCN-8s~\cite{Long.2015} auf diesen Daten trainieren.
 Neben den schon gekennzeichneten Polypenregionen in den Bildern maskieren diese Annotationen explizit den Hintergrund, das Lumen des Darms und Glanzlichter.
 Ausgiebige Dataset Augmentation kommt zum Einsatz, darunter Zoom, Rotation, Scherung und Warping; am besten schneidet die Kombination aller vier Augmentierungstechniken ab.
-Als Vergleich ziehen die Autoren jeweils einen State-of-the-Art Algorithmus mit manuell gewählten Features heran, der in der Lage ist entweder Polypen, Lumen oder Glanzlichter zu segmentieren.
+Als Vergleich ziehen die Autoren jeweils einen State-of-the-Art-Algorithmus mit manuell gewählten Features heran, der in der Lage ist entweder Polypen, Lumen oder Glanzlichter zu segmentieren.
 Abgesehen von dem Algorithmus, der Glanzlichter segmentiert, liefert ein FCN-8s, das mit allen vier Klassen trainiert wird, bessere Ergebnisse als jeder der Algorithmen mit Feature Selection.
 Gleichzeitig ist das FCN-8s in der Lage alle Klassen gleichzeitig zu segmentieren und dies in 88 ms zu bewerkstelligen, was weniger als 2~\% der Zeit sind, die der schnellste der drei Algorithmen für seine einzelne Klasse alleine genommen benötigt.
 
-\citeauthor{Wichakam.2018}~\cite{Wichakam.2018} verbessern diese Vorlage hinsichtlich der Geschwindigkeit, indem sie das \gls{fcn} komprimieren.
+\citeauthor{Wichakam.2018}~\cite{Wichakam.2018} verbessern diese Werte hinsichtlich der Geschwindigkeit, indem sie das \gls{fcn} komprimieren.
 Dies geschieht durch Auslassen und Zusammenfassen einiger Schichten mit 1$\times$1-Faltung.
 Zusätzlich transferieren sie vortrainierte Werte von VGGNet und passen außerdem die Verlustfunktion an:
 Statt der verbreiteten Kreuzentropie nutzen sie eine differenzierbare Variante des Dice-Score~\cite{Srensen.1948}, der nur die Polypen-Klasse betrachtet und die Hintergrund-Klasse außer Acht lässt.
@@ -227,8 +227,8 @@ Insgesamt schneidet das modifizierte ResNet am besten ab, aber die Ergebnisse si
 
 \glspl{cnn} sind mittlerweile ein Standardwerkzeug in der Klassifizierung und Objekterkennung geworden und werden sehr erfolgreich eingesetzt.
 Aber aktuelle Entwicklungen im Deep Learning öffnen neue Wege durch Generative Netze:
-Solche Architekturen sind in der Lage, Wahrscheinlichkeitsverteilungen über die Trainingsdaten zu lernen und dann neue Trainingssamples zu erzeugen, die den Originaldaten ähnlich sind, ohne sie zu blind zu kopieren~\cite{Goodfellow.2016}.
-Dies kann zum einen dabei helfen besser zu verstehen, was das Netz von den Trainingsdaten gelernt hat, zum anderen kann es auch Möglichkeiten eröffnen, mit geringeren Mengen an gelabelten Trainingsdaten zurechtzukommen\cite{Kingma.2014}.
+Solche Architekturen sind in der Lage, Wahrscheinlichkeitsverteilungen über die Trainingsdaten zu lernen und dann neue Trainingssamples zu erzeugen, die den Originaldaten ähnlich sind, ohne sie blind zu kopieren~\cite{Goodfellow.2016}.
+Dies kann zum einen dabei helfen besser zu verstehen, was das Netz von den Trainingsdaten gelernt hat, zum anderen kann es auch Möglichkeiten eröffnen, mit geringeren Mengen gelabelter Trainingsdaten zurechtzukommen~\cite{Kingma.2014}.
 
 Im Gegensatz zu konventionellen \glspl{nn} sind generative Netze in der Regel nur als ungerichtete Graphen modellierbar~\cite{Goodfellow.2016}.
 Dies führt dazu, dass Training und teilweise sogar Inferenz in solchen Modellen approximiert werden müssen.
@@ -241,12 +241,12 @@ Dieser wiederum lernt, realistisch aussehende Samples zu erzeugen.
 Diese beiden Netze werden von Grund auf solange trainiert, bis der Diskriminator nicht mehr unterscheiden kann zwischen realen und gefälschten Samples.
 
 In seiner Ursprungsform erzeugt der Generator ein neues Sample, indem er einen Vektor mit zufällig initialisierten Werten weiterverarbeitet.
-Übergibt man dem Generator einem solchen Rauschvektor einen strukturierten Input wie bspw. dasselbe Bild, das der Diskriminator bekommt, erhält man einen konditionierten Generator.
-Ein solcher konditionierter Generator kann u.~a. für eine Bild-zu-Bild-Übersetzung genutzt werden wie bei \citeauthor{Isola.2017}~\cite{Isola.2017}; sie nennen ihren Ansatz \emph{\glspl{can}}
+Übergibt man dem Generator statt einem solchen Rauschvektor einen strukturierten Input wie bspw. dasselbe Bild, das der Diskriminator bekommt, wird der Generator zu einem konditionierten Generator.
+Ein solcher Generator kann u.~a. für eine Bild-zu-Bild-Übersetzung genutzt werden wie bei \citeauthor{Isola.2017}~\cite{Isola.2017}; sie nennen ihren Ansatz \emph{\acrfullpl{can}}.
 Eine solche Übersetzung kann ein Stil-Transfer, eine Schwarzweiß-Kolorierung oder auch eine semantische Segmentierung sein.
 
 Durch das zugrundeliegende GAN-Framework ist das Netz sogar soweit abstrahiert, dass für die Bild-zu-Bild-Übersetzung theoretisch keine manuelle Anpassung der Verlustfunktion mehr notwendig ist:
 Jegliche Art von Problemstellung in der Bildverarbeitung, die sich so ausdrücken lässt, dass ein Bild von einer Repräsentation zu einer anderen "übersetzt" wird, kann gelernt werden; man muss dem Netz nur noch die passenden Trainingsdaten zur Verfügung stellen.
 
 In der medizinischen Bildverarbeitung wurde diese Methodik bereits zur Segmentierung von OP-Instrumenten bei Laparoskopien verwendet~\cite{Zisimopoulos.2017}, aber noch nicht für eine Segmentierung von Kolorektalpolypen.
-In der vorliegenden Arbeit wird diese Lücke geschlossen und zusätzliches Verbesserungspotential für die Problemstellung der Polypensegmentierung ausgelotet.
+In der vorliegenden Arbeit wird diese Lücke geschlossen und zusätzlich Verbesserungspotential der \glspl{can} für die Problemstellung der Polypensegmentierung ausgelotet.
