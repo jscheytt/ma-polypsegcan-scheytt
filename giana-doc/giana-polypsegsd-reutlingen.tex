@@ -1,44 +1,16 @@
 \documentclass[12pt]{article}
 
-%%% Packages
-
 \usepackage[utf8]{inputenc}
-\usepackage{textcomp}
-
 \usepackage[
 	backend=biber,
 	minbibnames=3,
 	maxbibnames=3,
 	giveninits=true,
-	eprint=false,
 ]{biblatex}
 \addbibresource{references.bib}
-\AtEveryBibitem{
-	\clearfield{eventtitle}
-	\clearfield{venue}
-	\clearlist{organization}
-	\clearfield{series}
-	\clearlist{editor}
-	\clearfield{note}
-	\clearfield{booksubtitle}
-	\ifentrytype{misc}{}{\clearfield{url}}
-}
 
-\usepackage[babel]{csquotes}
-\MakeOuterQuote{"}
-
-\usepackage[acronym,automake]{glossaries}
-\newacronym{gan}{GAN}{Generative Adversarial Network}
-\newacronym{can}{CAN}{Conditional Adversarial Network}
-\newacronym{dcgan}{DCGAN}{Deep Convolutional GAN}
-\makeglossaries
-
-%%% Title
-
-\title{EndoVis GIANA Challenge 2018 Polyp Segmentation SD -- Binary Segmentation Conditional Adversarial Networks (BSCAN)}
+\title{GIANA 2018 Polyp Segmentation SD -- Conditional Adversarial Networks}
 \author{Josia Scheytt\thanks{Reutlingen University}, Cristobal Curio\footnotemark[1], Oliver Burgert\footnotemark[1]}
-
-%%% Content
 
 \begin{document}
 
@@ -46,27 +18,27 @@
 
 \begin{abstract}
 Automatically localizing polyps in colonoscopic imagery is a difficult task because polyp appearance varies greatly in color, texture, and shape.
-Recently, conditional variants of \glspl{gan} have been developed for a wide range of image-to-image translation tasks.
+Recently conditional variants of GANs have been developed for a wide range of image-to-image translation tasks.
 To our knowledge, we are the first to use this deep learning architecture for segmenting colorectal polyps.
 We extend the original methodology for the binary segmentation task.
 \end{abstract}
 
-\glspl{gan}~\cite{Goodfellow.2014} are designed to unsupervisedly learn to generate realistic outputs in terms of closeness to the training data.
-Conditioned \glspl{gan} receive an additional input for conditioning the output which makes them useful for supervised learning problems on images.
+Generative Adversarial Networks (GANs)~\cite{Goodfellow.2014} are designed to unsupervisedly learn to generate realistic images in terms of closeness to the training data.
+Conditioned GANs receive an additional input for conditioning the output which makes them useful for supervised learning problems.
 
-\citeauthor{Isola.2017} develop \glspl{can}~\cite{Isola.2017} to tackle general mapping of one scene representation to another, e.~g. style transfer, day-to-night, or colorization.
-Using an L1 loss for low image frequencies and a patch-based discriminator for high frequencies, the net is able to learn a structured loss solely from the training data with no need for loss engineering.
-The architecture is based on \glspl{dcgan}~\cite{Radford.2016} and the generator is a U-Net~\cite{Ronneberger.2015}.
-We evaluate \glspl{can} on the GIANA polyp segmentation SD subtask and change the following:
+\citeauthor{Isola.2017} develop Conditional Adversarial Networks (CANs)~\cite{Isola.2017} to tackle general mapping of one scene representation to another, e.~g. style transfer or colorization.
+Using an L1 loss for low image frequencies and a patch-based discriminator for high frequencies, the net is able to learn a structured loss solely from the training data with no need for task specific loss engineering.
 
-Outputs are originally limited to 256$\times$256 resolution, so we use \emph{bicubic upsampling at test time} to achieve the desired output resolution.
-%TODO maybe insert results of evaluation
-The generated outputs are 3-channel images but very close to binary images, so we simply \emph{average all channels and threshold} them by half the maximum value.
-Training can easily be subject to vanishing gradients, so we determine the minimum batch size avoiding stagnation at the beginning (3) and \emph{best batch size} (32, used for final results) as a compromise between learning stability and limited memory.
+The architecture is based on DCGANs~\cite{Radford.2016} and the generator uses symmetric layer concatenation skip connections like a U-Net~\cite{Ronneberger.2015}.
+We evaluate CANs on the GIANA polyp segmentation SD subtask and change the following:
 
-Dropout is applied both at training and test time to generate rich and naturalistic outputs but results for binary segmentation vary too much, therefore we \emph{deactivate dropout at test time}.
-We also evaluate the use of dataset augmentation by randomly flipping up/down, flipping left/right, and rotating from $-45$\textdegree to $+45$\textdegree.
-%TODO insert results of evaluation
+Outputs are originally limited to a 256$\times$256 resolution, so we use bicubic upsampling at test time to achieve the desired output resolution.
+The generated outputs are 3-channel images but very close to binary images, so we simply average all channels and threshold them by half the maximum value.
+
+Training can easily be subject to vanishing gradients, so we determine the minimum batch size avoiding stagnation at the beginning (3) and optimum batch size (32, used for final results) as a compromise between learning stability and limited memory.
+
+Dropout is applied both at training and test time to generate rich and naturalistic outputs but results for binary segmentation vary too much, therefore we deactivate dropout at test time.
+The use of the dataset augmentation techniques in \cite{Vazquez.2017} worsens validation set performance by up to 2.8 percentage points so we do not use it in the final model.
 
 \printbibliography
 
