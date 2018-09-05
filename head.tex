@@ -44,22 +44,21 @@
 	maxcitenames=2,
 	giveninits=true,
 	eprint=false,
+	sorting=none,
 ]{biblatex}
 \AtEveryBibitem{
 	\clearlist{language}
 	\clearfield{note}
 	\clearfield{eventtitle}
+	\clearfield{venue}
 	\clearfield{booksubtitle}
-	\ifentrytype{misc}{
-	}{
-	\clearfield{url}
-	}
+	\ifthenelse{\ifentrytype{misc}\OR\ifentrytype{online}}{}{\clearfield{url}}
 }
-\addbibresource{references.bib}
 \DefineBibliographyStrings{german}{
 	andothers = {et\addabbrvspace al\adddot},
 	andmore = {et\addabbrvspace al\adddot},
 }
+\addbibresource{references.bib}
 
 % Include PDFs
 \usepackage{pdfpages}
