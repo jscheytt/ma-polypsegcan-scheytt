@@ -1,15 +1,24 @@
+% Template format
 \documentclass[
 	12pt,
 	a4paper,
 %	draft
 ]{report}
+\usepackage[
+	a4paper,
+	left=3.5cm,
+	right=2.5cm,
+	top=2.5cm,
+	bottom=2cm
+]{geometry}
 
+% Language
 \usepackage[english,ngerman]{babel}
 \addto{\captionsngerman}{\renewcommand{\abstractname}{Abstract}}
 \usepackage[utf8]{inputenc}
-\usepackage[a4paper, left=3.5cm, right=2.5cm, top=2.5cm, bottom=2cm]{geometry}
-\usepackage[nottoc]{tocbibind}
 
+% Structure and links
+\usepackage[nottoc]{tocbibind}
 \usepackage[
 	colorlinks=true,
 	citecolor=blue,
@@ -19,13 +28,14 @@
 	linktoc=all
 ]{hyperref}
 
+% Figures
 \usepackage{graphicx}
-\graphicspath{ {img/} }
 \usepackage{subcaption}
 
 \usepackage[babel]{csquotes}
 \MakeOuterQuote{"}
 
+% Citations
 \usepackage[
 	backend=biber,
 	style=numeric-comp,
