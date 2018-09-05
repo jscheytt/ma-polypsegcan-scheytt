@@ -16,13 +16,13 @@ Grundlage dafür wäre eine automatische Lokalisierung von Polypen im koloskopis
 	\centering
 	\begin{subfigure}{.45\textwidth}
 		\centering
-		\includegraphics[width=.9\linewidth]{polyp129}
+		\includegraphics[width=\linewidth]{img/polyp129}
 		\caption{}
 		\label{fig:polyp}
 	\end{subfigure}
 	\begin{subfigure}{.45\textwidth}
 		\centering
-		\includegraphics[width=.9\linewidth]{segm129}
+		\includegraphics[width=\linewidth]{img/segm129}
 		\caption{}
 		\label{fig:segm}
 	\end{subfigure}
@@ -242,7 +242,7 @@ Diese beiden Netze werden von Grund auf solange trainiert, bis der Diskriminator
 
 In seiner Ursprungsform erzeugt der Generator ein neues Sample, indem er einen Vektor mit zufällig initialisierten Werten weiterverarbeitet.
 Übergibt man dem Generator statt einem solchen Rauschvektor einen strukturierten Input wie bspw. dasselbe Bild, das der Diskriminator bekommt, wird der Generator zu einem konditionierten Generator.
-Ein solcher Generator kann u.~a. für eine Bild-zu-Bild-Übersetzung genutzt werden wie bei \citeauthor{Isola.2017}~\cite{Isola.2017}; sie nennen ihren Ansatz \emph{\acrfullpl{can}}.
+Ein solcher Generator kann u.~a. für eine Bild-zu-Bild-Übersetzung genutzt werden wie bei \citeauthor{Isola.2017}~\cite{Isola.2017}; sie nennen ihren Ansatz \emph{\glsfirstplural{can}}.
 Eine solche Übersetzung kann ein Stil-Transfer, eine Schwarzweiß-Kolorierung oder auch eine semantische Segmentierung sein.
 
 Durch das zugrundeliegende GAN-Framework ist das Netz sogar soweit abstrahiert, dass für die Bild-zu-Bild-Übersetzung theoretisch keine manuelle Anpassung der Verlustfunktion mehr notwendig ist:
