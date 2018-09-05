@@ -314,17 +314,75 @@ Hierzu wurden alle Modelle, die durch die Trainingsläufe mit Augmentierungen er
 	\caption[Mittlerer \gls{iou} und Standardabweichung der Augmentierungen auf den Validierungs- und Testdaten]{Mittlerer \gls{iou} und Standardabweichung der Augmentierungen auf den Validierungs- und Testdaten, absteigend sortiert nach mittlerem \gls{iou} auf den Testdaten. Jede Zeile repräsentiert die Mittelung aller Modelle einer Augmentierung.}
 	\begin{tabular}{rlll}
 		\toprule
-		Augmentierung & IoU Val. & IoU Test & IoU Test (Standardabweichung) \\ 
+		Augmentierung & IoU Val. & IoU Test & IoU Test (St.abw.) \\ 
 		\midrule
 		Keine & {\cellcolor[rgb]{0.612,0.816,0.529}}0,57365 & {\cellcolor[rgb]{0.388,0.745,0.482}}0,25520614 & {\cellcolor[rgb]{0.388,0.745,0.482}}0,00756198 \\
 		Scherung & {\cellcolor[rgb]{0.6,0.812,0.529}}0,5745 & {\cellcolor[rgb]{0.749,0.859,0.561}}0,14016343 & {\cellcolor[rgb]{0.49,0.776,0.502}}0,0137862 \\
 		Zoom & {\cellcolor[rgb]{0.388,0.745,0.482}}0,58965 & {\cellcolor[rgb]{0.8,0.875,0.573}}0,12484235 & {\cellcolor[rgb]{1,0.937,0.612}}0,04397085 \\
-		Rotation & {\cellcolor[rgb]{0.859,0.894,0.584}}0,5557 & {\cellcolor[rgb]{0.965,0.925,0.604}}0,07206854 & {\cellcolor[rgb]{0.941,0.918,0.596}}0,04055263 \\ % TODO Ergebnisse shear+zoom eintragen
+		Rotation & {\cellcolor[rgb]{0.859,0.894,0.584}}0,5557 & {\cellcolor[rgb]{0.965,0.925,0.604}}0,07206854 & {\cellcolor[rgb]{0.941,0.918,0.596}}0,04055263 \\
+		Scherung + Zoom & {\cellcolor[rgb]{0.859,0.894,0.584}}0,5557 & {\cellcolor[rgb]{0.965,0.925,0.604}}0,07206854 & {\cellcolor[rgb]{0.941,0.918,0.596}}0,04055263 \\ % TODO Ergebnisse shear+zoom eintragen
 		Kombination (3) & {\cellcolor[rgb]{1,0.937,0.612}}0,54545 & {\cellcolor[rgb]{1,0.937,0.612}}0,05975719 & {\cellcolor[rgb]{0.914,0.91,0.592}}0,03894286 \\
 		\bottomrule
 	\end{tabular}
 \label{tab:aug}
 \end{table}
+
+Deshalb wurde das finale Modell für die \gls{giana} Sub-Challenge ohne jegliche Augmentierungen mit einer Batch-Größe von 32 trainiert.
+Die Dauer des finalen Durchlaufs belief sich aus Zeitgründen auf 650 Epochen, was 5200 Trainingsschritten entspricht.
+\autoref{fig:lossbaselineAtoD} zeigt die Verläufe aller Baseline-Durchläufe und auch die des längeren Trainingslaufs, aus dem das Modell für die Challenge hervorging.
+
+% TODO fig:lossbaselineAtoD alle 4
+
+Während dem Trainieren des finalen Modells wurde ab Trainingsschritt 3200 alle 100 Iterationen der \gls{iou} auf den Testdaten evaluiert (s.~\autoref{fig:ioutestfinal}).
+Das Modell von Schritt 3700 schneidet am besten ab, danach werden keine höheren Werte mehr erzielt.
+Mit diesem finalen Modell wurden die Outputs erzeugt, die für die Bewertung bei der \gls{giana} Sub-Challenge eingereicht wurden.
+
+% TODO fig:ioutestfinal inkl. geom_smooth, erklären/interpretieren
+
+\autoref{fig:outputsfinal} zeigt einige beispielhafte Datensätze aus den Testdaten und die Ausgabe des finalen Modells dazu.
+Bei visuell simplen Konstellationen, bei denen der Polyp auch für den menschlichen Betrachter einfach zu lokalisieren ist, gibt das Netz eine akzeptable, wenn auch nur am Polypenrand zuverlässige Prädiktion aus.
+Wenn aber die Form der Polypen über eine gewisse Größe und Kugelform hinausgeht oder die Bildqualität durch bspw. Unschärfe getrübt ist, wird die Ausgabe schnell sehr ziellos und verteilt sich oft über das gesamte Bildzentrum.
+Möglicherweise hat das Modell trotz allem nicht genug Kapazität, um komplexere Polypenformen zu erlernen.
+
+\newcommand{\figureOutput}[2]{\includegraphics[width=.3\linewidth]{img/results/final_test/#1_#2}}
+\newcommand{\figureSample}[1]{
+	\begin{subfigure}{\linewidth}
+		\centering
+		\figureOutput{#1}{input}
+		\figureOutput{#1}{target}
+		\figureOutput{#1}{output}
+		\vspace*{2mm}
+	\end{subfigure}
+}
+\begin{sidewaysfigure}
+	\centering
+	\begin{subfigure}{.31\textwidth}
+		\centering
+		\figureSample{117}
+		\figureSample{128}
+		\figureSample{139}
+		\figureSample{150}
+		\figureSample{161}
+	\end{subfigure}
+	\begin{subfigure}{.31\textwidth}
+		\centering
+		\figureSample{118}
+		\figureSample{129}
+		\figureSample{140}
+		\figureSample{151}
+		\figureSample{162}
+	\end{subfigure}
+	\begin{subfigure}{.31\textwidth}
+		\centering
+		\figureSample{119}
+		\figureSample{130}
+		\figureSample{141}
+		\figureSample{152}
+		\figureSample{163}
+	\end{subfigure}
+	\caption{Beispielhafte Datensätze der Testdaten und Ausgaben des finalen Modells (Input, Target, Output)}
+	\label{fig:outputsfinal}
+\end{sidewaysfigure}
 
 
 
