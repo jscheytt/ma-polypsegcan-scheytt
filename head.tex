@@ -15,6 +15,8 @@
 % Language
 \usepackage[english,ngerman]{babel}
 \addto{\captionsngerman}{\renewcommand{\abstractname}{Abstract}}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage[utf8]{inputenc}
 
 % Structure and links
@@ -103,3 +105,42 @@
 \newacronym{wgan}{WGAN}{Wasserstein GAN}
 
 \makeindex
+
+% Title page - thank you Peter Wilson for titlepages!
+
+\newlength{\drop}
+\newcommand*{\titleGM}{\begingroup
+\drop = 0.3\baselineskip
+\vfill
+\hbox{%
+	\hspace*{0.2\textwidth}%
+	\rule{1pt}{\textheight}
+	\hspace*{0.05\textwidth}%
+	\parbox[b]{0.75\textwidth}{
+		\vbox{%
+			{\noindent\Large\bfseries Segmentierung von Polypen\\[\drop]
+				in Koloskopie-Bilddaten mit\\[\drop]
+				Conditional Adversarial Networks
+			}\par
+			\vspace{0.25\textheight}
+			{\large {\itshape Master-Thesis}\\[\drop]
+			im\\[\drop]
+			Studiengang Human-Centered Computing\\[\drop]
+			Fakultät Informatik\\[\drop]
+			Hochschule Reutlingen\\[\drop]
+			Alteburgstraße 150\\[\drop]
+			72762 Reutlingen}\par
+			\vspace{0.125\textheight}
+			{\large {\itshape Eingereicht von}\\[\drop]
+			Josia Scheytt\\[\drop]
+			Haußerstraße 74\\[\drop]
+			72076 Tübingen\\[\drop]
+			Matrikelnummer: 762841}\\[3\baselineskip]
+			{\large {\itshape Betreuer/Prüfer}\\[\drop]
+			Prof. Dr.-Ing. Oliver Burgert\\[\drop]
+			Prof. Dr.-Ing. Cristobal Curio\\[\drop]
+			Tag der Abgabe: \today}\\[\baselineskip]
+		}% end of vbox
+	}% end of parbox
+}% end of hbox
+\endgroup}
