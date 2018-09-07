@@ -15,7 +15,7 @@ get_values <- function(runs, id) {
     if (length(df) == 0) {
       df = loss
     } else {
-      df = merge(df, loss, by = "step", all.x = TRUE)
+      df = merge(df, loss, by="step", all.x=TRUE, all.y=TRUE)
     }
   }
   return(df)
@@ -27,7 +27,6 @@ plot_values <- function(values, by="step") {
   melted = na.omit(melted)
   return(ggplot(melted, aes_string(by, y="value", color="variable")) + # lty=variable ?
     geom_line(size = .5) +
-    # geom_smooth(method = lm, se = FALSE) +
     # theme_bw() +
     # theme_minimal() +
     theme(legend.position="none", # Remove legend
@@ -43,6 +42,13 @@ plot_values <- function(values, by="step") {
     # labs(x="Trainingsschritt", y="Wert")
   )
 }
+
+single_plot_theme <- theme(
+  axis.title.x=element_text(margin=margin(2, 0, 0, 0)),
+  axis.title.y=element_text(angle=90, margin=margin(0, 7, 0, 0)),
+  text=element_text(size=10)
+)
+
 export_plot <- function(name) ggsave(paste(name, "pdf", sep="."), dpi=300, width=4, height=3)
 
 process <- function(values, filename) {
@@ -86,19 +92,25 @@ process_full(c("2017_b08_A", "2017_b08_B", "2017_b16_A", "2017_b16_B", "2017_b32
 process_full(c("2018_zoom_A", "2018_rotate_A", "2018_shear_B", "2018_all_aug_A", "2018_baseline_A"), "aug_best")
 process_full(c("2018_zoom_B", "2018_rotate_B", "2018_shear_C", "2018_all_aug_B", "2018_baseline_A"), "aug_worst")
 process_full(c("2018_shear_A", "2018_shear_B", "2018_shear_C"), "shear")
+process_full(c("2018_shear_zoom_A", "2018_shear_zoom_B", "2018_zoom_A", "2018_shear_B", "2018_baseline_A"), "augbesttop_vs_shearzoom")
 
 # Misc
 process_full(c("2017_btoa"), "btoa", iou=FALSE)
 process_full(c("2018_baseline_A", "2018_baseline_B", "2018_baseline_C", "2018_only_L1_A", "2018_only_L1_B", "2018_only_L1_C"), "baselinel1")
+process_full(c("2018_baseline_A", "2018_baseline_B", "2018_baseline_C", "2018_baseline_D"), "baselines")
 
 # Early stopping main
-es_iou_val <- read.csv2("batch_size_es.csv", sep=";", colClasses=c(NA, "NULL", "NULL", "NULL", NA, NA, NA), check.names = FALSE)
+es_iou_val <- read.csv2("batch_size_es.csv", sep=";", colClasses=c(NA, "NULL", "NULL", "NULL", NA, NA, NA), check.names=FALSE)
 plot_values(es_iou_val, by="batch_size") +
   scale_x_continuous(breaks=unique(es_iou_val$batch_size), trans="log2") +
-  theme(
-    axis.title.x=element_text(margin=margin(2, 0, 0, 0)), 
-    axis.title.y=element_text(angle=90, margin=margin(0, 7, 0, 0)),
-    text=element_text(size=10)
-  ) +
+  single_plot_theme +
   labs(x="Batch-Größe (log2)", y="Early-Stopping-Wert IoU auf Val.")
 export_plot("main_es")
+
+# Final model iou_test
+final_iou_test <- read.csv2("baseline_D-iou_test.csv", check.names=FALSE)
+plot_values(final_iou_test[final_iou_test$step >= 3200,]) +
+  geom_smooth(method='loess', color=viridis(2)[[2]], size=0.5, alpha=0.2) +
+  single_plot_theme +
+  labs(x="Trainingsschritt", y="IoU auf Testdaten")
+export_plot("baseline_D_iou_test")
