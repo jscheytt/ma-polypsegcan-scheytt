@@ -342,14 +342,14 @@ Die Dauer des finalen Durchlaufs belief sich aus Zeitgründen auf 650 Epochen, w
 \end{losses}
 
 Während dem Trainieren des finalen Modells wurde ab Trainingsschritt 3200 alle 100 Iterationen der \gls{iou} auf den Testdaten evaluiert.
-\autoref{fig:ioutestfinal} zeigt, dass das Modell von Schritt 3700 am besten abschneidet.
+\autoref{fig:ioutestfinal} zeigt, dass das Modell von Schritt 3700 am besten abschneidet; der IoU beträgt 0,3681.
 Später werden keine höheren Werte mehr erzielt und die LOESS-Kurve~\cite{Cleveland.1992} lässt vermuten, dass danach auch keine besseren Werte mehr kommen werden.
 Mit diesem finalen Modell von Trainingsschritt 3700 wurden die Outputs erzeugt, die für die Bewertung bei der \gls{giana} Sub-Challenge eingereicht wurden.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.5\linewidth]{data/baseline_D_iou_test}
-	\caption[IoU-Werte auf den Testdaten für den finalen Durchlauf mit dem Baseline-Modell und entsprechende LOESS-Kurve]{IoU-Werte auf den Testdaten für den finalen Durchlauf mit dem Baseline-Modell (dunkellila) und entsprechende LOESS-Kurve mit Konfidenzintervallen (gelb).}
+	\includegraphics[width=.7\linewidth]{data/baseline_D_iou_test}
+	\caption[IoU-Werte auf den Testdaten für den finalen Durchlauf mit dem Baseline-Modell und entsprechende LOESS-Kurve mit Konfidenzintervallen]{IoU-Werte auf den Testdaten für den finalen Durchlauf mit dem Baseline-Modell (dunkellila) und entsprechende LOESS-Kurve mit Konfidenzintervallen (gelb).}
 	\label{fig:ioutestfinal}
 \end{figure}
 
@@ -358,7 +358,6 @@ Bei visuell simplen Konstellationen, bei denen der Polyp auch für den menschlic
 Wenn aber die Form der Polypen über eine gewisse Größe und Kugelform hinausgeht oder die Bildqualität durch bspw. Unschärfe getrübt ist, wird die Ausgabe schnell sehr ziellos und verteilt sich oft über das gesamte Bildzentrum.
 Möglicherweise hat das Modell trotz allem nicht genug Kapazität, um komplexere Polypenformen zu erlernen.
 
-% TODO Noch mehr aussagekräftige Bilder aussuchen
 \newcommand{\figureOutput}[2]{\includegraphics[width=.3\linewidth]{img/results/final_test/#1_#2}}
 \newcommand{\figureSample}[1]{
 	\begin{subfigure}{\linewidth}
@@ -373,27 +372,33 @@ Möglicherweise hat das Modell trotz allem nicht genug Kapazität, um komplexere
 	\centering
 	\begin{subfigure}{.31\textwidth}
 		\centering
-		\figureSample{117}
-		\figureSample{128}
-		\figureSample{139}
-		\figureSample{150}
-		\figureSample{161}
-	\end{subfigure}
-	\begin{subfigure}{.31\textwidth}
-		\centering
-		\figureSample{118}
-		\figureSample{129}
-		\figureSample{140}
-		\figureSample{151}
-		\figureSample{162}
-	\end{subfigure}
-	\begin{subfigure}{.31\textwidth}
-		\centering
+		\figureSample{15}
+		\figureSample{34}
+		\figureSample{112}
 		\figureSample{119}
 		\figureSample{130}
-		\figureSample{141}
-		\figureSample{152}
-		\figureSample{163}
+		\figureSample{245}
+		\figureSample{489}
+	\end{subfigure}
+	\begin{subfigure}{.31\textwidth}
+		\centering
+		\figureSample{16}
+		\figureSample{35}
+		\figureSample{113}
+		\figureSample{120}
+		\figureSample{140}
+		\figureSample{247}
+		\figureSample{490}
+	\end{subfigure}
+	\begin{subfigure}{.31\textwidth}
+		\centering
+		\figureSample{17}
+		\figureSample{36}
+		\figureSample{114}
+		\figureSample{122}
+		\figureSample{143}
+		\figureSample{249}
+		\figureSample{491}
 	\end{subfigure}
 	\caption{Beispielhafte Datensätze der Testdaten und Ausgaben des finalen Modells (Input, Target, Output)}
 	\label{fig:outputsfinal}
