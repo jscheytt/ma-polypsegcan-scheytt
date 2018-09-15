@@ -11,7 +11,7 @@ Zur Entwicklung des \gls{can} wurde das Deep-Learning-Framework \emph{TensorFlow
 TensorFlow liegt ein Paradigma zugrunde, nach dem das Modell zuerst als Graph mit Entitäten und Operationen definiert und erst dann schrittweise trainiert wird.
 Im Gegensatz zu imperativen Frameworks wie PyTorch ist dadurch zwar insbesondere das Debugging erschwert, aber diese gewählte Architektur sorgt dafür, dass viele Rechenoperationen im Voraus vereinfacht und teilweise auch parallelisiert werden können, sodass das Training insgesamt schneller abläuft~\cite{Goodfellow.2016}.
 
-\citeauthor{Isola.2017} stellen den originalen Code ihrer Publikation, der in Torch geschrieben ist, online zur Verfügung\footnote{\url{https://github.com/phillipi/pix2pix}}.
+\citeauthor{Isola.2017}~\cite{Isola.2017} stellen den originalen Code ihrer Publikation, der in Torch geschrieben ist, online zur Verfügung\footnote{\url{https://github.com/phillipi/pix2pix}}.
 Portierungen auf andere Python-basierte Frameworks wurden bereits geschrieben, darunter auch mehrere für TensorFlow.
 Gewählt wurde in dieser Arbeit die TensorFlow-Portierung von Christopher Hesse\footnote{\url{https://github.com/affinelayer/pix2pix-tensorflow}}, da diese von allen am besten dokumentiert ist.
 
@@ -117,7 +117,7 @@ Für eine Herunterskalierung eignet sich die Area-Interpolation am besten, da si
 
 \subsubsection{Ausgabe von höheren Auflösungen zur Testzeit}
 
-\citeauthor{Isola.2017} schreiben, dass der Generator durch Faltung auch zur Erzeugung von beliebig großen Outputs zur Testzeit genutzt werden kann~\cite{Isola.2017}.
+\citeauthor{Isola.2017}~\cite{Isola.2017} schreiben, dass der Generator durch Faltung auch zur Erzeugung von beliebig großen Outputs zur Testzeit genutzt werden kann~\cite{Isola.2017}.
 Sie demonstrieren dies anhand von Bildern mit einer Auflösung von 512$\times$512.
 Leider erklären sie nicht genauer, wie eine solche Faltung ohne einen weiteren Lernschritt möglich sein soll, denn für jede hochskalierende Faltung müssen zuerst Gewichte gelernt werden.
 Es könnte sich der Verdacht aufdrängen, dass statt einer tatsächlichen Faltungsoperation einfach nur 4 sich nicht überlappende 256$\times$256-Patches des 512$\times$512-Bildes dem Generator übergeben wurden; auf direkte Nachfrage bei den Autoren erfolgte dazu leider keine Antwort.
@@ -141,7 +141,7 @@ Als Interpolationsverfahren wurde die \emph{bikubische Interpolation} gewählt, 
 
 Eine solche Hochskalierung für CVC-612 anzuwenden erscheint sinnvoll, da die hochskalierte Fläche nicht einmal doppelt so groß ist wie die native Ausgabe des Generators.
 Bei CVC-HDTest hingegen wäre die hochskalierte Fläche mehr als dreißigmal so groß wie die Ausgabegröße des Generators.
-Die Ergebnisse einer solchen Hochskalierung wären wahrscheinlich nicht sehr gut; hier müsste eine patchbasierte Lösung oder eine gelernte Hochskalierung zum Einsatz kommen.
+Die Ergebnisse einer solchen Hochskalierung könnten deutlich ungenauer sein als bei CVC-612; hier müsste eine patchbasierte Lösung oder eine gelernte Hochskalierung zum Einsatz kommen.
 Aus diesem Grund wird in dieser Arbeit \emph{nur das SD-Dataset} im Training verwendet und evaluiert.
 
 
@@ -174,7 +174,7 @@ Der gesamte Ablauf der Nachbearbeitung des Generator-Outputs setzt sich nun folg
 \section{Experimente}\label{sec:experiments}
 
 Viele Hyperparameter des \gls{can} sind im bereitgestellten Code bereits mit Standardwerten belegt (s~\autoref{tab:train_def_val}).
-Einige Datasets, die \citeauthor{Isola.2017} in ihrem Paper beschreiben, stellen sie öffentlich zur Verfügung.
+Einige Datasets, die \citeauthor{Isola.2017}~\cite{Isola.2017} in ihrem Paper beschreiben, stellen sie öffentlich zur Verfügung.
 Trainiert man das Netz auf einigen dieser Datasets ohne die Hyperparameter zu verändern, konvergiert das Netz bereits nach einigen Epochen.
 Deshalb wird anfangs ein Trainingslauf auf dem \gls{giana} Dataset mit den vorgegebenen Standardwerten des Netzes durchgeführt.
 
@@ -198,11 +198,11 @@ Deshalb wird anfangs ein Trainingslauf auf dem \gls{giana} Dataset mit den vorge
 
 Anschließend wird untersucht, wie sich die Veränderung bestimmter Parameter auf die Ergebnisse auswirkt.
 Dazu wird zum einen mit verschiedenen Batch-Größen und zum anderen mit \emph{Dataset Augmentation} experimentiert.
-Die Batch-Größe wird mit Zweierpotenzen zwischen 1 und 64 und mit mehreren Trainingsläufen pro Batch-Größe ausprobiert.
+Die Batch-Größe wird mit Zweierpotenzen zwischen 1 und 64 und mit mehreren Trainingsläufen pro Batch-Größe evaluiert.
 
 Dataset Augmentation umfasst verschiedene Techniken, um die Größe und Varianz eines Datasets durch Transformationen zu erhöhen~\cite{Goodfellow.2016}.
 Dazu können geometrische Transformationen wie Translation, Rotation oder elastische Verformungen gehören, aber auch andersartige Transformationen wie das Hinzufügen von zufälligem Rauschen oder Salt-and-Pepper-Rauschen.
-Durch solche Transformationen kann man zum einen ein Dataset künstlich vergrößern, indem man einzelne Datensätze in transformierter Form kopiert und dem Dataset hinzufügt.
+Durch solche Transformationen kann man einerseits ein Dataset künstlich vergrößern, indem man einzelne Datensätze in transformierter Form kopiert und dem Dataset hinzufügt.
 Andererseits können Netze beim Training besonders von erhöhter Varianz profitieren, vorausgesetzt im Fall einer Segmentierung werden geometrische Transformationen am Target in exakt derselben Weise wie am Input durchgeführt.
 
 \citeauthor{Vazquez.2017}~\cite{Vazquez.2017} nutzen ein FCN-8s für eine Polypensegmentierung und setzen dafür verschiedene Augmentierungen ein, die dazu gedacht sind, die Varianz angemessen zu erhöhen, ohne das Polypenaussehen zu drastisch zu verändern.

@@ -68,7 +68,7 @@ Die LAPGANs von \citeauthor{Denton.2015}~\cite{Denton.2015} basieren auf einer L
 Am Anfang erzeugt das erste \gls{gan} $ G_1 $ ein Sample mit sehr niedriger Auflösung, welches anschließend hochskaliert wird.
 Das \gls{gan} der zweiten Ebene $ G_2 $ nimmt dann dieses hochskalierte, unscharfe Bild, und generiert dazu ein Restbild.
 Dieses wird zum hochskalierten Bild addiert, das Ergebnis wird wieder hochskaliert und an die nächste Ebene weitergereicht, wo die nächste Schärfung stattfinden kann.
-Der Prozess ist in \autoref{fig:lapgansampling} dargestellt.
+Dieser Prozess ist in \autoref{fig:lapgansampling} dargestellt.
 
 \begin{figure}
 	\centering
@@ -129,21 +129,21 @@ Stattdessen ermöglicht es das GAN-Framework, dass die konkrete Verlustfunktion 
 \subsection{Generator}
 
 Der Generator der \glspl{can} basiert auf dem \gls{dcgan}, muss aber in der konditionierten Variante erweitert werden, damit das Inputbild $ \mathbf{y} $ bei der Eingabe in den Generator herunterskaliert und dadurch enkodiert werden kann.
-Man könnte dafür den Aufbau eines Encoder-Decoders wählen; tatsächlich orientiert sich der Generator konkret an der Struktur des U-Net~\cite{Ronneberger.2015}:
+Man könnte dafür den Aufbau eines Encoder-Decoders wählen; tatsächlich orientiert sich der Generator aber an der Struktur des U-Net~\cite{Ronneberger.2015}:
 Diese Netzvariante ähnelt den \glspl{fcn}~\cite{Long.2015}, die bereits Skip Connections einbauen, damit trotz der Herunterskalierung Information aus den ursprünglichen Skalenstufen in die späteren Schichten des Netzes fließen kann.
 Beim U-Net werden allerdings im Gegensatz zum FCN-8s nicht nur die niedrigsten drei Skalierungsstufen verbunden, sondern jede Schicht $ i $ wird mit der "gegenüberliegenden" Schicht $ n-i $ verbunden (s.~\autoref{fig:unetarchitecture}).
 Außerdem entsprechen diese Skip Connections nicht der elementweisen Aufsummierung, sondern einem Anhängen der Kanäle von Schicht $ i $ an die Kanäle der späteren Schicht $ n-i $.
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=\linewidth]{img/unet_architecture}
 	\caption[Architektur des U-Net]{Architektur des U-Net~\cite{Ronneberger.2015}}
 	\label{fig:unetarchitecture}
 \end{figure}
 
-Natürlich unterscheidet sich der Generator hier vom U-Net dadurch, dass keinerlei Pooling stattfindet und die gegenüberliegenden Schichten exakt dieselbe Auflösung haben.
+Der Generator des \gls{can} unterscheidet sich vom U-Net dadurch, dass keinerlei Pooling stattfindet und die gegenüberliegenden Schichten exakt dieselbe Auflösung haben.
 Konkret nimmt der Generator Inputs mit der Auflösung 256$\times$256 entgegen und gibt auch Outputs dieser Größe aus.
-Der genaue Aufbau ist \autoref{fig:cangenerator} zu entnehmen.
+Der genaue Aufbau ist in \autoref{fig:cangenerator} dargestellt.
 
 \begin{figure}
 	\centering
@@ -158,11 +158,11 @@ Der genaue Aufbau ist \autoref{fig:cangenerator} zu entnehmen.
 
 Die Formulierung des Diskriminators in einem \gls{gan} entscheidet darüber, wie erfolgreich der Generator lernen kann, weil der Diskriminator ihm aufzeigt, welche Outputs realistisch wirken.
 Damit der Diskriminator entscheiden kann, wie realistisch das Bild $ G(\mathbf{x}, \mathbf{z}) $ aussieht in Abhängigkeit vom Inputbild $ \mathbf{y} $, muss er ein Maß haben, um Bilder miteinander vergleichen zu können.
-\citeauthor{Isola.2017} gestalten hier sowohl die Verlustfunktion als auch den Diskriminator ausgehend von der Hypothese, dass die niedrigen Frequenzen im Bild von herkömmlichen Distanzfunktionen sehr gut modelliert werden, aber die hohen Bildfrequenzen durch gelernte Funktionen abgedeckt werden müssen.
+\citeauthor{Isola.2017}~\cite{Isola.2017} gestalten hier sowohl die Verlustfunktion als auch den Diskriminator ausgehend von der Hypothese, dass die niedrigen Frequenzen im Bild von herkömmlichen Distanzfunktionen sehr gut modelliert werden, aber die hohen Bildfrequenzen durch gelernte Funktionen abgedeckt werden müssen.
 
 Verbreitete Maße zum Vergleich von Bildern sind die L1-Distanz mit $ \sum_i | \mathbf{x}_i - \mathbf{y}_i | $ und die L2-Distanz mit $ \sum_i (\mathbf{x}_i - \mathbf{y}_i)^2 $.
 Solche pixelweisen Differenzen nehmen den Eingaberaum als unstrukturiert wahr.
-Nutzt man ein solches Distanzmaß als Verlustfunktion in einem \gls{gan}, das Bilder generiert, kommen dabei meist nur unscharfe und graue Bilder heraus.
+Nutzt man ein solches Distanzmaß als Verlustfunktion in einem \gls{gan}, kommen dabei meist nur unscharfe und graue Bilder heraus.
 Scheinbar produziert der Einsatz dieser Maße eine unscharfe Ausgabe, wenn sie eine Bildkante nicht genau lokalisieren können, bzw. eine gemittelte graue Farbe, wenn sie eine auffällige Farbe nicht genau lokalisieren können~\cite{Isola.2017}.
 Allerdings sind diese Maße in der Lage die groben Strukturen, also die tiefen Frequenzen im Bild, treffend abzubilden.
 Deshalb kommt zur Einhaltung der Korrektheit in den tiefen Frequenzen die L1-Distanz in der Verlustfunktion zum Einsatz.
@@ -192,7 +192,7 @@ Konkret visualisiert bedeutet dies, dass bei einem guten Trainingsverlauf die 30
 
 \subsection{Verlustfunktion}
 
-Die Verlustfunktion für konditionierte \glspl{gan} (s.~\autoref{eq:ganrisk}) wird bei den \glspl{can} von \citeauthor{Isola.2017} in zwei Punkten modifiziert:
+Die Verlustfunktion für konditionierte \glspl{gan} (s.~\autoref{eq:ganrisk}) wird bei den \glspl{can} von \citeauthor{Isola.2017}~\cite{Isola.2017} in zwei Punkten modifiziert:
 Zum einen wird die im vorigen Abschnitt erwähnte L1-Distanz hinzugefügt, zum anderen wird der Rauschvektor ausgelassen.
 Um die niedrigen Bildfrequenzen korrekt im \gls{can} zu modellieren, wird ein gewichteter L1-Term in der Verlustfunktion hinzugefügt:
 
@@ -205,7 +205,7 @@ Die besten Ergebnisse über alle Bild-zu-Bild-Übersetzungsaufgaben wird erzielt
 
 In der Zielfunktion der \glspl{gan} spielt der Rausch-Vektor $ \mathbf{z} $ als Startpunkt für $ G $ eine wichtige Rolle, damit der Generator überhaupt eine Ausgabe erzeugen kann.
 Da der Generator allerdings bei den \glspl{can} bereits einen Input erhält, ist dieser nicht mehr notwendig.
-Evaluierungen von \citeauthor{Isola.2017} zeigen, dass der Generator das Rauschen einfach ignoriert~\cite{Isola.2017}.
+Evaluierungen von \citeauthor{Isola.2017}~\cite{Isola.2017} zeigen, dass der Generator das Rauschen einfach ignoriert~\cite{Isola.2017}.
 Es ergibt sich also folgende Formulierung der Zielfunktion:
 
 \begin{equation}\label{eq:canlosswonoise}
@@ -251,8 +251,8 @@ Bei einer \emph{binärer} Segmentierung gibt es nur eine zu segmentierende Objek
 	\caption[Beispiel von Multiklassen-Segmentierung und binärer Segmentierung]{Beispiel von (a) Multiklassen-Segmentierung~\cite{Badrinarayanan.2017} und (b) binärer Segmentierung~\cite{Ronneberger.2015}}
 \end{figure}
 
-\citeauthor{Isola.2017} überprüfen auch den Anwendungsfall einer semantischen Segmentierung mit einem Dataset von segmentierten Straßenszenen, wobei mehrere Objektklassen auftreten.
-Die Kombination aus \gls{can} und L1-Distanz schneidet dabei schlechter ab als eine Verwendung von nur L1 als Verlustfunktion; letzteres liefert die besten Ergebnisse.
+\citeauthor{Isola.2017}~\cite{Isola.2017} überprüfen auch den Anwendungsfall einer semantischen Segmentierung mit einem Dataset von segmentierten Straßenszenen, wobei mehrere Objektklassen auftreten.
+Die Kombination aus \gls{can} und L1-Distanz schneidet dabei schlechter ab als eine Verwendung von nur L1 als Verlustfunktion.
 Scheinbar tendiert das \gls{can} dazu, übereifrig viele kleine Objekte zu segmentieren, die im Originalbild gar nicht vorkommen (s.~\autoref{fig:canseg}).
 
 \begin{figure}
@@ -279,8 +279,8 @@ Die Aufgabe der Polypensegmentierung ist in zwei separaten Varianten gestellt, e
 Diese Datasets sind eine Kombination verschiedener Datasets, die auch schon in vorherigen Challenges öffentlich gemacht wurden~\cite{Bernal.2012,Bernal.2015,Vazquez.2017}.
 Eine Übersicht der Datasets ist in \autoref{tab:datasets} abgebildet.
 
-Da viele der Sub-Datasets dadurch entstanden sind, dass Polypen während einer Koloskopie umkreist wurden, um möglichst verschiedene Ansichten zu generieren, sind bei einigen Datasets auch mehrere Gruppen konsekutiver Frames vorhanden; die Anzahl dieser Sequenzen ist ebenfalls in der Tabelle festgehalten, sofern sie bekannt ist.
-Ebenso wird in der Challenge festgelegt, welches Sub-Dataset zu welchem Split gehört, also ob es für das Training, die Validierung oder das Testen am Schluss verwendet werden soll.
+Da viele der Sub-Datasets dadurch entstanden sind, dass Polypen während einer Koloskopie umkreist wurden, um möglichst verschiedene Ansichten zu generieren, sind bei einigen Datasets auch mehrere Gruppen konsekutiver Frames vorhanden; die Anzahl dieser Sequenzen ist auch in \autoref{tab:datasets} festgehalten, sofern sie bekannt ist.
+In der Challenge wird außerdem festgelegt, welches Sub-Dataset zu welchem Split gehört, also ob es für das Training, die Validierung oder das Testen am Schluss verwendet werden soll.
 In diesem Fall sind nur Trainings- und Test-Split festgelegt; die konkrete Aufteilung des Trainings-Sets in Trainings- und Validierungssplit ist den Teilnehmern überlassen.
 
 \begin{table}
@@ -301,7 +301,7 @@ In diesem Fall sind nur Trainings- und Test-Split festgelegt; die konkrete Aufte
 
 Jeder Datensatz besteht aus einem Koloskopiebild, das unter Weißlicht-Endoskopie aufgenommen wurde, und einem dazugehörigen Ground-Truth-Binärbild, in dem pixelgenau annotiert ist, welcher Teil des Bildes zu einem Polypen gehört.
 Ersteres wird im folgenden als \emph{Input}, letzteres als \emph{Target} bezeichnet.
-Ebenso wird ein einzelnes Paar von Input und Target als \emph{Datensatz} bezeichnet, während die Gesamtheit aller gleichartigen Datensätze ein \emph{Sub-Dataset} ist und die Gesamtheit der Sub-Datasets einer Auflösungsstufe das \emph{Dataset}.
+Weiterhin wird ein einzelnes Paar von Input und Target als \emph{Datensatz} bezeichnet, während die Gesamtheit aller gleichartigen Datensätze ein \emph{Sub-Dataset} ist und die Gesamtheit der Sub-Datasets einer Auflösungsstufe das \emph{Dataset}.
 
 Weiß steht im Target für die Polypen-Klasse, Schwarz für den Hintergrund.
 In \autoref{fig:polypseg} ist ein beispielhafter Datensatz aus Input und Target abgebildet.

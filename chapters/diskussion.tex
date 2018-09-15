@@ -7,7 +7,7 @@ Geometrische Augmentierungen verbessern zwar die Ergebnisse auf den Trainings- u
 
 Bei einem Training ohne GAN-Term und nur mit L1-Loss als Lerngrundlage stellen sich leicht bessere Ergebnisse auf den Trainingsdaten heraus.
 Auf den Testdaten hingegen erreicht die kombinierte Verlustfunktion aus GAN-Term und L1-Loss leicht bessere Werte.
-\citeauthor{Isola.2017} merken an, dass das \gls{can} bei der Multiklassen-Segmentierung viele kleine Objekte verschiedener Klassen detektiert, die in Wirklichkeit gar nicht da sind (s.~\autoref{fig:canseg}).
+\citeauthor{Isola.2017}~\cite{Isola.2017} merken an, dass das \gls{can} bei der Multiklassen-Segmentierung viele kleine Objekte verschiedener Klassen detektiert, die in Wirklichkeit gar nicht da sind (s.~\autoref{fig:canseg}).
 Dies lässt sich leider auch bei der binären Segmentierung beobachten wie bspw. in \autoref{fig:outputsb03}.
 
 Interessanterweise weist ein Umkehren der Lernrichtung von Anfang ein stabileres Lernverhalten auf.
@@ -39,7 +39,7 @@ Die alternative Formulierung des Generator-Terms mit $ \mathbb{E}[-\log(D(G(\mat
 Fügt man jedoch Rauschen am Input des Diskriminators hinzu und nimmt die originale Formulierung des Generator-Terms, glättet man dessen Verteilung und sorgt somit dafür, dass der Gradient für den Generator der \gls{jsd} entspricht.
 Diese Divergenz ist der Mittelwert der \glspl{kld} beider Verteilungskombinationen und nicht überall Null, selbst wenn beide Verteilungen weiter voneinander entfernt sind.
 Somit kann ein solches Rauschen zumindest in der Theorie zu stabilen Gradienten führen, die weder verschwinden noch explodieren.
-Die \glspl{can} von \citeauthor{Isola.2017} müssten dementsprechend so angepasst werden, dass sowohl Inputs als auch Targets mit einem Gauss'schen Rauschen gefiltert werden, bevor sie dem Diskriminator übergeben werden; der Generator hingegen erhält den originalen Datensatz.
+Die \glspl{can} von \citeauthor{Isola.2017}~\cite{Isola.2017} müssten dementsprechend so angepasst werden, dass sowohl Inputs als auch Targets mit einem Gauss'schen Rauschen gefiltert werden, bevor sie dem Diskriminator übergeben werden; der Generator hingegen erhält den originalen Datensatz.
 
 Ein weiterer interessanter Ansatz basiert auf der Wasserstein-Distanz, welche die minimalen Kosten beim Transport aller Wahrscheinlichkeitsdichte einer Verteilung auf die Wahrscheinlichkeitsdichte einer anderen Verteilung ausdrückt~\cite{Arjovsky.2017}.
 Wird ein Netz anhand dieser Metrik trainiert, approximiert der Diskriminator ebenfalls die \gls{jsd} und bietet damit dem Generator ständig Feedback zum Lernen.

@@ -93,7 +93,7 @@ Zu diesen Werten gehören Mittelwerte der Gewichte und Bias-Werte jeder Schicht 
 \end{enumerate}
 
 Ebenso gibt das Netz auch Bilder bzw. Aktivierungen bestimmter Schichten als Bild aus.
-Unter diesen Bildausgaben sind neben Input, Target und Output auch die Aktivierungen der letzten Diskriminatorschicht für die Bewertung des realistischen Inputs $ D(\mathbf{x}, \mathbf{y}) $ und für die Bewertung des gefälschten Outputs $ D(\mathbf{x}, G(\mathbf{x})) $.
+Unter diesen Bildausgaben sind neben Input, Target und Output auch die Aktivierungen der letzten Diskriminatorschicht für die Bewertungen des realistischen Inputs $ D(\mathbf{x}, \mathbf{y}) $ und des gefälschten Outputs $ D(\mathbf{x}, G(\mathbf{x})) $.
 Diese werden im folgenden mit \emph{Real} und \emph{Fake} respektive bezeichnet.
 Das Generator-Loss entspricht hierbei dem Mittelwert aller Aktivierungen von Fake.
 
@@ -128,7 +128,7 @@ Zu diesem Zweck wurde ein Trainingslauf mit drei zufällig gewählten Datensätz
 
 Der Output ist nicht mehr leer, sondern nahe am Target, und Real und Fake sind sehr ähnlich.
 Außerdem ist das Diskriminator-Loss nicht mehr auf Null, das Generator-Loss tendiert zu niedrigeren Werten und das L1-Loss verläuft monoton fallend.
-Ein weiterer Trainingslauf mit den vollen Trainingsdaten und doppelter Trainingsdauer war dann erfolgreicher und führte zu ähnlich guten Ergebnissen wie der zweite Durchlauf mit minimaler Anzahl an Samples.
+Ein weiterer Trainingslauf mit den vollen Trainingsdaten und doppelter Trainingsdauer war erfolgreicher und führte zu ähnlich guten Ergebnissen wie der zweite Durchlauf mit minimaler Anzahl an Samples.
 
 
 
@@ -269,7 +269,7 @@ Aus diesem Grund wurde 32 als die Batch-Größe aller folgenden Experimente gew�
 
 Die Vergrößerung und Diversifizierung eines Datasets durch Anwenden von Transformationen sollte einem Netz helfen, besser zu generalisieren.
 Für die in \autoref{sec:experiments} angesprochenen Transformationen, also Zoom, Rotation und Scherung, wurden jeweils zwei Trainingsläufe durchgeführt.
-Zusätzlich wurde wie bei ~\cite{Vazquez.2017} eine Kombination aller Augmentierungen mit zwei Durchläufen evaluiert.
+Zusätzlich wurde wie bei \cite{Vazquez.2017} eine Kombination aller Augmentierungen mit zwei Durchläufen evaluiert.
 \autoref{fig:augworst} und \autoref{fig:augbest} stellen jeweils die schlechtesten und besten Durchläufe für jede Augmentierung dar.
 
 \begin{losses}{aug_worst}
@@ -400,7 +400,7 @@ Möglicherweise hat das Modell trotz allem nicht genug Kapazität, um komplexere
 		\figureSample{249}
 		\figureSample{491}
 	\end{subfigure}
-	\caption{Beispielhafte Datensätze der Testdaten und Ausgaben des finalen Modells (Input, Target, Output)}
+	\caption[Beispielhafte Datensätze der Testdaten und Ausgaben des finalen Modells]{Beispielhafte Datensätze der Testdaten und Ausgaben des finalen Modells (Input, Target, Output)}
 	\label{fig:outputsfinal}
 \end{sidewaysfigure}
 
@@ -408,24 +408,22 @@ Möglicherweise hat das Modell trotz allem nicht genug Kapazität, um komplexere
 
 \section{Deaktivieren von Dropout zur Testzeit}
 
-Um den Effekt der Deaktivierung von Dropout zur Testzeit zu untersuchen, wurde folgendes Evaluierungsszenario erstellt:
+Um den Effekt der Deaktivierung von Dropout zur Testzeit zu untersuchen, wurde folgende Untersuchung durchgeführt:
 Der \gls{iou} wurde einmal auf dem gesamten Test-Sub-Dataset CVC-612 und einmal auf einem einzelnen, zufällig ausgewählten Bild berechnet.
 Hierbei wurde Dropout zur Testzeit einmal aktiviert und einmal deaktiviert.
 Für jede dieser vier Varianten wurden 10 Testläufe durchgeführt.
 
 Für CVC-612 ergab sich bei aktivem Dropout ein mittlerer \gls{iou} von 0,2073 mit einer Standardabweichung von 0,012, bei deaktiviertem Dropout hingegen ein konstanter Wert von 0,2117.
-Dies bedeutet nicht nur eine Verbesserung des Durchschnittswertes um 0,44 Prozentpunkte, sondern auch eine Eliminierung der Varianz in den Ergebnissen.
-
+Dies bedeutet nicht nur eine Verbesserung des Durchschnittswertes um 0,44 Prozentpunkte, sondern auch eine Beseitigung der Varianz in den Ausgaben.
 Die Berechnung auf dem einzelnen Bild ergab bei aktivem Dropout einen mittleren \gls{iou} von 0,4243 mit Standardabweichung 0,0412, bei deaktiviertem Dropout ergab sich ein konstanter Wert von 0,4365.
-Dies entspricht einer Verbesserung vom durchschnittlichen zum konstanten Wert von sogar 1,22 Prozentpunkten.
-
+Dies entspricht einer Verbesserung von sogar 1,22 Prozentpunkten.
 Entsprechend diesen Ergebnissen wurde Dropout zur Testzeit standardmäßig deaktiviert.
 
 
 
 \section{Umkehren der Lernrichtung}
 
-\citeauthor{Isola.2017} explorieren das Training verschiedenster Input-Target-Paare, sei es Labels zu Straßenszene, Vogelperspektive zu Kartenansicht oder Tag zu Nacht.
+\citeauthor{Isola.2017}~\cite{Isola.2017} explorieren das Training verschiedenster Input-Target-Paare, sei es Labels zu Straßenszene, Vogelperspektive zu Kartenansicht oder Tag zu Nacht.
 Sie experimentieren auch mit einer Umkehrung der Lernrichtung, also dass z.~B. Nacht zu Tag, Kartenansicht zu Vogelperspektive oder Straßenszene zu Labels gelernt wird.
 
 Interessehalber wurde das \gls{can} im Rahmen dieser Arbeit auch für ein paar Epochen mit umgekehrter Lernrichtung trainiert; die Binärmaske war also der Input und die Originalszene das Target.
@@ -450,7 +448,7 @@ Die Erhöhung der Batch-Größe wie oben beschrieben ist demnach ein sinnvolles 
 
 \section{L1-Loss ohne GAN-Term}
 
-Bei der Generierung von diskreten Labels aus einer Straßenszene untersuchen \citeauthor{Isola.2017}, wie gut sich die verschiedenen Bestandteile der Verlustfunktion für diese Aufgabe eignen.
+Bei der Generierung von diskreten Labels aus einer Straßenszene untersuchen \citeauthor{Isola.2017}~\cite{Isola.2017}, wie gut sich die verschiedenen Bestandteile der Verlustfunktion für diese Aufgabe eignen.
 Sowohl hinsichtlich der Pro-Pixel-Genauigkeit als auch bei der Pro-Klassen-Genauigkeit und dem Multiklassen-IoU schneidet das L1-Loss alleine deutlich besser ab als der GAN-Term alleine.
 (Nutzt man nur das L1-Loss, ist das Netz letztendlich nur ein \gls{dcgan} in U-Net-Struktur.)
 Letzteres erreicht Werte, die zwischen 12 und 14 Prozentpunkte schlechter als die des L1-Loss alleine sind.
